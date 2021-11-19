@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Break the pieces (Evilized Edition) (1 kyu)</title>
+<style>
+.hll { background-color: #333333 }
+.c { color: #008800; font-style: italic; background-color: #0f140f } /* Comment */
+.err { color: #ffffff } /* Error */
+.esc { color: #ffffff } /* Escape */
+.g { color: #ffffff } /* Generic */
+.k { color: #fb660a; font-weight: bold } /* Keyword */
+.l { color: #ffffff } /* Literal */
+.n { color: #ffffff } /* Name */
+.o { color: #ffffff } /* Operator */
+.x { color: #ffffff } /* Other */
+.p { color: #ffffff } /* Punctuation */
+.ch { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Hashbang */
+.cm { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Multiline */
+.cp { color: #ff0007; font-weight: bold; font-style: italic; background-color: #0f140f } /* Comment.Preproc */
+.cpf { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.PreprocFile */
+.c1 { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Single */
+.cs { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Special */
+.gd { color: #ffffff } /* Generic.Deleted */
+.ge { color: #ffffff } /* Generic.Emph */
+.gr { color: #ffffff } /* Generic.Error */
+.gh { color: #ffffff; font-weight: bold } /* Generic.Heading */
+.gi { color: #ffffff } /* Generic.Inserted */
+.go { color: #444444; background-color: #222222 } /* Generic.Output */
+.gp { color: #ffffff } /* Generic.Prompt */
+.gs { color: #ffffff } /* Generic.Strong */
+.gu { color: #ffffff; font-weight: bold } /* Generic.Subheading */
+.gt { color: #ffffff } /* Generic.Traceback */
+.kc { color: #fb660a; font-weight: bold } /* Keyword.Constant */
+.kd { color: #fb660a; font-weight: bold } /* Keyword.Declaration */
+.kn { color: #fb660a; font-weight: bold } /* Keyword.Namespace */
+.kp { color: #fb660a } /* Keyword.Pseudo */
+.kr { color: #fb660a; font-weight: bold } /* Keyword.Reserved */
+.kt { color: #cdcaa9; font-weight: bold } /* Keyword.Type */
+.ld { color: #ffffff } /* Literal.Date */
+.m { color: #0086f7; font-weight: bold } /* Literal.Number */
+.s { color: #0086d2 } /* Literal.String */
+.na { color: #ff0086; font-weight: bold } /* Name.Attribute */
+.nb { color: #ffffff } /* Name.Builtin */
+.nc { color: #ffffff } /* Name.Class */
+.no { color: #0086d2 } /* Name.Constant */
+.nd { color: #ffffff } /* Name.Decorator */
+.ni { color: #ffffff } /* Name.Entity */
+.ne { color: #ffffff } /* Name.Exception */
+.nf { color: #ff0086; font-weight: bold } /* Name.Function */
+.nl { color: #ffffff } /* Name.Label */
+.nn { color: #ffffff } /* Name.Namespace */
+.nx { color: #ffffff } /* Name.Other */
+.py { color: #ffffff } /* Name.Property */
+.nt { color: #fb660a; font-weight: bold } /* Name.Tag */
+.nv { color: #fb660a } /* Name.Variable */
+.ow { color: #ffffff } /* Operator.Word */
+.w { color: #888888 } /* Text.Whitespace */
+.mb { color: #0086f7; font-weight: bold } /* Literal.Number.Bin */
+.mf { color: #0086f7; font-weight: bold } /* Literal.Number.Float */
+.mh { color: #0086f7; font-weight: bold } /* Literal.Number.Hex */
+.mi { color: #0086f7; font-weight: bold } /* Literal.Number.Integer */
+.mo { color: #0086f7; font-weight: bold } /* Literal.Number.Oct */
+.sa { color: #0086d2 } /* Literal.String.Affix */
+.sb { color: #0086d2 } /* Literal.String.Backtick */
+.sc { color: #0086d2 } /* Literal.String.Char */
+.dl { color: #0086d2 } /* Literal.String.Delimiter */
+.sd { color: #0086d2 } /* Literal.String.Doc */
+.s2 { color: #0086d2 } /* Literal.String.Double */
+.se { color: #0086d2 } /* Literal.String.Escape */
+.sh { color: #0086d2 } /* Literal.String.Heredoc */
+.si { color: #0086d2 } /* Literal.String.Interpol */
+.sx { color: #0086d2 } /* Literal.String.Other */
+.sr { color: #0086d2 } /* Literal.String.Regex */
+.s1 { color: #0086d2 } /* Literal.String.Single */
+.ss { color: #0086d2 } /* Literal.String.Symbol */
+.bp { color: #ffffff } /* Name.Builtin.Pseudo */
+.fm { color: #ff0086; font-weight: bold } /* Name.Function.Magic */
+.vc { color: #fb660a } /* Name.Variable.Class */
+.vg { color: #fb660a } /* Name.Variable.Global */
+.vi { color: #fb660a } /* Name.Variable.Instance */
+.vm { color: #fb660a } /* Name.Variable.Magic */
+.il { color: #0086f7; font-weight: bold } /* Literal.Number.Integer.Long */
+</style>
+</head>
+<body>
+<h1>Break the pieces (Evilized Edition) (1 kyu)</h1>
+<h4 id="this-kata-is-inspired-by-davazps-one"><em>This kata is inspired by <a href="https://www.codewars.com/kata/break-the-pieces" target="_blank">davazp's one</a></em></h4>
+<hr>
+
+<h4 id="context">Context</h4>
+<p>So, here we go again:</p>
+<p>You are given an ASCII diagram, containing minus signs <code>"-"</code>, plus signs <code>"+"</code>, vertical bars <code>"|"</code> and whitespaces <code>" " </code>.  Your task is to write a function which will break the diagram in the minimal pieces it is made of.</p>
+<p>For example, if the input of your function is the diagram on the left below, the expected answer will be the list of strings representing the three individual shapes on the right (note how the biggest shape lost a <code>"+"</code> sign in the extraction) :</p>
+<pre><code>Input:                          Expected:
++------------+                  +------------+
+|            |                  |            |    +------+    +-----+
+|            |                  |            |    |      |    |     |
+|            |                  |            |    |      |    |     |
++------+-----+                  +------------+    +------+    +-----+
+|      |     |
+|      |     |
++------+-----+
+</code></pre>
+<p>If you encounter imbricated pieces, both outer and inner shapes have to be returned. For example:</p>
+<pre><code>Input:                          Expected:
++------------+                  +------------+
+|            |                  |            |
+|    +--+    |                  |    +--+    |
+|    |  |    |                  |    |  |    |
+|    |  |    |                  |    |  |    |    +--+
+|    +--+    |                  |    +--+    |    |  |
+|            |                  |            |    |  |
++------------+                  +------------+    +--+
+</code></pre>
+<hr>
+
+<h4 id="so-whats-new"><em>So... What's new!?</em></h4>
+<p>What is new in this "evilized" version is that you'll have to manage the extraction of shapes without inner whitespaces.</p>
+<p>For example, the input below should lead to the following list of strings:</p>
+<pre><code>Input:                          Expected:
++------------+                  +------------+
+|            |                  |            |    +------+    +----+    ++
+|            |                  |            |    |      |    |    |    ||
+|            |                  |            |    |      |    |    |    ||
++------++----+                  +------------+    +------+    +----+    ++
+|      ||    |
+|      ||    |
++------++----+
+</code></pre>
+<p>From there, you'll have two approaches...:</p>
+<ul>
+<li>The "easy" (better) one...</li>
+<li>... or the hard one: if you stumble frequently going through the fixed tests, might be you didn't made the right move and you're on this path. It's doable that way either, but it is way harder than the other one (1 or 2 kyu ranks higher! But if you like challenges, you can try that really evilized way... ;) )</li>
+</ul>
+<hr>
+
+<h4 id="task">TASK</h4>
+<p>  You have to find all the individual pieces contained in the original diagram. Note that you are only searching for the smallest possible ones.</p>
+<p>  You may find below some important indications about what you will have to deal with:</p>
+<ul>
+<li>The pieces should not have any spaces on their right (ie. no trailing spaces).</li>
+<li>However, they could have leading spaces if the figure is not a rectangle, as shown below:<pre><code>    +---+
+    |   |
++---+   |
+|       |
++-------+
+</code></pre>
+</li>
+<li>It is not allowed to use more leading spaces than necessary. It is to say, the first character of at least one of the lines has to be different from a space.</li>
+<li>Only explicitly closed pieces have to be considered (meaning, in the diagram above, there is one and only one piece).</li>
+<li>The borders of each shape have to contain only the meaningful plus signs <code>"+"</code> (those in corners or at the intersections of several straight lines).</li>
+<li>Keep an eye on the performances. You won't have to make your code unreadable to pass the tests, but be clever with what you choose to implement.</li>
+<li>After all of that, you still will have to pass the random tests...</li>
+</ul>
+<p><em>Note:</em> In the display, to make it easier to see where whitespaces are or not, the spaces characters will be replaced with dots:</p>
+<pre><code> ```
+    +---+              ....+---+                  +---+                  +---+
+    |   |              ....|...|                  |   |                  |...|..      &lt;- there are spaces here, on the right
++---+   |      =&gt;      +---+...|                  |   +---+      =&gt;      |...+---+
+|       |              |.......|                  |       |              |.......|
++-------+              +-------+                  +-------+              +-------+
+```
+</code></pre>
+<br>
+
+<hr>
+
+<h4 id="input">Input</h4>
+<ul>
+<li>The diagrams are given as ordinary multiline strings of various lengths.</li>
+</ul>
+<h4 id="output">Output</h4>
+<ul>
+<li>A list of multilines strings (<em>see the example tests</em>).</li>
+<li>The order of the individual shapes in the list does not matter.</li>
+</ul>
+<br>
+<hr>
+
+<h4 id="final-notes">Final notes...</h4>
+<ul>
+<li>If you're following the "hard path", this kata might make you crazy...</li>
+<li>Tests design: about 80 fixed tests (each of them doubled) and the random ones with shapes up to around 80x80 characters (100 for python and ruby, 250 for Java). If your solution times out, do not hesitate to do a second try before to do any modification to your code.</li>
+</ul>
+
+<h4>Starting Code</h4>
+<pre><code>USE_BREAK_DISPLAY = True        # to get more details in the console when a test fails
+
+def break_evil_pieces(shape):
+    # Let's speak your neurons here...
+    pass</code></pre>
+
+<h2>My Solution</h2>
+<div style="background-color: black;">
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">break_evil_pieces</span><span class="p">(</span><span class="n">shape</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a list of multiline strings, in arbitrary order, representing the fundamental pieces</span>
+<span class="sd">    (each possibly having one or more immediate holes) of the shape represented by the given multiline string.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">add_boundary_to_canvas</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="n">boundary_vertices</span><span class="p">,</span> <span class="n">row_offset</span><span class="p">,</span> <span class="n">column_offset</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Adds the accepted representation of a specified boundary/outline/closed path to the given canvas</span>
+<span class="sd">        (a list of list of characters) by setting &#39;+&#39;s, &#39;-&#39;s, and/or &#39;|&#39;s in the appropriate locations.</span>
+<span class="sd">        The (row, column) coordinates of the nontrivial vertices describing the boundary must be listed in order</span>
+<span class="sd">        (and each only once) in boundary_vertices.  The character in the top left corner of the canvas corresponds to</span>
+<span class="sd">        (row, column) == (row_offset, column_offset).&quot;&quot;&quot;</span>
+        <span class="c1"># Draw each edge using the appropriate characters, including a &#39;+&#39; for its first endpoint.</span>
+        <span class="n">vertex_row</span><span class="p">,</span> <span class="n">vertex_column</span> <span class="o">=</span> <span class="n">boundary_vertices</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">next_vertex_row</span><span class="p">,</span> <span class="n">next_vertex_column</span> <span class="ow">in</span> <span class="n">boundary_vertices</span><span class="p">:</span>
+            <span class="n">canvas</span><span class="p">[</span><span class="n">vertex_row</span> <span class="o">-</span> <span class="n">row_offset</span><span class="p">][</span><span class="n">vertex_column</span> <span class="o">-</span> <span class="n">column_offset</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;+&#39;</span>
+            <span class="k">if</span> <span class="n">vertex_row</span> <span class="o">!=</span> <span class="n">next_vertex_row</span><span class="p">:</span>
+                <span class="n">increment</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">next_vertex_row</span> <span class="o">&gt;</span> <span class="n">vertex_row</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
+                <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">vertex_row</span> <span class="o">+</span> <span class="n">increment</span><span class="p">,</span> <span class="n">next_vertex_row</span><span class="p">,</span> <span class="n">increment</span><span class="p">):</span>
+                    <span class="c1"># Without this condition, we risk writing over legitimate vertices</span>
+                    <span class="c1"># in some cases where we double back while tracing a partially degenerate boundary.</span>
+                    <span class="k">if</span> <span class="n">canvas</span><span class="p">[</span><span class="n">row</span> <span class="o">-</span> <span class="n">row_offset</span><span class="p">][</span><span class="n">vertex_column</span> <span class="o">-</span> <span class="n">column_offset</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39; &#39;</span><span class="p">:</span>
+                        <span class="n">canvas</span><span class="p">[</span><span class="n">row</span> <span class="o">-</span> <span class="n">row_offset</span><span class="p">][</span><span class="n">vertex_column</span> <span class="o">-</span> <span class="n">column_offset</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;|&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">increment</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">next_vertex_column</span> <span class="o">&gt;</span> <span class="n">vertex_column</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
+                <span class="n">canvas_row_content</span> <span class="o">=</span> <span class="n">canvas</span><span class="p">[</span><span class="n">vertex_row</span> <span class="o">-</span> <span class="n">row_offset</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">vertex_column</span> <span class="o">+</span> <span class="n">increment</span><span class="p">,</span> <span class="n">next_vertex_column</span><span class="p">,</span> <span class="n">increment</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">canvas_row_content</span><span class="p">[</span><span class="n">column</span> <span class="o">-</span> <span class="n">column_offset</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39; &#39;</span><span class="p">:</span>  <span class="c1"># Again, this check is important.</span>
+                        <span class="n">canvas_row_content</span><span class="p">[</span><span class="n">column</span> <span class="o">-</span> <span class="n">column_offset</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span>
+            <span class="n">vertex_row</span><span class="p">,</span> <span class="n">vertex_column</span> <span class="o">=</span> <span class="n">next_vertex_row</span><span class="p">,</span> <span class="n">next_vertex_column</span>
+
+    <span class="c1"># Let&#39;s work with the shape as a list of row strings rather than as a single multiline string.</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+
+    <span class="c1"># To avoid working directly with shape throughout,</span>
+    <span class="c1"># let&#39;s extract the vertices (marked by &#39;+&#39;s in shape) and edges once and for all here.</span>
+
+    <span class="c1"># We&#39;ll represent each cardinal direction with an integer.</span>
+    <span class="n">BELOW</span><span class="p">,</span> <span class="n">RIGHT</span><span class="p">,</span> <span class="n">ABOVE</span><span class="p">,</span> <span class="n">LEFT</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span>
+
+    <span class="c1"># We&#39;ll build up a dict mapping each vertex and direction to the adjacent vertex in that direction.</span>
+    <span class="c1"># Each pair of adjacent vertices will be associated with two items in the dict,</span>
+    <span class="c1"># one representing each directed edge between those vertices.</span>
+    <span class="c1"># (Where there is nothing adjacent to vertex in direction, we will not include (vertex, direction) as a key in the dict.)</span>
+    <span class="c1"># When we eventually get to work tracing out the boundaries of our pieces, we will work to exhaust this dict.</span>
+    <span class="n">source_vertex_and_direction_to_destinaton_vertex</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Going row-by-row, then column-by-column, we locate every vertex in shape.</span>
+    <span class="c1"># From each, we look down as well as right to build up our adjacency dict.</span>
+    <span class="c1"># (Because some pieces may be imbricated, it is not possible (as it was in my original break_pieces implementation)</span>
+    <span class="c1"># to start with one vertex and locate all others by following edges.)</span>
+    <span class="k">for</span> <span class="n">vertex_row</span><span class="p">,</span> <span class="n">vertex_row_str</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">shape</span><span class="p">):</span>
+        <span class="n">search_from_column</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">vertex_column</span> <span class="o">=</span> <span class="n">vertex_row_str</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="n">search_from_column</span><span class="p">)</span>
+            <span class="c1"># Move on if there are no more vertices in the row.</span>
+            <span class="c1"># (This includes the case where we&#39;ve fallen off the end of the row.)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">break</span>
+
+            <span class="n">vertex</span> <span class="o">=</span> <span class="p">(</span><span class="n">vertex_row</span><span class="p">,</span> <span class="n">vertex_column</span><span class="p">)</span>
+
+            <span class="c1"># If there is a vertical edge or a vertex immediately below us, find the first &#39;+&#39; below us, as that is our downward adjacent vertex.</span>
+            <span class="k">if</span> <span class="n">vertex_row</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">vertex_column</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">[</span><span class="n">vertex_row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="ow">and</span> <span class="n">shape</span><span class="p">[</span><span class="n">vertex_row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">vertex_column</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">):</span>
+                <span class="n">downward_adjacent_vertex</span> <span class="o">=</span> <span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">row</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">vertex_row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">))</span> <span class="k">if</span> <span class="n">vertex_column</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">[</span><span class="n">row</span><span class="p">])</span> <span class="ow">and</span> <span class="n">shape</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">vertex_column</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;+&#39;</span><span class="p">),</span> <span class="n">vertex_column</span><span class="p">)</span>
+                <span class="n">source_vertex_and_direction_to_destinaton_vertex</span><span class="p">[(</span><span class="n">vertex</span><span class="p">,</span> <span class="n">BELOW</span><span class="p">)]</span> <span class="o">=</span> <span class="n">downward_adjacent_vertex</span>
+                <span class="n">source_vertex_and_direction_to_destinaton_vertex</span><span class="p">[(</span><span class="n">downward_adjacent_vertex</span><span class="p">,</span> <span class="n">ABOVE</span><span class="p">)]</span> <span class="o">=</span> <span class="n">vertex</span>
+
+            <span class="c1"># If there is a horizontal edge or a vertex immediately to our right, find the first &#39;+&#39; to our right, as that is our rightward adjacent vertex.</span>
+            <span class="k">if</span> <span class="n">vertex_column</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">vertex_row_str</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">vertex_row_str</span><span class="p">[</span><span class="n">vertex_column</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">):</span>
+                <span class="n">rightward_adjacent_vertex_column</span> <span class="o">=</span> <span class="n">vertex_row_str</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="n">vertex_column</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">rightward_adjacent_vertex</span> <span class="o">=</span> <span class="p">(</span><span class="n">vertex_row</span><span class="p">,</span> <span class="n">rightward_adjacent_vertex_column</span><span class="p">)</span>
+                <span class="n">source_vertex_and_direction_to_destinaton_vertex</span><span class="p">[(</span><span class="n">vertex</span><span class="p">,</span> <span class="n">RIGHT</span><span class="p">)]</span> <span class="o">=</span> <span class="n">rightward_adjacent_vertex</span>
+                <span class="n">source_vertex_and_direction_to_destinaton_vertex</span><span class="p">[(</span><span class="n">rightward_adjacent_vertex</span><span class="p">,</span> <span class="n">LEFT</span><span class="p">)]</span> <span class="o">=</span> <span class="n">vertex</span>
+                <span class="c1"># On the next iteration, we&#39;ll immediately hit the rightward adjacent vertex we just found.</span>
+                <span class="n">search_from_column</span> <span class="o">=</span> <span class="n">rightward_adjacent_vertex_column</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># On the next iteration, we&#39;ll start at the first location not yet checked (or fall off the end of the row).</span>
+                <span class="n">search_from_column</span> <span class="o">=</span> <span class="n">vertex_column</span> <span class="o">+</span> <span class="mi">2</span>
+
+    <span class="c1"># We will now use our completed collection of directed edges to determine all boundaries of interest in shape.</span>
+
+    <span class="c1"># We start with an available directed edge and progress,</span>
+    <span class="c1"># at each vertex taking the rightmost directed edge going out,</span>
+    <span class="c1"># stopping once we return to our starting position and direction.</span>
+    <span class="c1"># Each overall-clockwise cycle thus obtained is the boundary of a fundamental piece in our shape,</span>
+    <span class="c1"># and each overall-counterclockwise cycle is either the boundary of a hole in a piece</span>
+    <span class="c1"># -- viewed another way, the outer boundary of a set of connected pieces overlapping the piece --</span>
+    <span class="c1"># or the outer boundary of a set of connected pieces surrounded by nothing but background.</span>
+    <span class="c1"># We remove the directed edges along a newly formed boundary from our set of available directed edges,</span>
+    <span class="c1"># and stop when we run out of available directed edges.</span>
+
+    <span class="c1"># Associated with the boundaries traced in each orientation,</span>
+    <span class="c1"># we will build up a list of (area, list of boundary vertices&#39; coordinate pairs) pairs.</span>
+    <span class="n">clockwise_boundaries_areas_and_vertices</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">counterclockwise_boundaries_areas_and_vertices</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">while</span> <span class="n">source_vertex_and_direction_to_destinaton_vertex</span><span class="p">:</span>
+        <span class="n">boundary_vertices</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># We will build up the list of nontrivial vertices, in order, forming the current boundary.</span>
+        <span class="c1"># Get any directed edge that is still available.  We will there start to trace a boundary.</span>
+        <span class="p">(</span><span class="n">initial_vertex</span><span class="p">,</span> <span class="n">initial_direction</span><span class="p">),</span> <span class="n">vertex</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">source_vertex_and_direction_to_destinaton_vertex</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+        <span class="c1"># We keep track of all the directed edges we follow on this boundary.</span>
+        <span class="n">source_vertices_and_directions_used_on_boundary</span> <span class="o">=</span> <span class="p">[(</span><span class="n">initial_vertex</span><span class="p">,</span> <span class="n">initial_direction</span><span class="p">)]</span>
+        <span class="n">direction</span> <span class="o">=</span> <span class="n">initial_direction</span>
+
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="c1"># Imagining facing in the direction of travel along our boundary,</span>
+            <span class="c1"># we pick as our next destination the adjacent vertex to our right if there is one,</span>
+            <span class="c1"># failing that the one in front of us, failing that the one to our left.</span>
+            <span class="n">previous_direction</span> <span class="o">=</span> <span class="n">direction</span>
+            <span class="k">for</span> <span class="n">direction</span> <span class="ow">in</span> <span class="p">((</span><span class="n">previous_direction</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span><span class="p">,</span> <span class="n">previous_direction</span><span class="p">,</span> <span class="p">(</span><span class="n">previous_direction</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">next_vertex</span> <span class="o">=</span> <span class="n">source_vertex_and_direction_to_destinaton_vertex</span><span class="p">[(</span><span class="n">vertex</span><span class="p">,</span> <span class="n">direction</span><span class="p">)]</span>
+                    <span class="k">break</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="k">pass</span>
+
+            <span class="c1"># If we have traced our boundary all the way around, stop!</span>
+            <span class="k">if</span> <span class="n">vertex</span> <span class="o">==</span> <span class="n">initial_vertex</span> <span class="ow">and</span> <span class="n">direction</span> <span class="o">==</span> <span class="n">initial_direction</span><span class="p">:</span>
+                <span class="k">break</span>
+
+            <span class="c1"># Otherwise, we will actually advance.</span>
+
+            <span class="n">source_vertices_and_directions_used_on_boundary</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">vertex</span><span class="p">,</span> <span class="n">direction</span><span class="p">))</span>
+
+            <span class="c1"># If the still-current vertex is a nontrivial vertex of our boundary</span>
+            <span class="c1"># (i.e., not just a branch point in the overall shape through which we&#39;ve here traveled in a straight line),</span>
+            <span class="c1"># append it to our growing list for the boundary.</span>
+            <span class="k">if</span> <span class="n">direction</span> <span class="o">!=</span> <span class="n">previous_direction</span><span class="p">:</span>
+                <span class="n">boundary_vertices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vertex</span><span class="p">)</span>
+
+            <span class="n">vertex</span> <span class="o">=</span> <span class="n">next_vertex</span>  <span class="c1"># Finally, advance to the next vertex.</span>
+
+        <span class="c1"># We intentionally left our starting point out of our boundary vertices list.</span>
+        <span class="c1"># We add it here as the final element in the list if we now see it to be a nontrivial vertex of our boundary.</span>
+        <span class="k">if</span> <span class="n">previous_direction</span> <span class="o">!=</span> <span class="n">initial_direction</span><span class="p">:</span>
+            <span class="n">boundary_vertices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vertex</span><span class="p">)</span>
+
+        <span class="c1"># Exclude from future contention all the directed edges we followed on the just-completed boundary.</span>
+        <span class="k">for</span> <span class="n">vertex_and_direction</span> <span class="ow">in</span> <span class="n">source_vertices_and_directions_used_on_boundary</span><span class="p">:</span>
+            <span class="k">del</span> <span class="n">source_vertex_and_direction_to_destinaton_vertex</span><span class="p">[</span><span class="n">vertex_and_direction</span><span class="p">]</span>
+
+        <span class="c1"># Determine the area enclosed by the boundary, negated iff the boundary is traced clockwise.</span>
+        <span class="c1"># The calculation may be understood by itself or as a special case of the bootlace formula,</span>
+        <span class="c1"># highly specialized to our case of a boundary made up of alternating horizontal and vertical segments.</span>
+        <span class="n">signed_area</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">index_in_boundary_vertices</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span> <span class="k">if</span> <span class="n">initial_direction</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ABOVE</span><span class="p">,</span> <span class="n">BELOW</span><span class="p">)</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">boundary_vertices</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="n">boundary_edge_row</span><span class="p">,</span> <span class="n">boundary_edge_start_column</span> <span class="o">=</span> <span class="n">boundary_vertices</span><span class="p">[</span><span class="n">index_in_boundary_vertices</span><span class="p">]</span>
+            <span class="n">boundary_edge_end_column</span> <span class="o">=</span> <span class="n">boundary_vertices</span><span class="p">[</span><span class="n">index_in_boundary_vertices</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">signed_area</span> <span class="o">+=</span> <span class="n">boundary_edge_row</span> <span class="o">*</span> <span class="p">(</span><span class="n">boundary_edge_end_column</span> <span class="o">-</span> <span class="n">boundary_edge_start_column</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">signed_area</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">counterclockwise_boundaries_areas_and_vertices</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">signed_area</span><span class="p">,</span> <span class="n">boundary_vertices</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">clockwise_boundaries_areas_and_vertices</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="o">-</span><span class="n">signed_area</span><span class="p">,</span> <span class="n">boundary_vertices</span><span class="p">))</span>
+
+    <span class="c1"># We sort our clockwise boundaries and counterclockwise boundaries separately in order of increasing enclosed area.</span>
+    <span class="c1"># (The key emphasizes that we are only interested in sorting by area;</span>
+    <span class="c1"># the default lexicographic sort order would work perfectly well too.)</span>
+    <span class="n">clockwise_boundaries_areas_and_vertices</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">area_and_vertices</span><span class="p">:</span> <span class="n">area_and_vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">counterclockwise_boundaries_areas_and_vertices</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">area_and_vertices</span><span class="p">:</span> <span class="n">area_and_vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">total_number_of_counterclockwise_boundaries</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">counterclockwise_boundaries_areas_and_vertices</span><span class="p">)</span>
+
+    <span class="c1"># It will later be preferable for our counterclockwise boundaries&#39; information to be held in a structure</span>
+    <span class="c1"># that preserves order, allows arbitrary elements to be deleted inexpensively,</span>
+    <span class="c1"># and does not unnecessarily use unreasonably complex keys.</span>
+    <span class="c1"># We therefore now place the (area, list of vertices&#39; coordinates) pairs for our counterclockwise boundaries</span>
+    <span class="c1"># as values in a dict.</span>
+    <span class="c1"># Since we just sorted counterclockwise_boundaries_areas_and_vertices in order of increasing area</span>
+    <span class="c1"># and since dicts in Python 3.7+ preserve the order in which items are added,</span>
+    <span class="c1"># therefore iterating through this dict later will take us in order of increasing area.</span>
+    <span class="n">counterclockwise_boundary_label_to_area_and_vertices</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">counterclockwise_boundaries_areas_and_vertices</span><span class="p">))</span>
+
+    <span class="n">pieces</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># This list will store the string representations of our pieces.</span>
+
+    <span class="c1"># For each clockwise boundary, we find any counterclockwise boundaries that it encloses,</span>
+    <span class="c1"># and we draw all of them together to represent the associated piece.</span>
+    <span class="c1"># We go through the clockwise boundaries in order of increasing area</span>
+    <span class="c1"># and eliminate counterclockwise boundaries from future consideration once we find a home for them,</span>
+    <span class="c1"># thus ensuring that each clockwise boundary is only assigned the counterclockwise boundaries it immediately encloses,</span>
+    <span class="c1"># not also those that they in turn enclose.</span>
+    <span class="k">for</span> <span class="n">clockwise_boundary_area</span><span class="p">,</span> <span class="n">clockwise_boundary_vertices</span> <span class="ow">in</span> <span class="n">clockwise_boundaries_areas_and_vertices</span><span class="p">:</span>
+        <span class="c1"># Determine the clockwise boundary&#39;s axes-aligned bounding box.</span>
+        <span class="n">clockwise_boundary_vertices_iter</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">clockwise_boundary_vertices</span><span class="p">)</span>
+        <span class="n">min_row</span><span class="p">,</span> <span class="n">min_column</span> <span class="o">=</span> <span class="n">max_row</span><span class="p">,</span> <span class="n">max_column</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">clockwise_boundary_vertices_iter</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">vertex_row</span><span class="p">,</span> <span class="n">vertex_column</span> <span class="ow">in</span> <span class="n">clockwise_boundary_vertices_iter</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">vertex_row</span> <span class="o">&lt;</span> <span class="n">min_row</span><span class="p">:</span>
+                <span class="n">min_row</span> <span class="o">=</span> <span class="n">vertex_row</span>
+            <span class="k">elif</span> <span class="n">vertex_row</span> <span class="o">&gt;</span> <span class="n">max_row</span><span class="p">:</span>
+                <span class="n">max_row</span> <span class="o">=</span> <span class="n">vertex_row</span>
+            <span class="k">if</span> <span class="n">vertex_column</span> <span class="o">&lt;</span> <span class="n">min_column</span><span class="p">:</span>
+                <span class="n">min_column</span> <span class="o">=</span> <span class="n">vertex_column</span>
+            <span class="k">elif</span> <span class="n">vertex_column</span> <span class="o">&gt;</span> <span class="n">max_column</span><span class="p">:</span>
+                <span class="n">max_column</span> <span class="o">=</span> <span class="n">vertex_column</span>
+
+        <span class="c1"># Prepare a blank canvas of the appropriate size.</span>
+        <span class="n">piece_canvas</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39; &#39;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">max_column</span> <span class="o">-</span> <span class="n">min_column</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_row</span> <span class="o">-</span> <span class="n">min_row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+
+        <span class="c1"># Draw the clockwise boundary representing the main, outer boundary of a piece.</span>
+        <span class="n">add_boundary_to_canvas</span><span class="p">(</span><span class="n">piece_canvas</span><span class="p">,</span> <span class="n">clockwise_boundary_vertices</span><span class="p">,</span> <span class="n">min_row</span><span class="p">,</span> <span class="n">min_column</span><span class="p">)</span>
+
+        <span class="c1"># Add the counterclockwise boundaries representing holes in the piece.</span>
+
+        <span class="c1"># If there is only one counterclockwise boundary overall,</span>
+        <span class="c1"># it represents the border between the whole shape and the background,</span>
+        <span class="c1"># and there are no holes anywhere to deal with.</span>
+        <span class="c1"># Otherwise, we actually have work to do here...</span>
+        <span class="k">if</span> <span class="n">total_number_of_counterclockwise_boundaries</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># We keep track of all the (keys/labels associated with the) counterclockwise boundaries immediately enclosed by the current clockwise boundary.</span>
+            <span class="n">labels_of_counterclockwise_boundaries_used_for_piece</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="c1"># We go through the counterclockwise boundaries still available, in order of increasing area.</span>
+            <span class="k">for</span> <span class="n">counterclockwise_boundary_label</span><span class="p">,</span> <span class="p">(</span><span class="n">counterclockwise_boundary_area</span><span class="p">,</span> <span class="n">counterclockwise_boundary_vertices</span><span class="p">)</span> <span class="ow">in</span> <span class="n">counterclockwise_boundary_label_to_area_and_vertices</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="c1"># A region can only properly enclose a region strictly smaller than itself, so stop early accordingly.</span>
+                <span class="k">if</span> <span class="n">counterclockwise_boundary_area</span> <span class="o">&gt;=</span> <span class="n">clockwise_boundary_area</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="c1"># The current counterclockwise boundary is necessarily disjoint from the current clockwise boundary.</span>
+                <span class="c1"># The latter encloses the former iff the latter encircles any arbitrarily chosen point on the former.</span>
+                <span class="c1"># We just consider the first vertex listed for the counterclockwise boundary as our test point,</span>
+                <span class="c1"># and apply the ray casting method (specialized for our boundaries made up of</span>
+                <span class="c1"># horizontal and vertical segments between lattice points,</span>
+                <span class="c1"># and effectively considering a ray cast directly to the left from just above the lattice test point)</span>
+                <span class="c1"># to determine whether the clockwise boundary encircles it.</span>
+                <span class="n">row_of_vertex_on_counterclockwise_boundary</span><span class="p">,</span> <span class="n">column_of_vertex_on_counterclockwise_boundary</span> <span class="o">=</span> <span class="n">counterclockwise_boundary_vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="c1"># We first check whether our point lies strictly within our clockwise boundary&#39;s bounding box,</span>
+                <span class="c1"># to avoid the more involved ray casting test if it is obviously unnecessary.</span>
+                <span class="k">if</span> <span class="n">min_row</span> <span class="o">&lt;</span> <span class="n">row_of_vertex_on_counterclockwise_boundary</span> <span class="o">&lt;</span> <span class="n">max_row</span> <span class="ow">and</span> <span class="n">min_column</span> <span class="o">&lt;</span> <span class="n">column_of_vertex_on_counterclockwise_boundary</span> <span class="o">&lt;</span> <span class="n">max_column</span><span class="p">:</span>
+                    <span class="c1"># Now the ray casting test: </span>
+                    <span class="c1"># Our test point is encircled by the clockwise boundary iff a ray pointing leftward </span>
+                    <span class="c1"># from just above it cuts an odd number of boundary edges.</span>
+                    <span class="n">crossings</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">vertex_row</span><span class="p">,</span> <span class="n">vertex_column</span> <span class="o">=</span> <span class="n">clockwise_boundary_vertices</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">next_vertex_row</span><span class="p">,</span> <span class="n">next_vertex_column</span> <span class="ow">in</span> <span class="n">clockwise_boundary_vertices</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">vertex_column</span> <span class="o">==</span> <span class="n">next_vertex_column</span> <span class="o">&lt;</span> <span class="n">column_of_vertex_on_counterclockwise_boundary</span> <span class="ow">and</span> \
+                                <span class="p">(</span><span class="n">vertex_row</span> <span class="o">&lt;</span> <span class="n">row_of_vertex_on_counterclockwise_boundary</span> <span class="o">&lt;=</span> <span class="n">next_vertex_row</span> <span class="ow">or</span>
+                                 <span class="n">next_vertex_row</span> <span class="o">&lt;</span> <span class="n">row_of_vertex_on_counterclockwise_boundary</span> <span class="o">&lt;=</span> <span class="n">vertex_row</span><span class="p">):</span>
+                            <span class="n">crossings</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">vertex_row</span><span class="p">,</span> <span class="n">vertex_column</span> <span class="o">=</span> <span class="n">next_vertex_row</span><span class="p">,</span> <span class="n">next_vertex_column</span>
+                    <span class="k">if</span> <span class="n">crossings</span> <span class="o">%</span> <span class="mi">2</span><span class="p">:</span>
+                        <span class="c1"># In this case, the clockwise boundary does indeed enclose the counterclockwise boundary,</span>
+                        <span class="c1"># so the counterclockwise boundary outlines a hole in our piece and must be drawn with it.</span>
+                        <span class="n">add_boundary_to_canvas</span><span class="p">(</span><span class="n">piece_canvas</span><span class="p">,</span> <span class="n">counterclockwise_boundary_vertices</span><span class="p">,</span> <span class="n">min_row</span><span class="p">,</span> <span class="n">min_column</span><span class="p">)</span>
+                        <span class="n">labels_of_counterclockwise_boundaries_used_for_piece</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">counterclockwise_boundary_label</span><span class="p">)</span>
+            <span class="c1"># As previously noted, we exclude from future consideration all counterclockwise boundaries</span>
+            <span class="c1"># that our current clockwise boundary (immediately) encloses.</span>
+            <span class="k">for</span> <span class="n">counterclockwise_boundary_label</span> <span class="ow">in</span> <span class="n">labels_of_counterclockwise_boundaries_used_for_piece</span><span class="p">:</span>
+                <span class="k">del</span> <span class="n">counterclockwise_boundary_label_to_area_and_vertices</span><span class="p">[</span><span class="n">counterclockwise_boundary_label</span><span class="p">]</span>
+
+        <span class="c1"># To our list-to-be-returned, we append the multiline string representation of the current piece,</span>
+        <span class="c1"># with trailing whitespace removed from each line, as required.</span>
+        <span class="n">pieces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">piece_canvas_row_content</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span> <span class="k">for</span> <span class="n">piece_canvas_row_content</span> <span class="ow">in</span> <span class="n">piece_canvas</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">pieces</span>  <span class="c1"># All done!</span>
+</pre></div>
+
+</div>
+
+<h2>My Notes</h2>
+<p>I did not develop this solution from scratch, but rather started with my implementation of <code>break_pieces</code>
+    and modified it to suit this new problem.  I had already written my original code to handle the ostensibly evil aspect
+    of the new problem: unit-length edges.  For me, changes were only really necessary to (1) handle imbricated pieces, or, as
+    I view them, pieces filling up holes in other pieces, and (2) correctly handle complex shapes.
+    <ul>
+        <li>My approach, as before, involves tracing closed paths rather than flood-filling closed regions.</li>
+        <li>For (1), I had to do far more with counterclockwise boundaries and their association with clockwise boundaries,
+        and I also could no longer count on finding all vertices by following edges starting from a single seed vertex.</li>
+        <li>For (2), I made the correction of considering a boundary completed once we returned to the initial vertex <b>and</b>
+        would next again travel in the initial direction.  This also meant that directed edges followed should perhaps be invalidated
+        once a boundary was complete, not while it was still being traced.</li>
+        <li>I made many modifications to my use of various data structures throughout the solution.</li>
+    </ul>
+</p>
+</body>
+</html>

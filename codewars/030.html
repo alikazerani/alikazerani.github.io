@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Lift (3 kyu)</title>
+<style>
+.hll { background-color: #333333 }
+.c { color: #008800; font-style: italic; background-color: #0f140f } /* Comment */
+.err { color: #ffffff } /* Error */
+.esc { color: #ffffff } /* Escape */
+.g { color: #ffffff } /* Generic */
+.k { color: #fb660a; font-weight: bold } /* Keyword */
+.l { color: #ffffff } /* Literal */
+.n { color: #ffffff } /* Name */
+.o { color: #ffffff } /* Operator */
+.x { color: #ffffff } /* Other */
+.p { color: #ffffff } /* Punctuation */
+.ch { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Hashbang */
+.cm { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Multiline */
+.cp { color: #ff0007; font-weight: bold; font-style: italic; background-color: #0f140f } /* Comment.Preproc */
+.cpf { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.PreprocFile */
+.c1 { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Single */
+.cs { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Special */
+.gd { color: #ffffff } /* Generic.Deleted */
+.ge { color: #ffffff } /* Generic.Emph */
+.gr { color: #ffffff } /* Generic.Error */
+.gh { color: #ffffff; font-weight: bold } /* Generic.Heading */
+.gi { color: #ffffff } /* Generic.Inserted */
+.go { color: #444444; background-color: #222222 } /* Generic.Output */
+.gp { color: #ffffff } /* Generic.Prompt */
+.gs { color: #ffffff } /* Generic.Strong */
+.gu { color: #ffffff; font-weight: bold } /* Generic.Subheading */
+.gt { color: #ffffff } /* Generic.Traceback */
+.kc { color: #fb660a; font-weight: bold } /* Keyword.Constant */
+.kd { color: #fb660a; font-weight: bold } /* Keyword.Declaration */
+.kn { color: #fb660a; font-weight: bold } /* Keyword.Namespace */
+.kp { color: #fb660a } /* Keyword.Pseudo */
+.kr { color: #fb660a; font-weight: bold } /* Keyword.Reserved */
+.kt { color: #cdcaa9; font-weight: bold } /* Keyword.Type */
+.ld { color: #ffffff } /* Literal.Date */
+.m { color: #0086f7; font-weight: bold } /* Literal.Number */
+.s { color: #0086d2 } /* Literal.String */
+.na { color: #ff0086; font-weight: bold } /* Name.Attribute */
+.nb { color: #ffffff } /* Name.Builtin */
+.nc { color: #ffffff } /* Name.Class */
+.no { color: #0086d2 } /* Name.Constant */
+.nd { color: #ffffff } /* Name.Decorator */
+.ni { color: #ffffff } /* Name.Entity */
+.ne { color: #ffffff } /* Name.Exception */
+.nf { color: #ff0086; font-weight: bold } /* Name.Function */
+.nl { color: #ffffff } /* Name.Label */
+.nn { color: #ffffff } /* Name.Namespace */
+.nx { color: #ffffff } /* Name.Other */
+.py { color: #ffffff } /* Name.Property */
+.nt { color: #fb660a; font-weight: bold } /* Name.Tag */
+.nv { color: #fb660a } /* Name.Variable */
+.ow { color: #ffffff } /* Operator.Word */
+.w { color: #888888 } /* Text.Whitespace */
+.mb { color: #0086f7; font-weight: bold } /* Literal.Number.Bin */
+.mf { color: #0086f7; font-weight: bold } /* Literal.Number.Float */
+.mh { color: #0086f7; font-weight: bold } /* Literal.Number.Hex */
+.mi { color: #0086f7; font-weight: bold } /* Literal.Number.Integer */
+.mo { color: #0086f7; font-weight: bold } /* Literal.Number.Oct */
+.sa { color: #0086d2 } /* Literal.String.Affix */
+.sb { color: #0086d2 } /* Literal.String.Backtick */
+.sc { color: #0086d2 } /* Literal.String.Char */
+.dl { color: #0086d2 } /* Literal.String.Delimiter */
+.sd { color: #0086d2 } /* Literal.String.Doc */
+.s2 { color: #0086d2 } /* Literal.String.Double */
+.se { color: #0086d2 } /* Literal.String.Escape */
+.sh { color: #0086d2 } /* Literal.String.Heredoc */
+.si { color: #0086d2 } /* Literal.String.Interpol */
+.sx { color: #0086d2 } /* Literal.String.Other */
+.sr { color: #0086d2 } /* Literal.String.Regex */
+.s1 { color: #0086d2 } /* Literal.String.Single */
+.ss { color: #0086d2 } /* Literal.String.Symbol */
+.bp { color: #ffffff } /* Name.Builtin.Pseudo */
+.fm { color: #ff0086; font-weight: bold } /* Name.Function.Magic */
+.vc { color: #fb660a } /* Name.Variable.Class */
+.vg { color: #fb660a } /* Name.Variable.Global */
+.vi { color: #fb660a } /* Name.Variable.Instance */
+.vm { color: #fb660a } /* Name.Variable.Magic */
+.il { color: #0086f7; font-weight: bold } /* Literal.Number.Integer.Long */
+</style>
+</head>
+<body>
+<h1>The Lift (3 kyu)</h1>
+<p><img title="weekly coding challenge" src="images/030_Instructions_1.png"> x 3</p>
+<p><em>I bet you won't ever catch a Lift (a.k.a. elevator) again without thinking of this Kata !</em></p>
+<hr>
+
+<h4 id="synopsis">Synopsis</h4>
+<p>A multi-floor building has a Lift in it.</p>
+<p>People are queued on different floors waiting for the Lift.</p>
+<p>Some people want to go up. Some people want to go down. </p>
+<p>The floor they want to go to is represented by a number (i.e. when they enter the Lift this is the button they will press)</p>
+<pre><code>BEFORE (people waiting in queues)               AFTER (people at their destinations)
+                   +--+                                          +--+ 
+  /----------------|  |----------------\        /----------------|  |----------------\
+10|                |  | 1,4,3,2        |      10|             10 |  |                |
+  |----------------|  |----------------|        |----------------|  |----------------|
+ 9|                |  | 1,10,2         |       9|                |  |                |
+  |----------------|  |----------------|        |----------------|  |----------------|
+ 8|                |  |                |       8|                |  |                |
+  |----------------|  |----------------|        |----------------|  |----------------|
+ 7|                |  | 3,6,4,5,6      |       7|                |  |                |
+  |----------------|  |----------------|        |----------------|  |----------------|
+ 6|                |  |                |       6|          6,6,6 |  |                |
+  |----------------|  |----------------|        |----------------|  |----------------|
+ 5|                |  |                |       5|            5,5 |  |                |
+  |----------------|  |----------------|        |----------------|  |----------------|
+ 4|                |  | 0,0,0          |       4|          4,4,4 |  |                |
+  |----------------|  |----------------|        |----------------|  |----------------|
+ 3|                |  |                |       3|            3,3 |  |                |
+  |----------------|  |----------------|        |----------------|  |----------------|
+ 2|                |  | 4              |       2|          2,2,2 |  |                |
+  |----------------|  |----------------|        |----------------|  |----------------|
+ 1|                |  | 6,5,2          |       1|            1,1 |  |                |
+  |----------------|  |----------------|        |----------------|  |----------------|
+ G|                |  |                |       G|          0,0,0 |  |                |
+  |====================================|        |====================================|
+</code></pre>
+<hr>
+
+<h4 id="rules">Rules</h4>
+<h4 id="lift-rules">Lift Rules</h4>
+<ul>
+<li>The Lift only goes up or down!</li>
+<li>Each floor has both UP and DOWN Lift-call buttons (except top and ground floors which have only DOWN and UP respectively)</li>
+<li>The Lift never changes direction until there are no more people wanting to get on/off in the direction it is already travelling</li>
+<li>When empty the Lift tries to be smart. For example,</li>
+<li>If it was going up then it may continue up to collect the highest floor person wanting to go down</li>
+<li>If it was going down then it may continue down to collect the lowest floor person wanting to go up</li>
+<li>The Lift has a maximum capacity of people </li>
+<li>When called, the Lift will stop at a floor <strong>even if it is full</strong>, although unless somebody gets off nobody else can get on!</li>
+<li>If the lift is empty, and no people are waiting, then it will return to the ground floor</li>
+</ul>
+<h4 id="people-rules">People Rules</h4>
+<ul>
+<li>People are in <strong>"queues"</strong> that represent their order of arrival to wait for the Lift</li>
+<li>All people can press the UP/DOWN Lift-call buttons</li>
+<li>Only people going the <strong>same direction</strong> as the Lift may enter it</li>
+<li>Entry is according to the <strong>"queue" order</strong>, but those unable to enter do not block those behind them that can</li>
+<li>If a person is unable to enter a full Lift, they will press the UP/DOWN Lift-call button again after it has departed without them</li>
+</ul>
+<hr> 
+
+<h4 id="kata-task">Kata Task</h4>
+<ul>
+<li>Get all the people to the floors they want to go to while obeying the <strong>Lift rules</strong> and the <strong>People rules</strong></li>
+<li>Return a list of all floors that the Lift stopped at (in the order visited!)</li>
+</ul>
+<p>NOTE: The Lift always starts on the ground floor (and people waiting on the ground floor may enter immediately)</p>
+<hr>
+
+<h4 id="io">I/O</h4>
+<h4 id="input">Input</h4>
+<ul>
+<li><code>queues</code> a list of queues of people for all floors of the building. </li>
+<li>The height of the building varies</li>
+<li>0 = the ground floor</li>
+<li>Not all floors have queues</li>
+<li>Queue index [0] is the "head" of the queue</li>
+<li>Numbers indicate which floor the person wants go to</li>
+<li><code>capacity</code> maximum number of people allowed in the lift</li>
+</ul>
+<p><em>Parameter validation</em> - All input parameters can be assumed OK. No need to check for things like:</p>
+<ul>
+<li>People wanting to go to floors that do not exist</li>
+<li>People wanting to take the Lift to the floor they are already on</li>
+<li>Buildings with &lt; 2 floors</li>
+<li>Basements</li>
+</ul>
+<h4 id="output">Output</h4>
+<ul>
+<li>A list of all floors that the Lift stopped at (in the order visited!)</li>
+</ul>
+<hr>
+
+<h4 id="example">Example</h4>
+<p>Refer to the example test cases.</p>
+<hr>
+
+<h4 id="language-notes">Language Notes</h4>
+<ul>
+<li>Python : The object will be initialized for you in the tests</li>
+</ul>
+<hr>
+<span style="color:red">
+Good Luck -
+
+<p>DM</p>
+</span>
+
+
+
+
+
+
+<h4>Starting Code</h4>
+<pre><code>class Dinglemouse(object):
+
+    def __init__(self, queues, capacity):
+        pass
+        
+    def theLift(self):
+        return []</code></pre>
+
+<h2>My Solution</h2>
+<div style="background-color: black;">
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Dinglemouse</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queues</span><span class="p">,</span> <span class="n">capacity</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lift_capacity</span> <span class="o">=</span> <span class="n">capacity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_floors</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">queues</span><span class="p">)</span>
+        <span class="c1"># For each floor, store a tuple: first, for the queue of people going down; second, for the queue of people going up.</span>
+        <span class="c1"># Each of these queues is represented as a list, with the head of the queue at the end of the list for efficient popping.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queues</span> <span class="o">=</span> <span class="p">[([</span><span class="n">destination</span> <span class="k">for</span> <span class="n">destination</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">queue</span><span class="p">)</span> <span class="k">if</span> <span class="n">destination</span> <span class="o">&lt;</span> <span class="n">floor</span><span class="p">],</span>
+                         <span class="p">[</span><span class="n">destination</span> <span class="k">for</span> <span class="n">destination</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">queue</span><span class="p">)</span> <span class="k">if</span> <span class="n">destination</span> <span class="o">&gt;</span> <span class="n">floor</span><span class="p">])</span>
+                        <span class="k">for</span> <span class="n">floor</span><span class="p">,</span> <span class="n">queue</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">queues</span><span class="p">)]</span>
+
+    <span class="k">def</span> <span class="nf">theLift</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">history</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># List of all floors visited, in order.  We&#39;ll return this when we&#39;re all done.</span>
+        <span class="n">floor</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># The lift&#39;s current floor.</span>
+        <span class="n">going_up</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Indicating the current direction of intended travel.</span>
+        <span class="c1"># Indicating whether we already know that at this point, we have no business in the opposite direction of travel.</span>
+        <span class="c1"># (Nobody to drop off and nobody waiting to be picked up.)</span>
+        <span class="n">do_not_turn_around</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="c1"># The ith element in this list is the number of people currently in the lift who want to go to the ith floor:</span>
+        <span class="n">number_of_people_in_lift_going_to</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_floors</span>
+        <span class="n">number_of_people_in_lift</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Maintained equal to sum(number_of_people_in_lift_going_to).</span>
+
+        <span class="c1"># Let&#39;s go.</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="c1"># If turning around at a floor, the floor must only be listed once.</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">history</span> <span class="ow">or</span> <span class="n">history</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">floor</span><span class="p">:</span>
+                <span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">floor</span><span class="p">)</span>
+
+            <span class="c1"># If we&#39;ve reached your destination, get out of the lift.  Get out of the lift.  Get out of the lift.</span>
+            <span class="n">number_of_people_getting_off</span> <span class="o">=</span> <span class="n">number_of_people_in_lift_going_to</span><span class="p">[</span><span class="n">floor</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">number_of_people_getting_off</span><span class="p">:</span>
+                <span class="n">number_of_people_in_lift_going_to</span><span class="p">[</span><span class="n">floor</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">number_of_people_in_lift</span> <span class="o">-=</span> <span class="n">number_of_people_getting_off</span>
+
+            <span class="c1"># If you&#39;re going my way and I have room, hop in.  (Here and elsewhere, we implicitly use True -&gt; 1, False -&gt; 0.)</span>
+            <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">_queues</span><span class="p">[</span><span class="n">floor</span><span class="p">][</span><span class="n">going_up</span><span class="p">]</span> <span class="ow">and</span> <span class="n">number_of_people_in_lift</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lift_capacity</span><span class="p">:</span>
+                <span class="n">number_of_people_in_lift_going_to</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_queues</span><span class="p">[</span><span class="n">floor</span><span class="p">][</span><span class="n">going_up</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">()]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">number_of_people_in_lift</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c1"># Look for the nearest floor in our direction where someone is waiting to travel in this direction.</span>
+            <span class="n">floors_ahead</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">floor</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_floors</span><span class="p">)</span> <span class="k">if</span> <span class="n">going_up</span> <span class="k">else</span> <span class="nb">range</span><span class="p">(</span><span class="n">floor</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">next_pick_up</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">destination</span> <span class="k">for</span> <span class="n">destination</span> <span class="ow">in</span> <span class="n">floors_ahead</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_queues</span><span class="p">[</span><span class="n">destination</span><span class="p">][</span><span class="n">going_up</span><span class="p">]),</span> <span class="kc">None</span><span class="p">)</span>
+
+            <span class="c1"># If there is no such person waiting and if there is nobody in the lift,</span>
+            <span class="c1"># look for the farthest floor in our direction where someone is waiting to travel in the opposite direction.</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">number_of_people_in_lift</span> <span class="ow">and</span> <span class="n">next_pick_up</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">floors_ahead</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_number_of_floors</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">floor</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">going_up</span> <span class="k">else</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">floor</span><span class="p">)</span>
+                <span class="n">next_pick_up</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">destination</span> <span class="k">for</span> <span class="n">destination</span> <span class="ow">in</span> <span class="n">floors_ahead</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_queues</span><span class="p">[</span><span class="n">destination</span><span class="p">][</span><span class="ow">not</span> <span class="n">going_up</span><span class="p">]),</span> <span class="kc">None</span><span class="p">)</span>
+                
+                <span class="c1"># Go there and switch our direction of travel.</span>
+                <span class="k">if</span> <span class="n">next_pick_up</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">floor</span> <span class="o">=</span> <span class="n">next_pick_up</span>
+                    <span class="n">going_up</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">going_up</span>
+                    <span class="n">do_not_turn_around</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># We know that there is nothing for us now beyond that floor.</span>
+                    
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># If there is nobody like that waiting either and there might be people waiting behind us, turn around.</span>
+                    <span class="c1"># We&#39;ll see what to do next on the next iteration.</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">do_not_turn_around</span><span class="p">:</span>
+                        <span class="n">going_up</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">going_up</span>
+                        <span class="n">do_not_turn_around</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># We&#39;ve already checked in our former direction.</span>
+                    
+                    <span class="c1"># If we already know there is nobody waiting behind us either, we&#39;re done.</span>
+                    <span class="c1"># Register a return to the ground floor if we&#39;re not there already,</span>
+                    <span class="c1"># and report back to the caller.</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">floor</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                        <span class="k">return</span> <span class="n">history</span>
+
+            <span class="c1"># If there is someone waiting ahead of us to travel in our direction, or if there is someone in the lift,</span>
+            <span class="c1"># determine our next stop.</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">number_of_people_in_lift</span><span class="p">:</span>
+                    <span class="n">floor</span> <span class="o">=</span> <span class="n">next_pick_up</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">next_drop_off</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">destination</span> <span class="k">for</span> <span class="n">destination</span> <span class="ow">in</span> <span class="n">floors_ahead</span> <span class="k">if</span> <span class="n">number_of_people_in_lift_going_to</span><span class="p">[</span><span class="n">destination</span><span class="p">]))</span>
+                    <span class="k">if</span> <span class="n">next_pick_up</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">floor</span> <span class="o">=</span> <span class="n">next_drop_off</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">floor</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">next_pick_up</span><span class="p">,</span> <span class="n">next_drop_off</span><span class="p">)</span> <span class="k">if</span> <span class="n">going_up</span> <span class="k">else</span> <span class="nb">max</span><span class="p">(</span><span class="n">next_pick_up</span><span class="p">,</span> <span class="n">next_drop_off</span><span class="p">)</span>
+
+                <span class="n">do_not_turn_around</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># Resetting this flag, since on the next iteration, we&#39;ll assess conditions with respect to our new floor, etc.</span>
+</pre></div>
+
+</div>
+
+<h2>My Notes</h2>
+Is it just me, or is this class design weird?  Why is there even a class for this?  Also, the class is inappropriately named after the kata creator.
+<h3>After Viewing Test Cases, Other Users&rsquo; Solutions and Comments, etc.:</h3>
+<ul>
+    <li>Instead of determining which floor to go to next by looking ahead in each iteration, we could just "visit" successive floors, one per iteration, bouncing at the top and bottom, and if there is something to be done at a floor, do it and only add such floors to the list of floors visited.</li>
+    <li>Using a while loop to pull people onto the lift is very queue-appropriate, but with a list we can just take an appropriately large slice and leave the remaining slice. Mind you, my use of a counter list for the lift doesn't mesh too elegantly with that approach.</li>
+    <li>Instead of taking care to not list a floor twice consecutively, we could remove such repeats from the completed list before returning it. Not actually preferable; just wanted to note it.</li>
+    <li>Remember that it can be a good idea to add helper methods.</li>
+</ul>
+</body>
+</html>

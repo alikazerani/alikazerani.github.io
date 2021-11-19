@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Linear equations N x M, complete solution space, fraction representation (2 kyu)</title>
+<style>
+.hll { background-color: #333333 }
+.c { color: #008800; font-style: italic; background-color: #0f140f } /* Comment */
+.err { color: #ffffff } /* Error */
+.esc { color: #ffffff } /* Escape */
+.g { color: #ffffff } /* Generic */
+.k { color: #fb660a; font-weight: bold } /* Keyword */
+.l { color: #ffffff } /* Literal */
+.n { color: #ffffff } /* Name */
+.o { color: #ffffff } /* Operator */
+.x { color: #ffffff } /* Other */
+.p { color: #ffffff } /* Punctuation */
+.ch { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Hashbang */
+.cm { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Multiline */
+.cp { color: #ff0007; font-weight: bold; font-style: italic; background-color: #0f140f } /* Comment.Preproc */
+.cpf { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.PreprocFile */
+.c1 { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Single */
+.cs { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Special */
+.gd { color: #ffffff } /* Generic.Deleted */
+.ge { color: #ffffff } /* Generic.Emph */
+.gr { color: #ffffff } /* Generic.Error */
+.gh { color: #ffffff; font-weight: bold } /* Generic.Heading */
+.gi { color: #ffffff } /* Generic.Inserted */
+.go { color: #444444; background-color: #222222 } /* Generic.Output */
+.gp { color: #ffffff } /* Generic.Prompt */
+.gs { color: #ffffff } /* Generic.Strong */
+.gu { color: #ffffff; font-weight: bold } /* Generic.Subheading */
+.gt { color: #ffffff } /* Generic.Traceback */
+.kc { color: #fb660a; font-weight: bold } /* Keyword.Constant */
+.kd { color: #fb660a; font-weight: bold } /* Keyword.Declaration */
+.kn { color: #fb660a; font-weight: bold } /* Keyword.Namespace */
+.kp { color: #fb660a } /* Keyword.Pseudo */
+.kr { color: #fb660a; font-weight: bold } /* Keyword.Reserved */
+.kt { color: #cdcaa9; font-weight: bold } /* Keyword.Type */
+.ld { color: #ffffff } /* Literal.Date */
+.m { color: #0086f7; font-weight: bold } /* Literal.Number */
+.s { color: #0086d2 } /* Literal.String */
+.na { color: #ff0086; font-weight: bold } /* Name.Attribute */
+.nb { color: #ffffff } /* Name.Builtin */
+.nc { color: #ffffff } /* Name.Class */
+.no { color: #0086d2 } /* Name.Constant */
+.nd { color: #ffffff } /* Name.Decorator */
+.ni { color: #ffffff } /* Name.Entity */
+.ne { color: #ffffff } /* Name.Exception */
+.nf { color: #ff0086; font-weight: bold } /* Name.Function */
+.nl { color: #ffffff } /* Name.Label */
+.nn { color: #ffffff } /* Name.Namespace */
+.nx { color: #ffffff } /* Name.Other */
+.py { color: #ffffff } /* Name.Property */
+.nt { color: #fb660a; font-weight: bold } /* Name.Tag */
+.nv { color: #fb660a } /* Name.Variable */
+.ow { color: #ffffff } /* Operator.Word */
+.w { color: #888888 } /* Text.Whitespace */
+.mb { color: #0086f7; font-weight: bold } /* Literal.Number.Bin */
+.mf { color: #0086f7; font-weight: bold } /* Literal.Number.Float */
+.mh { color: #0086f7; font-weight: bold } /* Literal.Number.Hex */
+.mi { color: #0086f7; font-weight: bold } /* Literal.Number.Integer */
+.mo { color: #0086f7; font-weight: bold } /* Literal.Number.Oct */
+.sa { color: #0086d2 } /* Literal.String.Affix */
+.sb { color: #0086d2 } /* Literal.String.Backtick */
+.sc { color: #0086d2 } /* Literal.String.Char */
+.dl { color: #0086d2 } /* Literal.String.Delimiter */
+.sd { color: #0086d2 } /* Literal.String.Doc */
+.s2 { color: #0086d2 } /* Literal.String.Double */
+.se { color: #0086d2 } /* Literal.String.Escape */
+.sh { color: #0086d2 } /* Literal.String.Heredoc */
+.si { color: #0086d2 } /* Literal.String.Interpol */
+.sx { color: #0086d2 } /* Literal.String.Other */
+.sr { color: #0086d2 } /* Literal.String.Regex */
+.s1 { color: #0086d2 } /* Literal.String.Single */
+.ss { color: #0086d2 } /* Literal.String.Symbol */
+.bp { color: #ffffff } /* Name.Builtin.Pseudo */
+.fm { color: #ff0086; font-weight: bold } /* Name.Function.Magic */
+.vc { color: #fb660a } /* Name.Variable.Class */
+.vg { color: #fb660a } /* Name.Variable.Global */
+.vi { color: #fb660a } /* Name.Variable.Instance */
+.vm { color: #fb660a } /* Name.Variable.Magic */
+.il { color: #0086f7; font-weight: bold } /* Literal.Number.Integer.Long */
+</style>
+</head>
+<body>
+<h1>Linear equations N x M, complete solution space, fraction representation (2 kyu)</h1>
+<p>Your task is to solve <font size="+1">N x M Systems of Linear Equations (LS)</font> and to determine the <b>complete solution space</b>.<br>&nbsp;<br>Normally an endless amount of solutions exist, not only one or none like for N x N. You have to handle <b>N</b> unkowns and <b>M</b> equations (<b>N&gt;=1</b>, <b>M&gt;=1</b>) and your result has to display all numbers in <b>'reduced fraction representation'</b> too (perhaps first you can try my <a href="http://www.codewars.com/kata/solving-linear-equations-n-x-n-gauss-part-1-slash-2" target="_blank">N x N kata</a>). More about LS you can find <a href="https://en.m.wikipedia.org/wiki/System_of_linear_equations" target="_blank"><b>here</b></a> or perhaps is already known.<br>&nbsp;<br>
+<b>First of all two easy examples:</b><br></p>
+<li><code>1*x1 + 2*x2 + 0*x3 + 0*x4 = 7</code></li>
+<li><code>0*x1 + 3*x2 + 4*x3 + 0*x4 = 8</code></li>
+<li><code>0*x1 + 0*x2 + 5*x3 + 6*x4 = 9</code></li>
+
+<p><br><code>SOL=(97/15; 4/15; 9/5; 0) + q1* (-16/5; 8/5; -6/5; 1)</code><br>&nbsp;<br>
+You can see the dimension of solution space is 1 (it's a line) and q1 is any real number, so we have endless solutions. You can insert every single solution into every equation and all are correctly solved (1*97/15 + 2*4/15 + 0 + 0 =7 for q1=0).<br>&nbsp;<br>
+Second example:<br></p>
+<li><code>1*x1 + 5/2*x2 + 1/2*x3 + 0*x4 + 4*x5 = 1/8</code></li>
+<li><code>0*x1 + 5*x2 + 2*x3 - 5/2*x4  + 6*x5 = 2</code></li>
+
+<p><br><code>SOL=(-7/8; 2/5; 0; 0; 0) + q1 * (1/2; -2/5; 1; 0; 0) + q2 * (-5/4; 1/2; 0; 1; 0) + q3 * (-1; -6/5; 0; 0; 1)</code>
+<br>&nbsp;<br>
+Here you can see the dimension of the solution is 3, q1, q2 and q3 are arbitrary real numbers. You can see all resulting numbers are in <b>fraction representation</b> (which is easier to read and handle for pupils/students), whatever the input was.<br>&nbsp;<br>
+<b>So what is missing?</b><br>&nbsp;<br>
+You have to build a function <code>"Solve(input)"</code> (or <code>"solve(input)"</code>) which takes the equations as an input string and returns the solution as a string. "\n" (LF) separates equations, "&nbsp;" (SPACE) separates the numbers (like <b>3</b> or <b>4/5</b>, only the coefficients not the <b>xi</b>'s), each last number per line is the number behind the = (the equation result, see examples). The result of the function is the solution given as a string. All test examples will be syntactically correct, so you don't need to take care of it.
+<br>&nbsp;<br>So for the first example you have to call: <code>Solve ("1 2 0 0 7\n0 3 4 0 8\n0 0 5 6 9")</code>. The result of Solve is <code>"SOL=(97/15; 4/15; 9/5; 0) + q1 * (-16/5; 8/5; -6/5; 1)"</code>, exactly in this form/syntax. (97/15; 4/15; 9/5; 0) + q1 * <i>(16/5; -8/5; 6/5; -1)</i> is ok too because it produces same solutions.<br>&nbsp;<br>Spaces in your result are allowed, but not necessary. You have to use '<b>q</b>i' (i from 1 to dimension) standing for the real numbers (the first starting solution- point/vector has no q). If the dimension of the solution is greater than 1, the order of the qi- vectors isn't important (but all indices should be in order, that is, 'q1' first then 'q2', etc.). The fractions have to be <b>reduced as much as possible</b> (but not 4/3 to 1&nbsp;1/3). If there exists no solution you have to respond with <code>"SOL=NONE"</code>. If only one solution exists the response should contain no 'qi'-vectors (e.g.,<code>"SOL=(1; 2; 3)"</code>).<br>&nbsp;<br>
+<b>One last word to the tests:</b><br>
+The test function checks the syntax of your output, uses some rules for different verifications and after all checks the given equations with your solution and verifies that all equations are satisfied for arbitrary values of qi's. If all things fit together, your solution is accepted! If not, you will get a hint 'why not'...
+<br>&nbsp;<br>
+<b>Hint:</b> don't rely on floating-point numbers to solve this kata. Use exact rational arithmetic.
+<br>&nbsp;<br></p>
+<h4><font color="red">Hope you have fun:-)!</font></h4>
+
+
+<h4>Starting Code</h4>
+<pre><code>from fractions import Fraction
+
+
+def solve(system: str) -> str:
+
+    return 'SOL=?'</code></pre>
+
+<h2>My Solution</h2>
+<div style="background-color: black;">
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fractions</span> <span class="kn">import</span> <span class="n">Fraction</span>
+
+
+<span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="n">system</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="c1"># We cast the given string description of the system as a list of list of Fraction objects,</span>
+    <span class="c1"># representing the entire augmented matrix.</span>
+    <span class="n">augmented_matrix</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Fraction</span><span class="p">(</span><span class="n">number_str</span><span class="p">)</span> <span class="k">for</span> <span class="n">number_str</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">system</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()]</span>
+    <span class="n">number_of_rows</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">augmented_matrix</span><span class="p">)</span>
+    <span class="c1"># (Next is the number of variables/unknowns associated with the system,</span>
+    <span class="c1"># not the number of free variables associated with the solution set.)</span>
+    <span class="n">number_of_variables</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">augmented_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="c1"># GAUSS-JORDAN ELIMINATION:</span>
+    <span class="c1"># We will perform elementary row operations to get the augmented matrix in reduced row echelon form.</span>
+
+    <span class="c1"># We will record which row houses a pivot in each column (None for columns that contain no pivot).</span>
+    <span class="n">index_of_column_to_index_of_pivot_row</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">number_of_variables</span>
+
+    <span class="c1"># Going row by row, we start by establishing a pivot in each.</span>
+    <span class="c1"># We stop when we finish all the rows</span>
+    <span class="c1"># or when, in our search for a pivot, we fall off the end of an all-zero row of the left part of the augmented matrix.</span>
+    <span class="n">index_of_pivot_row</span> <span class="o">=</span> <span class="n">index_of_pivot_column</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">index_of_pivot_row</span> <span class="o">&lt;</span> <span class="n">number_of_rows</span> <span class="ow">and</span> <span class="n">index_of_pivot_column</span> <span class="o">&lt;</span> <span class="n">number_of_variables</span><span class="p">:</span>
+        <span class="c1"># If the entry where we are looking to establish a pivot is zero,</span>
+        <span class="c1"># we swap with a later row if it has a nonzero entry in this column.</span>
+        <span class="c1"># If there is no such row, this column will have no pivot, and we move on to the next column.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">augmented_matrix</span><span class="p">[</span><span class="n">index_of_pivot_row</span><span class="p">][</span><span class="n">index_of_pivot_column</span><span class="p">]:</span>
+            <span class="k">for</span> <span class="n">index_of_row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">index_of_pivot_row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">number_of_rows</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">augmented_matrix</span><span class="p">[</span><span class="n">index_of_row</span><span class="p">][</span><span class="n">index_of_pivot_column</span><span class="p">]:</span>
+                    <span class="n">augmented_matrix</span><span class="p">[</span><span class="n">index_of_pivot_row</span><span class="p">],</span> <span class="n">augmented_matrix</span><span class="p">[</span><span class="n">index_of_row</span><span class="p">]</span> <span class="o">=</span> \
+                        <span class="n">augmented_matrix</span><span class="p">[</span><span class="n">index_of_row</span><span class="p">],</span> <span class="n">augmented_matrix</span><span class="p">[</span><span class="n">index_of_pivot_row</span><span class="p">]</span>
+                    <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">index_of_pivot_column</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">continue</span>
+
+        <span class="n">index_of_column_to_index_of_pivot_row</span><span class="p">[</span><span class="n">index_of_pivot_column</span><span class="p">]</span> <span class="o">=</span> <span class="n">index_of_pivot_row</span>
+
+        <span class="c1"># We scale the current row as necessary to get a 1 in the pivot position.</span>
+        <span class="n">pivot_row</span> <span class="o">=</span> <span class="n">augmented_matrix</span><span class="p">[</span><span class="n">index_of_pivot_row</span><span class="p">]</span>
+        <span class="n">prenormalization_value_at_pivot</span> <span class="o">=</span> <span class="n">pivot_row</span><span class="p">[</span><span class="n">index_of_pivot_column</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">prenormalization_value_at_pivot</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">index_of_column</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number_of_variables</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">pivot_row</span><span class="p">[</span><span class="n">index_of_column</span><span class="p">]</span> <span class="o">/=</span> <span class="n">prenormalization_value_at_pivot</span>
+
+        <span class="c1"># We replace each of the other rows by its difference/sum with an appropriately scaled version of the current pivot row,</span>
+        <span class="c1"># to get a 0 in the column of the current pivot.</span>
+        <span class="k">for</span> <span class="n">index_of_row</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">augmented_matrix</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">index_of_row</span> <span class="o">!=</span> <span class="n">index_of_pivot_row</span><span class="p">:</span>
+                <span class="n">multiplier</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">index_of_pivot_column</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">multiplier</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">index_of_column</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number_of_variables</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                        <span class="n">row</span><span class="p">[</span><span class="n">index_of_column</span><span class="p">]</span> <span class="o">-=</span> <span class="n">multiplier</span> <span class="o">*</span> <span class="n">pivot_row</span><span class="p">[</span><span class="n">index_of_column</span><span class="p">]</span>
+
+        <span class="c1"># We move on to the next row and column to work with the next pivot.</span>
+        <span class="n">index_of_pivot_row</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">index_of_pivot_column</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="c1"># SOLUTION EXTRACTION/SPECIFICATION:</span>
+
+    <span class="c1"># The system is inconsistent -- it has no solution -- iff some row of the reduced augmented matrix</span>
+    <span class="c1"># has only zeros in its left part but a nonzero value in its right part.</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">augmented_matrix</span><span class="p">[</span><span class="n">index_of_row</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">index_of_row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">index_of_pivot_row</span><span class="p">,</span> <span class="n">number_of_rows</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="s2">&quot;SOL=NONE&quot;</span>
+
+    <span class="c1"># If the system is consistent, we will assemble, term-by-term, the pieces of the string representing its solution set.</span>
+    <span class="n">solution_terms</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># We read a particular solution of the system from the right part of the reduced augmented matrix,</span>
+    <span class="c1"># mapping the value in each row to the appropriate variable via the position of the pivot in that row.</span>
+    <span class="c1"># Variables with pivotless columns get 0s in the particular solution.</span>
+    <span class="c1"># (Note: The tester expects to see a term for the particular solution even if it is a zero vector.)</span>
+    <span class="n">particular_solution</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">augmented_matrix</span><span class="p">[</span><span class="n">index_of_pivot_row</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="k">if</span> <span class="n">index_of_pivot_row</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s1">&#39;0&#39;</span>
+                           <span class="k">for</span> <span class="n">index_of_pivot_row</span> <span class="ow">in</span> <span class="n">index_of_column_to_index_of_pivot_row</span><span class="p">]</span>
+    <span class="n">solution_terms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;({&quot;; &quot;.join(particular_solution)})&#39;</span><span class="p">)</span>
+
+    <span class="c1"># If the solution set has nonzero dimension,</span>
+    <span class="c1"># we will take qi (1-indexed, as required), the ith free parameter/scalar multiplier in the solution specification,</span>
+    <span class="c1"># to be identically equal to the ith free variable/unknown, associated with the ith pivotless column.</span>
+    <span class="c1"># Each free parameter will be shown multiplied by a basis vector (of the solution set of the homogeneous version of our system),</span>
+    <span class="c1"># whose elements are read negated from the appropriate pivotless column.</span>
+    <span class="c1"># A basis vector gets a 1 in the position corresponding to the associated free variable</span>
+    <span class="c1"># and 0s in the positions corresponding to the other free variables.</span>
+    <span class="n">indices_of_free_variables</span> <span class="o">=</span> <span class="p">[</span><span class="n">index_of_column</span>
+                                 <span class="k">for</span> <span class="n">index_of_column</span><span class="p">,</span> <span class="n">index_of_pivot_row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">index_of_column_to_index_of_pivot_row</span><span class="p">)</span>
+                                 <span class="k">if</span> <span class="n">index_of_pivot_row</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">parameter_number</span><span class="p">,</span> <span class="n">index_of_free_variable</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">indices_of_free_variables</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">basis_vector</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;1&#39;</span> <span class="k">if</span> <span class="n">index_of_variable</span> <span class="o">==</span> <span class="n">index_of_free_variable</span>
+                        <span class="k">else</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="o">-</span><span class="n">augmented_matrix</span><span class="p">[</span><span class="n">index_of_pivot_row</span><span class="p">][</span><span class="n">index_of_free_variable</span><span class="p">])</span> <span class="k">if</span> <span class="n">index_of_pivot_row</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s1">&#39;0&#39;</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">index_of_variable</span><span class="p">,</span> <span class="n">index_of_pivot_row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">index_of_column_to_index_of_pivot_row</span><span class="p">)]</span>
+        <span class="n">solution_terms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;q</span><span class="si">{parameter_number}</span><span class="s1"> * ({&quot;; &quot;.join(basis_vector)})&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Finally, we return the complete solution specification in the required format.</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;SOL={&quot; + &quot;.join(solution_terms)}&#39;</span>
+</pre></div>
+
+</div>
+</body>
+</html>

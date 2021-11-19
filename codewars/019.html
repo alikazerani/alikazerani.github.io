@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Twice linear (4 kyu)</title>
+<style>
+.hll { background-color: #333333 }
+.c { color: #008800; font-style: italic; background-color: #0f140f } /* Comment */
+.err { color: #ffffff } /* Error */
+.esc { color: #ffffff } /* Escape */
+.g { color: #ffffff } /* Generic */
+.k { color: #fb660a; font-weight: bold } /* Keyword */
+.l { color: #ffffff } /* Literal */
+.n { color: #ffffff } /* Name */
+.o { color: #ffffff } /* Operator */
+.x { color: #ffffff } /* Other */
+.p { color: #ffffff } /* Punctuation */
+.ch { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Hashbang */
+.cm { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Multiline */
+.cp { color: #ff0007; font-weight: bold; font-style: italic; background-color: #0f140f } /* Comment.Preproc */
+.cpf { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.PreprocFile */
+.c1 { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Single */
+.cs { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Special */
+.gd { color: #ffffff } /* Generic.Deleted */
+.ge { color: #ffffff } /* Generic.Emph */
+.gr { color: #ffffff } /* Generic.Error */
+.gh { color: #ffffff; font-weight: bold } /* Generic.Heading */
+.gi { color: #ffffff } /* Generic.Inserted */
+.go { color: #444444; background-color: #222222 } /* Generic.Output */
+.gp { color: #ffffff } /* Generic.Prompt */
+.gs { color: #ffffff } /* Generic.Strong */
+.gu { color: #ffffff; font-weight: bold } /* Generic.Subheading */
+.gt { color: #ffffff } /* Generic.Traceback */
+.kc { color: #fb660a; font-weight: bold } /* Keyword.Constant */
+.kd { color: #fb660a; font-weight: bold } /* Keyword.Declaration */
+.kn { color: #fb660a; font-weight: bold } /* Keyword.Namespace */
+.kp { color: #fb660a } /* Keyword.Pseudo */
+.kr { color: #fb660a; font-weight: bold } /* Keyword.Reserved */
+.kt { color: #cdcaa9; font-weight: bold } /* Keyword.Type */
+.ld { color: #ffffff } /* Literal.Date */
+.m { color: #0086f7; font-weight: bold } /* Literal.Number */
+.s { color: #0086d2 } /* Literal.String */
+.na { color: #ff0086; font-weight: bold } /* Name.Attribute */
+.nb { color: #ffffff } /* Name.Builtin */
+.nc { color: #ffffff } /* Name.Class */
+.no { color: #0086d2 } /* Name.Constant */
+.nd { color: #ffffff } /* Name.Decorator */
+.ni { color: #ffffff } /* Name.Entity */
+.ne { color: #ffffff } /* Name.Exception */
+.nf { color: #ff0086; font-weight: bold } /* Name.Function */
+.nl { color: #ffffff } /* Name.Label */
+.nn { color: #ffffff } /* Name.Namespace */
+.nx { color: #ffffff } /* Name.Other */
+.py { color: #ffffff } /* Name.Property */
+.nt { color: #fb660a; font-weight: bold } /* Name.Tag */
+.nv { color: #fb660a } /* Name.Variable */
+.ow { color: #ffffff } /* Operator.Word */
+.w { color: #888888 } /* Text.Whitespace */
+.mb { color: #0086f7; font-weight: bold } /* Literal.Number.Bin */
+.mf { color: #0086f7; font-weight: bold } /* Literal.Number.Float */
+.mh { color: #0086f7; font-weight: bold } /* Literal.Number.Hex */
+.mi { color: #0086f7; font-weight: bold } /* Literal.Number.Integer */
+.mo { color: #0086f7; font-weight: bold } /* Literal.Number.Oct */
+.sa { color: #0086d2 } /* Literal.String.Affix */
+.sb { color: #0086d2 } /* Literal.String.Backtick */
+.sc { color: #0086d2 } /* Literal.String.Char */
+.dl { color: #0086d2 } /* Literal.String.Delimiter */
+.sd { color: #0086d2 } /* Literal.String.Doc */
+.s2 { color: #0086d2 } /* Literal.String.Double */
+.se { color: #0086d2 } /* Literal.String.Escape */
+.sh { color: #0086d2 } /* Literal.String.Heredoc */
+.si { color: #0086d2 } /* Literal.String.Interpol */
+.sx { color: #0086d2 } /* Literal.String.Other */
+.sr { color: #0086d2 } /* Literal.String.Regex */
+.s1 { color: #0086d2 } /* Literal.String.Single */
+.ss { color: #0086d2 } /* Literal.String.Symbol */
+.bp { color: #ffffff } /* Name.Builtin.Pseudo */
+.fm { color: #ff0086; font-weight: bold } /* Name.Function.Magic */
+.vc { color: #fb660a } /* Name.Variable.Class */
+.vg { color: #fb660a } /* Name.Variable.Global */
+.vi { color: #fb660a } /* Name.Variable.Instance */
+.vm { color: #fb660a } /* Name.Variable.Magic */
+.il { color: #0086f7; font-weight: bold } /* Literal.Number.Integer.Long */
+</style>
+</head>
+<body>
+<h1>Twice linear (4 kyu)</h1>
+<p>Consider a sequence <code>u</code> where u is defined as follows:</p>
+<ol>
+<li>The number <code>u(0) = 1</code> is the first one in <code>u</code>.</li>
+<li>For each <code>x</code> in <code>u</code>, then <code>y = 2 * x + 1</code> and <code>z = 3 * x + 1</code> must be in <code>u</code> too.</li>
+<li>There are no other numbers in <code>u</code>.</li>
+</ol>
+<h4 id="example">Example:</h4>
+<p><code>u = [1, 3, 4, 7, 9, 10, 13, 15, 19, 21, 22, 27, ...]</code></p>
+<p>1 gives 3 and 4, then 3 gives 7 and 10, 4 gives 9 and 13, then 7 gives 15 and 22 and so on...</p>
+<h4 id="task">Task:</h4>
+<p>Given parameter <code>n</code> the function <code>dbl_linear</code> (or dblLinear...) returns the element <code>u(n)</code> of the ordered sequence <code>u</code> (ordered with <code>&lt;</code> so there are no duplicates) .</p>
+<h4 id="example-1">Example:</h4>
+<p><code>dbl_linear(10) should return 22</code></p>
+<h4 id="note">Note:</h4>
+<p>Focus attention on efficiency</p>
+
+<h4>Starting Code</h4>
+<pre><code>def dbl_linear(n):
+    # your code</code></pre>
+
+<h2>My Solution</h2>
+<div style="background-color: black;">
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">dbl_linear</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>  <span class="c1"># (Includes some optimizations.)</span>
+    <span class="c1"># A set under construction of some elements of the described sequence:</span>
+    <span class="c1"># (Just before returning, the n + 1 smallest numbers in u will match the first n + 1 elements in the described sequence.)</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="c1"># Once n is big enough, the (n + 1)th smallest number in it:</span>
+    <span class="c1"># (Just before returning, this will match the value to be returned.)</span>
+    <span class="n">u_n</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># The set of numbers to be unioned into u in the next iteration:</span>
+    <span class="n">to_add</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">}</span>
+    <span class="c1"># The smallest such number:</span>
+    <span class="n">min_to_add</span> <span class="o">=</span> <span class="mi">1</span>
+    
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>  <span class="c1"># (Forgive me!)</span>
+        <span class="c1"># Update u with the new numbers.</span>
+        <span class="n">u</span> <span class="o">|=</span> <span class="n">to_add</span>  
+        <span class="c1"># (Were there considerable overlap between to_add and pre-update u, </span>
+        <span class="c1"># it might have been worth throwing out of to_add any numbers that were already in pre-update u.)</span>
+        
+        <span class="c1"># Determine the smallest possible number to be unioned into u on the next iteration.</span>
+        <span class="n">min_to_add</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">min_to_add</span> <span class="o">+</span> <span class="mi">1</span>
+        
+        <span class="c1"># If u contains at least n + 1 numbers, consider its (n + 1)th smallest, u_n.</span>
+        <span class="c1"># If no number smaller than u_n will be added at the next iteration, </span>
+        <span class="c1"># then the (n + 1) smallest numbers in u match the first n + 1 elements in the described sequence.  </span>
+        <span class="c1"># We&#39;re done.  Return u_n.</span>
+        <span class="c1"># Otherwise, we keep going but need only retain these (n + 1) smallest numbers in u.</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">sorted_u</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+            <span class="c1"># (One might consider maintaining u as a sorted set of fixed capacity, </span>
+            <span class="c1"># instead of as a regular set with potentially repeated sorting and truncating as in my approach.)</span>
+            <span class="n">u_n</span> <span class="o">=</span> <span class="n">sorted_u</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">min_to_add</span> <span class="o">&gt;=</span> <span class="n">u_n</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">u_n</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">sorted_u</span><span class="p">[:(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)])</span>
+        
+        <span class="c1"># Determine the numbers to be unioned into u in the next iteration.</span>
+        <span class="c1"># Once we have at least n + 1 numbers in u, we will not bother unioning in any numbers larger than u_n. </span>
+        <span class="k">if</span> <span class="n">u_n</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">to_add</span> <span class="o">=</span> <span class="p">{</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">to_add</span><span class="p">}</span> <span class="o">|</span> <span class="p">{</span><span class="mi">3</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">to_add</span><span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lim_2</span><span class="p">,</span> <span class="n">lim_3</span> <span class="o">=</span> <span class="p">(</span><span class="n">u_n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">u_n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">3</span>
+            <span class="n">to_add</span> <span class="o">=</span> <span class="p">{</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">to_add</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">lim_2</span><span class="p">}</span> <span class="o">|</span> <span class="p">{</span><span class="mi">3</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">to_add</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">lim_3</span><span class="p">}</span>
+</pre></div>
+
+</div>
+
+<h2>My Notes</h2>
+<h3>After Viewing Test Cases, Other Users&rsquo; Solutions and Comments, etc.:</h3>
+Much simpler and more efficient solutions are possible.
+<ul>
+  <li>In one submitted solution I saw...
+    <ul>
+      <li>They determine the first <code>n</code> + 1 elements of the sequence one at a time, in order.</li>
+      <li>They always keep track of the next element to put into 2x+1 and the next element to put into 3x+1. (Both trackers initially point to the lone element 1, of course.)</li>
+      <li>In each iteration, they apply 2x+1 to the first tracker's value and 3x+1 to the second tracker's value and append the minimum of the two functional values to our sequence-under-construction, then they advance by one step the tracker that produced this winning result (advancing both trackers if there was a tie).</li>
+      <li>If there is a losing tracker, it stays put so that on the next iteration, they'll try its functional value again, comparing it to the result of the winning function applied to the winning tracker's new element.</li>
+      <li>The elements of the sequence are thus generated in increasing order, without repeats, and without either tracker ever skipping over anything. They stop once they have generated the (<code>n</code>+1)th element of the sequence.</li>
+    </ul>
+  </li>
+  <li>Another submitted solution was similar, but...
+  <ul>
+    <li>Instead of appending determined sequence elements in order to a single list, they enqueue candidate sequence elements in order to a 2x+1 queue and a 3x+1 queue.</li>
+    <li>Instead of using two trackers to identify the current positions in the list, they pop from the front of the queues to keep the current values at the fronts. (And thus instead of storing the first <code>n</code> + 1 elements of the actual sequence, they retain in the queues at any time only candidates for future use.)</li>
+    <li>In each iteration, they do not recompute the functional value that lost the contest at the previous iteration, but compute two new functional values from the since-popped winner (<code>h</code>) of the previous iteration.</li>
+    <li>Instead of having at most two candidates in memory in each iteration, they may have accumulated in the queues several candidates still to be considered. Plenty are likely still in the queues when the function returns.</li>
+  </ul>
+  </li>
+</ul>
+</body>
+</html>

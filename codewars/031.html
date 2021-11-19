@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Huffman Encoding (3 kyu)</title>
+<style>
+.hll { background-color: #333333 }
+.c { color: #008800; font-style: italic; background-color: #0f140f } /* Comment */
+.err { color: #ffffff } /* Error */
+.esc { color: #ffffff } /* Escape */
+.g { color: #ffffff } /* Generic */
+.k { color: #fb660a; font-weight: bold } /* Keyword */
+.l { color: #ffffff } /* Literal */
+.n { color: #ffffff } /* Name */
+.o { color: #ffffff } /* Operator */
+.x { color: #ffffff } /* Other */
+.p { color: #ffffff } /* Punctuation */
+.ch { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Hashbang */
+.cm { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Multiline */
+.cp { color: #ff0007; font-weight: bold; font-style: italic; background-color: #0f140f } /* Comment.Preproc */
+.cpf { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.PreprocFile */
+.c1 { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Single */
+.cs { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Special */
+.gd { color: #ffffff } /* Generic.Deleted */
+.ge { color: #ffffff } /* Generic.Emph */
+.gr { color: #ffffff } /* Generic.Error */
+.gh { color: #ffffff; font-weight: bold } /* Generic.Heading */
+.gi { color: #ffffff } /* Generic.Inserted */
+.go { color: #444444; background-color: #222222 } /* Generic.Output */
+.gp { color: #ffffff } /* Generic.Prompt */
+.gs { color: #ffffff } /* Generic.Strong */
+.gu { color: #ffffff; font-weight: bold } /* Generic.Subheading */
+.gt { color: #ffffff } /* Generic.Traceback */
+.kc { color: #fb660a; font-weight: bold } /* Keyword.Constant */
+.kd { color: #fb660a; font-weight: bold } /* Keyword.Declaration */
+.kn { color: #fb660a; font-weight: bold } /* Keyword.Namespace */
+.kp { color: #fb660a } /* Keyword.Pseudo */
+.kr { color: #fb660a; font-weight: bold } /* Keyword.Reserved */
+.kt { color: #cdcaa9; font-weight: bold } /* Keyword.Type */
+.ld { color: #ffffff } /* Literal.Date */
+.m { color: #0086f7; font-weight: bold } /* Literal.Number */
+.s { color: #0086d2 } /* Literal.String */
+.na { color: #ff0086; font-weight: bold } /* Name.Attribute */
+.nb { color: #ffffff } /* Name.Builtin */
+.nc { color: #ffffff } /* Name.Class */
+.no { color: #0086d2 } /* Name.Constant */
+.nd { color: #ffffff } /* Name.Decorator */
+.ni { color: #ffffff } /* Name.Entity */
+.ne { color: #ffffff } /* Name.Exception */
+.nf { color: #ff0086; font-weight: bold } /* Name.Function */
+.nl { color: #ffffff } /* Name.Label */
+.nn { color: #ffffff } /* Name.Namespace */
+.nx { color: #ffffff } /* Name.Other */
+.py { color: #ffffff } /* Name.Property */
+.nt { color: #fb660a; font-weight: bold } /* Name.Tag */
+.nv { color: #fb660a } /* Name.Variable */
+.ow { color: #ffffff } /* Operator.Word */
+.w { color: #888888 } /* Text.Whitespace */
+.mb { color: #0086f7; font-weight: bold } /* Literal.Number.Bin */
+.mf { color: #0086f7; font-weight: bold } /* Literal.Number.Float */
+.mh { color: #0086f7; font-weight: bold } /* Literal.Number.Hex */
+.mi { color: #0086f7; font-weight: bold } /* Literal.Number.Integer */
+.mo { color: #0086f7; font-weight: bold } /* Literal.Number.Oct */
+.sa { color: #0086d2 } /* Literal.String.Affix */
+.sb { color: #0086d2 } /* Literal.String.Backtick */
+.sc { color: #0086d2 } /* Literal.String.Char */
+.dl { color: #0086d2 } /* Literal.String.Delimiter */
+.sd { color: #0086d2 } /* Literal.String.Doc */
+.s2 { color: #0086d2 } /* Literal.String.Double */
+.se { color: #0086d2 } /* Literal.String.Escape */
+.sh { color: #0086d2 } /* Literal.String.Heredoc */
+.si { color: #0086d2 } /* Literal.String.Interpol */
+.sx { color: #0086d2 } /* Literal.String.Other */
+.sr { color: #0086d2 } /* Literal.String.Regex */
+.s1 { color: #0086d2 } /* Literal.String.Single */
+.ss { color: #0086d2 } /* Literal.String.Symbol */
+.bp { color: #ffffff } /* Name.Builtin.Pseudo */
+.fm { color: #ff0086; font-weight: bold } /* Name.Function.Magic */
+.vc { color: #fb660a } /* Name.Variable.Class */
+.vg { color: #fb660a } /* Name.Variable.Global */
+.vi { color: #fb660a } /* Name.Variable.Instance */
+.vm { color: #fb660a } /* Name.Variable.Magic */
+.il { color: #0086f7; font-weight: bold } /* Literal.Number.Integer.Long */
+</style>
+</head>
+<body>
+<h1>Huffman Encoding (3 kyu)</h1>
+<h4 id="motivation">Motivation</h4>
+<p>Natural language texts often have a very high frequency of certain letters, in German for example, almost every 5th letter is an E, but only every 500th is a Q. It would then be clever to choose a very small representation for E. This is exactly what the Huffman compression is about, choosing the length of the representation based on the frequencies of the symbol in the text.</p>
+<h4 id="algorithm">Algorithm</h4>
+<p>Let's assume we want to encode the word <code>"aaaabcc"</code>, then we calculate the frequencies of the letters in the text:</p>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Frequency</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a</td>
+<td>4</td>
+</tr>
+<tr>
+<td>b</td>
+<td>1</td>
+</tr>
+<tr>
+<td>c</td>
+<td>2</td>
+</tr>
+</tbody></table>
+<p>Now we choose a smaller representation the more often it occurs, to minimize the overall space needed. The algorithm uses a tree for encoding and decoding:</p>
+<pre><code>  .
+ / \
+a   .
+   / \
+   b  c
+</code></pre>
+<p>Usually we choose <code>0</code> for the left branch and <code>1</code> for the right branch (but it might also be swapped). By traversing from the root to the symbol leaf, we want to encode, we get the matching representation. To decode a sequence of binary digits into a symbol, we start from the root and just follow the path in the same way, until we reach a symbol.</p>
+<p>Considering the above tree, we would encode <strong>a</strong> with <code>0</code>, <strong>b</strong> with <code>10</code> and <strong>c</strong> with <code>11</code>. Therefore encoding <code>"aaaabcc"</code> will result in <code>0000101111</code>.</p>
+<p>(<strong>Note:</strong> As you can see the encoding is not optimal, since the code for <strong>b</strong> and <strong>c</strong> have same length, but that is topic of another data compression Kata.)</p>
+<h4 id="tree-construction">Tree construction</h4>
+<p>To build the tree, we turn each symbol into a <em>leaf</em> and sort them by their frequency. In every step, we remove 2 trees with the <strong>smallest</strong> frequency and put them under a node. This node gets reinserted and has the sum of the frequencies of both trees as new frequency. We are finished, when there is only 1 tree left.</p>
+<p>(<strong>Hint:</strong> Maybe you can do it without sorting in every step?)</p>
+<h4 id="goal">Goal</h4>
+<p>Write functions <code>frequencies</code>, <code>encode</code> and <code>decode</code>.</p>
+<p><strong>Note:</strong> Frequency lists with just one or less elements should get rejected. (Because then there is no information we could encode, but the length.)</p>
+
+<h4>Starting Code</h4>
+<pre><code># takes: str; returns: [ (str, int) ] (Strings in return value are single characters)
+def frequencies(s):
+    return []
+
+# takes: [ (str, int) ], str; returns: String (with "0" and "1")
+def encode(freqs, s):
+    return ""
+  
+# takes [ [str, int] ], str (with "0" and "1"); returns: str
+def decode(freqs,bits):
+    return ""</code></pre>
+
+<h2>My Solution</h2>
+<div style="background-color: black;">
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">import</span> <span class="nn">heapq</span>
+
+
+<span class="k">def</span> <span class="nf">frequencies</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a list of (character, frequency) pairs for the given string, s.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+
+
+<span class="k">def</span> <span class="nf">get_translation_dictionary</span><span class="p">(</span><span class="n">freqs</span><span class="p">,</span> <span class="n">for_encoding</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Using the given list of (character, frequency) pairs, freqs,</span>
+<span class="sd">    returns an encoding dictionary mapping characters to binary strings (if for_encoding)</span>
+<span class="sd">    or a decoding dictionary mapping binary strings to characters (otherwise).</span>
+<span class="sd">    Returns None if freqs lists fewer than two pairs.&quot;&quot;&quot;</span>
+
+    <span class="k">class</span> <span class="nc">Tree</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Each not-necessarily-proper subtree of the final tree that represents the encoding</span>
+<span class="sd">        (and indeed each not-necessarily-proper subtree of each of the intermediate trees used to develop the final tree)</span>
+<span class="sd">        may be represented by a Tree instance.</span>
+<span class="sd">        With each instance is associated a pair of child subtrees (the two subtrees rooted at the child nodes of the root node) (or None if the instance represents a leaf),</span>
+<span class="sd">        the associated text character to encode (or None if the instance does not represent a leaf),</span>
+<span class="sd">        and the sum of the frequencies of the characters of its leaves.&quot;&quot;&quot;</span>
+
+        <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;character&#39;</span><span class="p">,</span> <span class="s1">&#39;children&#39;</span><span class="p">,</span> <span class="s1">&#39;frequency&#39;</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">character</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">children</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">frequency</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;If the instance is to represent a leaf, a character and corresponding frequency should be specified.</span>
+<span class="sd">            Otherwise, the children (the pair of trees being brought under a new parent node) should be specified.&quot;&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">character</span> <span class="o">=</span> <span class="n">character</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="n">children</span>
+            <span class="c1"># For a leaf, frequency should be specified.</span>
+            <span class="k">if</span> <span class="n">frequency</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">frequency</span> <span class="o">=</span> <span class="n">frequency</span>
+            <span class="c1"># For a non-leaf tree, by adding the frequencies associated with its children, we&#39;ll end up with the total frequency in its leaves.</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">frequency</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">frequency</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">frequency</span>
+
+        <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Defining &lt; as we&#39;ll be interested in sorting these trees by total frequency.&quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">frequency</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">frequency</span>
+
+        <span class="k">def</span> <span class="nf">build_translation_dictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">translation_dictionary</span><span class="p">,</span> <span class="n">for_encoding</span><span class="p">,</span> <span class="n">code_prefix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Adds to translation_dictionary all the character-to-binary-string mappings (if for_encoding)</span>
+<span class="sd">            or binary-string-to-character mappings (otherwise) represented by the tree,</span>
+<span class="sd">            with code_prefix prepended to all binary strings.&quot;&quot;&quot;</span>
+            <span class="c1"># A leaf represents a single character -- binary-string association, </span>
+            <span class="c1"># where the final required binary string is just the prefix passed in/down.</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">for_encoding</span><span class="p">:</span>
+                    <span class="n">translation_dictionary</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">character</span><span class="p">]</span> <span class="o">=</span> <span class="n">code_prefix</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">translation_dictionary</span><span class="p">[</span><span class="n">code_prefix</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">character</span>
+            <span class="c1"># Recursion: defer to the children of non-leaves.  </span>
+            <span class="c1"># 0 (1) is appended to the prefix for the first (second) child subtree&#39;s binary strings.</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">build_translation_dictionary</span><span class="p">(</span><span class="n">translation_dictionary</span><span class="p">,</span> <span class="n">for_encoding</span><span class="p">,</span> <span class="n">code_prefix</span> <span class="o">+</span> <span class="s1">&#39;0&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">build_translation_dictionary</span><span class="p">(</span><span class="n">translation_dictionary</span><span class="p">,</span> <span class="n">for_encoding</span><span class="p">,</span> <span class="n">code_prefix</span> <span class="o">+</span> <span class="s1">&#39;1&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">freqs</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="c1"># We use a min-heap (as a list managed via heapq) to house the current set of trees as we develop the final coding tree.  </span>
+    <span class="c1"># This allows nice popping of the lowest-frequency trees and addition of newly formed trees.</span>
+    <span class="c1"># We start with leaf trees, one for each character.</span>
+    <span class="n">min_heap_of_trees</span> <span class="o">=</span> <span class="p">[</span><span class="n">Tree</span><span class="p">(</span><span class="n">character</span><span class="o">=</span><span class="n">character</span><span class="p">,</span> <span class="n">frequency</span><span class="o">=</span><span class="n">frequency</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">character</span><span class="p">,</span> <span class="n">frequency</span><span class="p">)</span> <span class="ow">in</span> <span class="n">freqs</span><span class="p">]</span>
+    <span class="n">heapq</span><span class="o">.</span><span class="n">heapify</span><span class="p">(</span><span class="n">min_heap_of_trees</span><span class="p">)</span>
+    
+    <span class="c1"># Until there is just one big, final tree,</span>
+    <span class="c1"># we pop the two lowest-frequency trees, bring them under a new parent node, and add that tree to the heap.</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">min_heap_of_trees</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">heapq</span><span class="o">.</span><span class="n">heappush</span><span class="p">(</span><span class="n">min_heap_of_trees</span><span class="p">,</span> <span class="n">Tree</span><span class="p">(</span><span class="n">children</span><span class="o">=</span><span class="p">(</span><span class="n">heapq</span><span class="o">.</span><span class="n">heappop</span><span class="p">(</span><span class="n">min_heap_of_trees</span><span class="p">),</span> <span class="n">heapq</span><span class="o">.</span><span class="n">heappop</span><span class="p">(</span><span class="n">min_heap_of_trees</span><span class="p">))))</span>
+    
+    <span class="c1"># We ask the finished tree for its entire character -- binary-string mapping in the desired direction.</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">min_heap_of_trees</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">translation_dictionary</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">tree</span><span class="o">.</span><span class="n">build_translation_dictionary</span><span class="p">(</span><span class="n">translation_dictionary</span><span class="p">,</span> <span class="n">for_encoding</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">translation_dictionary</span>
+
+
+<span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="n">freqs</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Using the given list of (character, frequency) pairs, freqs,</span>
+<span class="sd">    returns the binary string encoding of the given string, s. </span>
+<span class="sd">    Returns None if freqs lists fewer than two pairs.&quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">freqs</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    
+    <span class="c1"># From freqs, construct an encoding dictionary and apply it to s, character by character. </span>
+    <span class="n">encoding_dictionary</span> <span class="o">=</span> <span class="n">get_translation_dictionary</span><span class="p">(</span><span class="n">freqs</span><span class="p">,</span> <span class="n">for_encoding</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">encoding_dictionary</span><span class="p">[</span><span class="n">character</span><span class="p">]</span> <span class="k">for</span> <span class="n">character</span> <span class="ow">in</span> <span class="n">s</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">decode</span><span class="p">(</span><span class="n">freqs</span><span class="p">,</span> <span class="n">bits</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Using the given list of (character, frequency) pairs, freqs,</span>
+<span class="sd">    returns the string, s, obtained by decoding the given binary string, bits. </span>
+<span class="sd">    Returns None if freqs lists fewer than two pairs.&quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">freqs</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="c1"># From freqs, construct a decoding dictionary.</span>
+    <span class="n">decoding_dictionary</span> <span class="o">=</span> <span class="n">get_translation_dictionary</span><span class="p">(</span><span class="n">freqs</span><span class="p">,</span> <span class="n">for_encoding</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Run along the given binary string, breaking it up into valid representations of characters,</span>
+    <span class="c1"># and return the resulting string of characters.</span>
+    
+    <span class="n">decoded_characters</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">character_bit_string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">bit</span> <span class="ow">in</span> <span class="n">bits</span><span class="p">:</span>
+        <span class="n">character_bit_string</span> <span class="o">+=</span> <span class="n">bit</span>
+        <span class="n">decoded_character</span> <span class="o">=</span> <span class="n">decoding_dictionary</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">character_bit_string</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">decoded_character</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">decoded_characters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">decoded_character</span><span class="p">)</span>
+            <span class="n">character_bit_string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">decoded_characters</span><span class="p">)</span>
+</pre></div>
+
+</div>
+
+<h2>My Notes</h2>
+<ul>
+    <li>These functions cry out to be remade as methods in a class, but that is not up to me.</li>
+    <li>I assume nothing about ordering in the input or output frequency lists.</li>
+    <li>As usual with problems here, general error-checking is not a concern.</li>
+    <li>As the instructions indicate, the translation table for a given string or frequency list is not uniquely defined. When two trees are brought together under a new parent node, no rule is given for which child is associated with 0 and which is associated with 1.</li>
+</ul>
+<h3>After Viewing Test Cases, Other Users&rsquo; Solutions and Comments, etc.:</h3>
+In someone else's submitted solution...
+<ul>
+    <li>Each tree was simply essentially represented by an ordered pair composed of its total frequency followed by a <code>dict</code> mapping its characters to the corresponding binary code substrings (initially, just mapping the single character represented in each tree to the empty string).  Having total frequency as the first element of the tuple means lexicographical comparisons yield the desired results.</li>
+    <li>As in my code, the collection of trees was managed as a min-heap via <code>heapq</code>, and in each tree-combining iteration, the two lowest-frequency trees were popped from the heap and the combined tree pushed into the heap.  In this solution, to form the new tree's representation, the two frequency elements were added and the character-to-binary-string dictionaries were joined, with <code>'0'</code> prepended to each binary string value for the lower-frequency subtree first, and <code>'1'</code> to each in the higher-frequency subtree following.  Once the final tree stands alone, all encoding information is in its dictionary element; no additional traversal is needed.</li>
+    <li>To decode, the encoding dictionary is inverted and <code>re.sub</code> is used, with the regex pattern being the characters' binary codes, <i>in decreasing order of length</i> by construction, joined by ORing pipes.</li>
+</ul>
+</body>
+</html>

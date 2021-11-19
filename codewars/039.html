@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Transforming Maze Solver (2 kyu)</title>
+<style>
+.hll { background-color: #333333 }
+.c { color: #008800; font-style: italic; background-color: #0f140f } /* Comment */
+.err { color: #ffffff } /* Error */
+.esc { color: #ffffff } /* Escape */
+.g { color: #ffffff } /* Generic */
+.k { color: #fb660a; font-weight: bold } /* Keyword */
+.l { color: #ffffff } /* Literal */
+.n { color: #ffffff } /* Name */
+.o { color: #ffffff } /* Operator */
+.x { color: #ffffff } /* Other */
+.p { color: #ffffff } /* Punctuation */
+.ch { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Hashbang */
+.cm { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Multiline */
+.cp { color: #ff0007; font-weight: bold; font-style: italic; background-color: #0f140f } /* Comment.Preproc */
+.cpf { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.PreprocFile */
+.c1 { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Single */
+.cs { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Special */
+.gd { color: #ffffff } /* Generic.Deleted */
+.ge { color: #ffffff } /* Generic.Emph */
+.gr { color: #ffffff } /* Generic.Error */
+.gh { color: #ffffff; font-weight: bold } /* Generic.Heading */
+.gi { color: #ffffff } /* Generic.Inserted */
+.go { color: #444444; background-color: #222222 } /* Generic.Output */
+.gp { color: #ffffff } /* Generic.Prompt */
+.gs { color: #ffffff } /* Generic.Strong */
+.gu { color: #ffffff; font-weight: bold } /* Generic.Subheading */
+.gt { color: #ffffff } /* Generic.Traceback */
+.kc { color: #fb660a; font-weight: bold } /* Keyword.Constant */
+.kd { color: #fb660a; font-weight: bold } /* Keyword.Declaration */
+.kn { color: #fb660a; font-weight: bold } /* Keyword.Namespace */
+.kp { color: #fb660a } /* Keyword.Pseudo */
+.kr { color: #fb660a; font-weight: bold } /* Keyword.Reserved */
+.kt { color: #cdcaa9; font-weight: bold } /* Keyword.Type */
+.ld { color: #ffffff } /* Literal.Date */
+.m { color: #0086f7; font-weight: bold } /* Literal.Number */
+.s { color: #0086d2 } /* Literal.String */
+.na { color: #ff0086; font-weight: bold } /* Name.Attribute */
+.nb { color: #ffffff } /* Name.Builtin */
+.nc { color: #ffffff } /* Name.Class */
+.no { color: #0086d2 } /* Name.Constant */
+.nd { color: #ffffff } /* Name.Decorator */
+.ni { color: #ffffff } /* Name.Entity */
+.ne { color: #ffffff } /* Name.Exception */
+.nf { color: #ff0086; font-weight: bold } /* Name.Function */
+.nl { color: #ffffff } /* Name.Label */
+.nn { color: #ffffff } /* Name.Namespace */
+.nx { color: #ffffff } /* Name.Other */
+.py { color: #ffffff } /* Name.Property */
+.nt { color: #fb660a; font-weight: bold } /* Name.Tag */
+.nv { color: #fb660a } /* Name.Variable */
+.ow { color: #ffffff } /* Operator.Word */
+.w { color: #888888 } /* Text.Whitespace */
+.mb { color: #0086f7; font-weight: bold } /* Literal.Number.Bin */
+.mf { color: #0086f7; font-weight: bold } /* Literal.Number.Float */
+.mh { color: #0086f7; font-weight: bold } /* Literal.Number.Hex */
+.mi { color: #0086f7; font-weight: bold } /* Literal.Number.Integer */
+.mo { color: #0086f7; font-weight: bold } /* Literal.Number.Oct */
+.sa { color: #0086d2 } /* Literal.String.Affix */
+.sb { color: #0086d2 } /* Literal.String.Backtick */
+.sc { color: #0086d2 } /* Literal.String.Char */
+.dl { color: #0086d2 } /* Literal.String.Delimiter */
+.sd { color: #0086d2 } /* Literal.String.Doc */
+.s2 { color: #0086d2 } /* Literal.String.Double */
+.se { color: #0086d2 } /* Literal.String.Escape */
+.sh { color: #0086d2 } /* Literal.String.Heredoc */
+.si { color: #0086d2 } /* Literal.String.Interpol */
+.sx { color: #0086d2 } /* Literal.String.Other */
+.sr { color: #0086d2 } /* Literal.String.Regex */
+.s1 { color: #0086d2 } /* Literal.String.Single */
+.ss { color: #0086d2 } /* Literal.String.Symbol */
+.bp { color: #ffffff } /* Name.Builtin.Pseudo */
+.fm { color: #ff0086; font-weight: bold } /* Name.Function.Magic */
+.vc { color: #fb660a } /* Name.Variable.Class */
+.vg { color: #fb660a } /* Name.Variable.Global */
+.vi { color: #fb660a } /* Name.Variable.Instance */
+.vm { color: #fb660a } /* Name.Variable.Magic */
+.il { color: #0086f7; font-weight: bold } /* Literal.Number.Integer.Long */
+</style>
+</head>
+<body>
+<h1>Transforming Maze Solver (2 kyu)</h1>
+<p>The objective of this kata will be to guide a ball through an <code>m</code> x <code>n</code> rectangular maze. This maze is special in that:</p>
+<ul>
+<li>all the cells rotate <code>90</code> degrees clockwise, in unison, at each interval</li>
+<li>each cell can have anywhere from <code>0</code> to <code>4</code> walls</li>
+</ul>
+<p>Your goal is to write a function that returns a path that requires the fewest intervals for the ball to get from its starting position to a specified destination.</p>
+
+
+<h4 style="color:#f88">Input</h4>
+<p>Your function will receive one argument — an <code>m</code> x <code>n</code> matrix.</p>
+
+
+<h4 style="color:#f88">Output</h4>
+<p>Your function must return a path as an array/list of strings. Each string in the array will:</p>
+<ul>
+    <li>consist only of the letters <code>N</code>, <code>W</code>, <code>S</code>, and <code>E</code> representing the directions <code>north</code>, <code>west</code>, <code>south</code>, and <code>east</code>, respectively</li>
+    <li>represent the path of the ball at each interval (based on its index position in the array)</li>
+</ul>
+
+<p>Also note that empty strings are permitted in the output array.<br>
+If there is no possible solution, return <code>null</code> or <code>None</code>.</p>
+
+
+<h4 style="color:#f88">Maze Mechanics</h4>
+<p>Each cell in the maze is given as an integer, ranging from <code>0</code> to <code>15</code>. This number, when translated to binary form, represents the walls of the corresponding cell. That is, a <code>1</code> means there is a wall and a <code>0</code> means there is no wall. The order of the walls is north, west, south, and east.</p>
+
+<p>For example, a cell with the value <code>7</code> is <code>0111</code> in binary. This means it has 3 walls — initially on the west, south, and east sides. Since there is no wall on the north side of the cell, it can be entered from that side at time interval <code>0</code> (assuming that the adjacent cell to its north does not have a south wall).</p>
+
+<p>A cell with the value <code>5</code> (<code>0101</code> in binary) can be entered from its north and south sides at interval <code>0</code>. At the next interval, it rotates <code>90</code> degrees clockwise and can then only be entered from its west and east sides (<code>1010</code>).</p>
+
+<p>A cell with the value <code>15</code> is enclosed on all sides (<code>1111</code> in binary) and therefore can never be entered. Likewise, a cell with a value of <code>0</code> can always be entered from any side.</p>
+
+<p><b style="color:#8df">There will be</b> <code>2</code> <b style="color:#8df">cells that will not be given in the form of an integer.</b> Assume that these cells have no walls (the equivalent of a <code>0</code> cell):</p>
+<ul>
+    <li>The ball's starting position, given as the letter <code>B</code> (Java,Kotlin:<code>-1</code>)</li>
+    <li>The destination, given as the letter <code>X</code> (Java,Kotlin:<code>-2</code>)</li>
+</ul>
+
+
+<h4 style="color:#f88">Test Example</h4>
+
+<img src="https://i.imgur.com/N1D2rcI.png">
+<p>The image above shows the state of the maze and starting position of the ball at each each interval; the order is given in the bottom right square.<br>
+The green shaded area shows the available cells the ball can move to at each interval, but the bold number shows where it ends up (for our example solution)
+</p>
+
+<pre><code class="language-python"><span class="cm-variable">example</span> <span class="cm-operator">=</span> (
+    (  <span class="cm-number">4</span>,  <span class="cm-number">2</span>,  <span class="cm-number">5</span>,  <span class="cm-number">4</span>),
+    (  <span class="cm-number">4</span>, <span class="cm-number">15</span>, <span class="cm-number">11</span>,  <span class="cm-number">1</span>),
+    (<span class="cm-string">'B'</span>,  <span class="cm-number">9</span>,  <span class="cm-number">6</span>,  <span class="cm-number">8</span>),
+    ( <span class="cm-number">12</span>,  <span class="cm-number">7</span>,  <span class="cm-number">7</span>,<span class="cm-string">'X'</span>)
+)
+
+<span class="cm-variable">maze_solver</span>(<span class="cm-variable">example</span>) <span class="cm-comment"># ['NNE','EE','S','SS']</span>
+</code></pre>
+<pre style="display: none;"><code class="language-javascript"><span class="cm-keyword">let</span> <span class="cm-def">example</span> <span class="cm-operator">=</span> [
+    [  <span class="cm-number">4</span>,  <span class="cm-number">2</span>,  <span class="cm-number">5</span>,  <span class="cm-number">4</span>],
+    [  <span class="cm-number">4</span>, <span class="cm-number">15</span>, <span class="cm-number">11</span>,  <span class="cm-number">1</span>],
+    [<span class="cm-string">'B'</span>,  <span class="cm-number">9</span>,  <span class="cm-number">6</span>,  <span class="cm-number">8</span>],
+    [ <span class="cm-number">12</span>,  <span class="cm-number">7</span>,  <span class="cm-number">7</span>,<span class="cm-string">'X'</span>]
+];
+
+<span class="cm-variable">mazeSolver</span>(<span class="cm-variable">example</span>) <span class="cm-comment">// ['NNE','EE','S','SS']</span>
+</code></pre>
+<pre style="display: none;"><code class="language-kotlin"><span class="cm-keyword">val</span> <span class="cm-def">example</span> <span class="cm-operator">=</span> <span class="cm-variable">arrayOf</span>(
+    <span class="cm-variable">intArrayOf</span>(  <span class="cm-number">4</span>,  <span class="cm-number">2</span>,  <span class="cm-number">5</span>,  <span class="cm-number">4</span>),
+    <span class="cm-variable">intArrayOf</span>(  <span class="cm-number">4</span>, <span class="cm-number">15</span>, <span class="cm-number">11</span>,  <span class="cm-number">1</span>),
+    <span class="cm-variable">intArrayOf</span>( <span class="cm-operator">-</span><span class="cm-number">1</span>,  <span class="cm-number">9</span>,  <span class="cm-number">6</span>,  <span class="cm-number">8</span>),
+    <span class="cm-variable">intArrayOf</span>( <span class="cm-number">12</span>,  <span class="cm-number">7</span>,  <span class="cm-number">7</span>, <span class="cm-operator">-</span><span class="cm-number">2</span>)
+)
+
+<span class="cm-variable">mazeSolver</span>(<span class="cm-variable">example</span>) <span class="cm-operator">==</span> <span class="cm-variable">arrayOf</span>(<span class="cm-string">"NNE"</span>, <span class="cm-string">"EE"</span>, <span class="cm-string">"S"</span>, <span class="cm-string">"SS"</span>) <span class="cm-comment">// one possible solution</span>
+</code></pre>
+<pre style="display: none;"><code class="language-rust"><span class="cm-keyword">let</span> <span class="cm-def">example</span> <span class="cm-operator">=</span> <span class="cm-variable-3">vec!</span>[
+    <span class="cm-variable-3">vec!</span>[  <span class="cm-number">4</span>,  <span class="cm-number">2</span>,  <span class="cm-number">5</span>,  <span class="cm-number">4</span>],
+    <span class="cm-variable-3">vec!</span>[  <span class="cm-number">4</span>, <span class="cm-number">15</span>, <span class="cm-number">11</span>,  <span class="cm-number">1</span>],
+    <span class="cm-variable-3">vec!</span>[ <span class="cm-operator">-</span><span class="cm-number">1</span>,  <span class="cm-number">9</span>,  <span class="cm-number">6</span>,  <span class="cm-number">8</span>],
+    <span class="cm-variable-3">vec!</span>[ <span class="cm-number">12</span>,  <span class="cm-number">7</span>,  <span class="cm-number">7</span>, <span class="cm-operator">-</span><span class="cm-number">2</span>]
+];
+
+<span class="cm-variable">maze_solver</span>(&amp;<span class="cm-variable">example</span>); <span class="cm-comment">// ["NNE", "EE", "S", "SS"] &lt;- one possible solution</span>
+</code></pre>
+<h4 style="color:#f88">Technical Details</h4>
+<ul>
+    <li>The width and length of the matrix will range between <code>4</code> and <code>25</code> in either direction</li>
+    <li>The ball's starting position will always be on the west side and the exit will always be on the east side of the maze</li>
+    <li>For the sake of efficiency, the ball must not enter the same cell more than once per interval</li>
+    <li>Full Test Suite: <code>10</code> fixed tests, and <code>110</code> random tests for Python,Kotlin,Rust / <code>100</code> random tests for JavaScript / <code>200</code> random tests for Java</li>
+    <li>Each test case may have <code>0</code> or more possible solutions</li>
+    <li>Inputs will always be valid</li>
+    <li>Use Python 3+ for the Python translation</li>
+    <li>For JavaScript, <code>require</code> has been disabled and most built-in prototypes have been frozen (prototype methods can be added to <code>Array</code>, <code>Function</code>, and <code>Set</code>)</li>
+</ul>
+
+<p>If you enjoyed this kata, be sure to check out <a style="color:#9f9;text-decoration:none" href="https://www.codewars.com/users/docgunthrop/authored" target="_blank">my other katas</a></p>
+<h4>Starting Code</h4>
+<pre><code>def maze_solver(ar):
+    #your code goes here. you can do it!
+    pass</code></pre>
+
+<h2>My Solution</h2>
+<div style="background-color: black;">
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span><span class="p">,</span> <span class="n">deque</span>
+<span class="kn">import</span> <span class="nn">operator</span>
+
+
+<span class="k">def</span> <span class="nf">maze_solver</span><span class="p">(</span><span class="n">ar</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a list of strings specifying the best path for the ball to travel from the initial position</span>
+<span class="sd">    indicated by a &#39;B&#39; in the given list of lists, ar, to the target position indicated by an &#39;X&#39;,</span>
+<span class="sd">    with the remaining elements in ar indicating the initial configurations of the associated cells&#39; walls.</span>
+<span class="sd">    If there is no solution, the function returns None.&quot;&quot;&quot;</span>
+
+    <span class="c1"># - Loosely speaking, there are two timescales of interest in this problem:</span>
+    <span class="c1">#   - A fine timescale, where in each time step the ball may move one unit N, W, S, or E...</span>
+    <span class="c1">#     In the associated graph, each edge will represent one such possible atomic movement,</span>
+    <span class="c1">#     so two nodes will be adjacent iff one can move directly/immediately between the two corresponding cells.</span>
+    <span class="c1">#   - A coarse timescale, where with each tick of the clock, each cell&#39;s walls rotate a quarter-turn clockwise...</span>
+    <span class="c1">#     A coarse time step is what the problem statement calls an &quot;interval&quot;.</span>
+    <span class="c1">#     The ball&#39;s fine movements over a coarse time step accumulate to produce a coarse movement.</span>
+    <span class="c1">#     In the associated graph, each edge will represent one possible coarse movement,</span>
+    <span class="c1">#     with two nodes being adjacent iff the ball can start a coarse time step in the cell corresponding to one node</span>
+    <span class="c1">#     and travel by fine steps during the coarse step to reach the cell corresponding to the other node,</span>
+    <span class="c1">#     where it would thus be at the beginning of the next coarse step.</span>
+    <span class="c1"># - Since the maze&#39;s structure is 4-periodic on the coarse time scale,</span>
+    <span class="c1">#   we think of ourselves as advancing cyclically from one &quot;phase&quot; to the next with each tick of the coarse clock:</span>
+    <span class="c1">#   phase 0 -&gt; phase 1 -&gt; phase 2 -&gt; phase 3 -&gt; 0 -&gt; 1 -&gt; ...</span>
+    <span class="c1"># - Each node in our graphs will be a (position, phase) pair.</span>
+    <span class="c1"># - Connectivity/reachability in the fine graph will result in adjacency in the coarse graph.</span>
+    <span class="c1">#   However, while adjacent nodes in the fine graph will have the same phase,</span>
+    <span class="c1">#   each edge in the coarse graph would take us from one phase to the next.</span>
+
+    <span class="c1"># Each numerical entry in ar indicates that the corresponding cell has</span>
+    <span class="c1"># an East wall if its 0th (least significant) bit is 1,</span>
+    <span class="c1"># a South wall if its 1st bit is 1, etc.</span>
+    <span class="n">bit_position_for_direction</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;E&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;S&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;W&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;N&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">is_unwalled</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">phase</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns True iff the cell at the specified position (row, column)</span>
+<span class="sd">        has no wall in the specified direction during the specified phase;</span>
+<span class="sd">        otherwise, returns False.</span>
+<span class="sd">        This function checks only the walls belonging to the specified cell,</span>
+<span class="sd">        not the adjoining walls of its neighbours!&quot;&quot;&quot;</span>
+        <span class="n">cell_value</span> <span class="o">=</span> <span class="n">ar</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">column</span><span class="p">]</span>
+        <span class="c1"># The initial ball cell and ultimate target cell are entirely unwalled.</span>
+        <span class="k">if</span> <span class="n">cell_value</span> <span class="o">==</span> <span class="s1">&#39;B&#39;</span> <span class="ow">or</span> <span class="n">cell_value</span> <span class="o">==</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="c1"># Construct a bitmask with a 1 in the binary position associated with the initial direction</span>
+        <span class="c1"># that would map in the desired phase to the desired direction,</span>
+        <span class="c1"># and apply this mask to the value specifying the initial wall configuration of the cell of interest.</span>
+        <span class="n">initial_direction_bitmask</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="p">((</span><span class="n">bit_position_for_direction</span><span class="p">[</span><span class="n">direction</span><span class="p">]</span> <span class="o">-</span> <span class="n">phase</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span><span class="p">))</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="p">(</span><span class="n">cell_value</span> <span class="o">&amp;</span> <span class="n">initial_direction_bitmask</span><span class="p">)</span>
+
+    <span class="c1"># We will traverse the given list of lists, ar, and extract the information we need.</span>
+    <span class="n">number_of_rows</span><span class="p">,</span> <span class="n">number_of_columns</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ar</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">ar</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">initial_position</span> <span class="o">=</span> <span class="n">target_position</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># This fine graph adjacency structure will map, for each phase,</span>
+    <span class="c1"># each cell to those immediate neighbours (to the N, W, S, or E) from which it is not directly walled off.</span>
+    <span class="c1"># More precisely, we map ((row, column), phase) to [(row_of_neighbour_1, column_of_neighbour_1), phase),</span>
+    <span class="c1">#                                                   (row_of_neighbour_2, column_of_neighbour_2), phase),...].</span>
+    <span class="n">immediately_accessible_from</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number_of_rows</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number_of_columns</span><span class="p">):</span>
+            <span class="c1"># We look out for the initial ball position and the ultimate target position.</span>
+            <span class="n">cell_value</span> <span class="o">=</span> <span class="n">ar</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">column</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">cell_value</span> <span class="o">==</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span>
+                <span class="n">initial_position</span> <span class="o">=</span> <span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">column</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">cell_value</span> <span class="o">==</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span>
+                <span class="n">target_position</span> <span class="o">=</span> <span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">column</span><span class="p">)</span>
+            <span class="c1"># We collect fine/intra-interval adjacency information.</span>
+            <span class="k">for</span> <span class="n">phase</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">column</span> <span class="o">&lt;</span> <span class="n">number_of_columns</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">is_unwalled</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="n">phase</span><span class="p">)</span> <span class="ow">and</span> <span class="n">is_unwalled</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">column</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;W&#39;</span><span class="p">,</span> <span class="n">phase</span><span class="p">):</span>
+                        <span class="n">immediately_accessible_from</span><span class="p">[((</span><span class="n">row</span><span class="p">,</span> <span class="n">column</span><span class="p">),</span> <span class="n">phase</span><span class="p">)]</span><span class="o">.</span><span class="n">append</span><span class="p">(((</span><span class="n">row</span><span class="p">,</span> <span class="n">column</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">phase</span><span class="p">))</span>
+                        <span class="n">immediately_accessible_from</span><span class="p">[((</span><span class="n">row</span><span class="p">,</span> <span class="n">column</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">phase</span><span class="p">)]</span><span class="o">.</span><span class="n">append</span><span class="p">(((</span><span class="n">row</span><span class="p">,</span> <span class="n">column</span><span class="p">),</span> <span class="n">phase</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">row</span> <span class="o">&lt;</span> <span class="n">number_of_rows</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">is_unwalled</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="n">phase</span><span class="p">)</span> <span class="ow">and</span> <span class="n">is_unwalled</span><span class="p">(</span><span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="n">phase</span><span class="p">):</span>
+                        <span class="n">immediately_accessible_from</span><span class="p">[((</span><span class="n">row</span><span class="p">,</span> <span class="n">column</span><span class="p">),</span> <span class="n">phase</span><span class="p">)]</span><span class="o">.</span><span class="n">append</span><span class="p">(((</span><span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="p">),</span> <span class="n">phase</span><span class="p">))</span>
+                        <span class="n">immediately_accessible_from</span><span class="p">[((</span><span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="p">),</span> <span class="n">phase</span><span class="p">)]</span><span class="o">.</span><span class="n">append</span><span class="p">(((</span><span class="n">row</span><span class="p">,</span> <span class="n">column</span><span class="p">),</span> <span class="n">phase</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">breadth_first_search</span><span class="p">(</span><span class="n">adjacent_to</span><span class="p">,</span> <span class="n">start_node</span><span class="p">,</span> <span class="n">target_predicate</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Starting/rooting at start_node, performs a breadth-first search in the graph whose</span>
+<span class="sd">        adjacency information is specified by the dict adjacent_to.</span>
+<span class="sd">        If a target_predicate function is specified,</span>
+<span class="sd">        the search ends once we reach a node where target_predicate evaluates True-like,</span>
+<span class="sd">        whereupon the sequence of nodes along the SHORTEST path from start_node to that target node is returned.</span>
+<span class="sd">        If target_predicate is specified but no target is reached, the search was unsuccessful, so None is returned.</span>
+<span class="sd">        If no (non-None) target_predicate is specified,</span>
+<span class="sd">        the search continues until there are no reachable nodes left to visit,</span>
+<span class="sd">        whereupon a container of all the nodes visited (i.e., all nodes in the connected component) is returned.&quot;&quot;&quot;</span>
+
+        <span class="c1"># We maintain a mapping of each visited node to its parent in the search tree.</span>
+        <span class="n">visited_from</span> <span class="o">=</span> <span class="p">{</span><span class="n">start_node</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+        <span class="c1"># We maintain a queue of nodes at the front/frontier/fringe of the search, from which we explore outward.</span>
+        <span class="n">frontier</span> <span class="o">=</span> <span class="n">deque</span><span class="p">([</span><span class="n">start_node</span><span class="p">])</span>
+        <span class="c1"># Until we run out of nodes outward from which to continue the search...</span>
+        <span class="k">while</span> <span class="n">frontier</span><span class="p">:</span>
+            <span class="c1"># We dequeue a node from the frontier...</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">frontier</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
+            <span class="c1"># And for each not-yet-visited adjacent node...</span>
+            <span class="k">for</span> <span class="n">next_node</span> <span class="ow">in</span> <span class="n">adjacent_to</span><span class="p">[</span><span class="n">node</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">next_node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited_from</span><span class="p">:</span>
+                    <span class="c1"># We mark it as visited, recording its search parent...</span>
+                    <span class="n">visited_from</span><span class="p">[</span><span class="n">next_node</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span>
+                    <span class="c1"># Check whether we have reached our target...</span>
+                    <span class="k">if</span> <span class="n">target_predicate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">target_predicate</span><span class="p">(</span><span class="n">next_node</span><span class="p">):</span>
+                        <span class="c1"># In which case, we use our visited-node-to-parent mapping</span>
+                        <span class="c1"># to trace in reverse the (shortest) path from the start node to the target node,</span>
+                        <span class="c1"># then return the properly ordered sequence of nodes along that path...</span>
+                        <span class="n">path_nodes_in_reverse</span> <span class="o">=</span> <span class="p">[]</span>
+                        <span class="n">node_on_path</span> <span class="o">=</span> <span class="n">next_node</span>
+                        <span class="k">while</span> <span class="n">node_on_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="n">path_nodes_in_reverse</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node_on_path</span><span class="p">)</span>
+                            <span class="n">node_on_path</span> <span class="o">=</span> <span class="n">visited_from</span><span class="p">[</span><span class="n">node_on_path</span><span class="p">]</span>
+                        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">path_nodes_in_reverse</span><span class="p">))</span>
+                    <span class="c1"># If we have not yet reached a target, we enqueue the present node to the search frontier.</span>
+                    <span class="n">frontier</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">next_node</span><span class="p">)</span>
+        <span class="c1"># If no (non-None) target_predicate was specified, we return the visited nodes.</span>
+        <span class="k">if</span> <span class="n">target_predicate</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">visited_from</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="c1"># If a target_predicate was specified but never satisfied, the search failed, so we return None.</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="c1"># In this adjacency structure for the coarse graph, we store the coordinates at which we may have the ball</span>
+    <span class="c1"># at the beginning of a coarse interval/time step/phase, given the coordinates of the ball</span>
+    <span class="c1"># at the beginning of (or actually anytime during) the previous coarse interval/time step/phase.</span>
+    <span class="c1"># More precisely, we map ((row, column), phase) to</span>
+    <span class="c1"># [(row_of_reachable_cell_1, column_of_reachable_cell_1), next phase),</span>
+    <span class="c1">#  (row_of_reachable_cell_2, column_of_reachable_cell_2), next phase),...].</span>
+    <span class="c1"># What immediately_accessible_from is to fine adjacency</span>
+    <span class="c1"># -- useful for traveling within a single coarse time step/interval/phase --</span>
+    <span class="c1"># reachable_from will be to coarse adjacency</span>
+    <span class="c1"># -- useful as we advance from phase to phase.</span>
+    <span class="c1"># The coarse graph does include edges that allow for keeping the ball in the same position</span>
+    <span class="c1"># over whole coarse time intervals.</span>
+    <span class="c1"># (This whole implementation could be gently rewritten so that adjacency information would be stored</span>
+    <span class="c1"># not in a dict with ((row, column), phase) keys, but instead, say,</span>
+    <span class="c1"># in a list of lists of lists indexed by row, column, and phase.)</span>
+    <span class="n">reachable_from</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">phase</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+        <span class="c1"># Effectively, for each phase, we partition the entire grid into sets of connected/reachable cells.</span>
+        <span class="c1"># We maintain a pool of nodes that have not yet been assigned to such a connected component.</span>
+        <span class="n">nodes_left_to_visit</span> <span class="o">=</span> <span class="p">{((</span><span class="n">row</span><span class="p">,</span> <span class="n">column</span><span class="p">),</span> <span class="n">phase</span><span class="p">)</span>
+                               <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number_of_rows</span><span class="p">)</span> <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number_of_columns</span><span class="p">)}</span>
+        <span class="c1"># Until there are no nodes left in the pool, we draw one to seed a new connected component,</span>
+        <span class="c1"># setting it as the root/start node of a breadth-first traversal with no target.</span>
+        <span class="c1"># (A depth-first traversal, for instance, would also work here.)</span>
+        <span class="c1"># The nodes visited in the traversal make up a complete connected component.</span>
+        <span class="c1"># Within a coarse time step/interval, we can take the ball from any cell in the connected component</span>
+        <span class="c1"># to any cell in the connected component,</span>
+        <span class="c1"># so the ball will be there at the beginning of the next coarse time step/interval.</span>
+        <span class="c1"># We build on our reachable_from mapping accordingly.</span>
+        <span class="k">while</span> <span class="n">nodes_left_to_visit</span><span class="p">:</span>
+            <span class="n">seed_node</span> <span class="o">=</span> <span class="n">nodes_left_to_visit</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="n">connected_nodes</span> <span class="o">=</span> <span class="n">breadth_first_search</span><span class="p">(</span><span class="n">immediately_accessible_from</span><span class="p">,</span> <span class="n">seed_node</span><span class="p">)</span>
+            <span class="n">nodes_left_to_visit</span><span class="o">.</span><span class="n">difference_update</span><span class="p">(</span><span class="n">connected_nodes</span><span class="p">)</span>
+            <span class="n">reachable_nodes</span> <span class="o">=</span> <span class="p">[(</span><span class="n">position</span><span class="p">,</span> <span class="p">(</span><span class="n">phase</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span><span class="p">)</span> <span class="k">for</span> <span class="n">position</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">connected_nodes</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">connected_nodes</span><span class="p">:</span>
+                <span class="n">reachable_from</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">reachable_nodes</span>
+
+    <span class="c1"># Via a breadth-first search in our coarse (inter-interval) transition graph,</span>
+    <span class="c1"># we find the/a shortest possible sequence of start-of-interval ball positions</span>
+    <span class="c1"># that takes us from the given initial ball position in phase 0 </span>
+    <span class="c1"># to the given ultimate target position (in any phase).</span>
+    <span class="n">coarse_path</span> <span class="o">=</span> <span class="n">breadth_first_search</span><span class="p">(</span><span class="n">reachable_from</span><span class="p">,</span> <span class="p">(</span><span class="n">initial_position</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="k">lambda</span> <span class="n">node</span><span class="p">:</span> <span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">target_position</span><span class="p">)</span>
+
+    <span class="c1"># If there is no path, we return None.</span>
+    <span class="k">if</span> <span class="n">coarse_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="c1"># We prepare a mapping from cardinal (row, column) direction vectors to representative characters.</span>
+    <span class="n">direction_char_for_tuple</span> <span class="o">=</span> <span class="p">{(</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">):</span> <span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span> <span class="s1">&#39;W&#39;</span><span class="p">}</span>
+    <span class="c1"># We will here assemble our overall list of directions in the required final format.</span>
+    <span class="n">complete_path_directions</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># We go through the steps in our coarse, inter-interval path...</span>
+    <span class="n">coarse_path_iter</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">coarse_path</span><span class="p">)</span>
+    <span class="n">fine_path_start_node</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">coarse_path_iter</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">fine_path_end_node</span> <span class="ow">in</span> <span class="n">coarse_path_iter</span><span class="p">:</span>
+        <span class="c1"># When the ball should not be moved during a particular coarse interval,</span>
+        <span class="c1"># we put an empty string in our list of directions...</span>
+        <span class="k">if</span> <span class="n">fine_path_start_node</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">fine_path_end_node</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="n">complete_path_directions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="c1"># Otherwise, we perform a breadth-first search in our fine transition graph to get a sequence of ball positions</span>
+        <span class="c1"># that accomplishes the present coarse movement (in the present coarse interval) via fine/unit/atomic steps.</span>
+        <span class="c1"># (Using breadth-first search, we find the/a shortest possible fine/intra-interval path</span>
+        <span class="c1"># for a given coarse movement, but this is not required, so depth-first search, for instance, would also work.)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fine_path</span> <span class="o">=</span> <span class="n">breadth_first_search</span><span class="p">(</span><span class="n">immediately_accessible_from</span><span class="p">,</span> <span class="n">fine_path_start_node</span><span class="p">,</span>
+                                             <span class="k">lambda</span> <span class="n">node</span><span class="p">:</span> <span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">fine_path_end_node</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="c1"># We represent the direction of each step in our fine, intra-interval path by the appropriate character,</span>
+            <span class="c1"># and put the resulting string in our overall list of directions.</span>
+            <span class="n">fine_path_directions</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">fine_path_iter</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">fine_path</span><span class="p">)</span>
+            <span class="n">fine_step_start_node</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">fine_path_iter</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">fine_step_end_node</span> <span class="ow">in</span> <span class="n">fine_path_iter</span><span class="p">:</span>
+                <span class="n">fine_path_directions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">direction_char_for_tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">sub</span><span class="p">,</span> <span class="n">fine_step_end_node</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fine_step_start_node</span><span class="p">[</span><span class="mi">0</span><span class="p">]))])</span>
+                <span class="n">fine_step_start_node</span> <span class="o">=</span> <span class="n">fine_step_end_node</span>
+            <span class="n">complete_path_directions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fine_path_directions</span><span class="p">))</span>
+        <span class="n">fine_path_start_node</span> <span class="o">=</span> <span class="n">fine_path_end_node</span>
+    <span class="c1"># All done!  We now return our complete list of directions.</span>
+    <span class="k">return</span> <span class="n">complete_path_directions</span>
+</pre></div>
+
+</div>
+</body>
+</html>

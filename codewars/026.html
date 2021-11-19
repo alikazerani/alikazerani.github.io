@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Vigenère Cipher Helper (4 kyu)</title>
+<style>
+.hll { background-color: #333333 }
+.c { color: #008800; font-style: italic; background-color: #0f140f } /* Comment */
+.err { color: #ffffff } /* Error */
+.esc { color: #ffffff } /* Escape */
+.g { color: #ffffff } /* Generic */
+.k { color: #fb660a; font-weight: bold } /* Keyword */
+.l { color: #ffffff } /* Literal */
+.n { color: #ffffff } /* Name */
+.o { color: #ffffff } /* Operator */
+.x { color: #ffffff } /* Other */
+.p { color: #ffffff } /* Punctuation */
+.ch { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Hashbang */
+.cm { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Multiline */
+.cp { color: #ff0007; font-weight: bold; font-style: italic; background-color: #0f140f } /* Comment.Preproc */
+.cpf { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.PreprocFile */
+.c1 { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Single */
+.cs { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Special */
+.gd { color: #ffffff } /* Generic.Deleted */
+.ge { color: #ffffff } /* Generic.Emph */
+.gr { color: #ffffff } /* Generic.Error */
+.gh { color: #ffffff; font-weight: bold } /* Generic.Heading */
+.gi { color: #ffffff } /* Generic.Inserted */
+.go { color: #444444; background-color: #222222 } /* Generic.Output */
+.gp { color: #ffffff } /* Generic.Prompt */
+.gs { color: #ffffff } /* Generic.Strong */
+.gu { color: #ffffff; font-weight: bold } /* Generic.Subheading */
+.gt { color: #ffffff } /* Generic.Traceback */
+.kc { color: #fb660a; font-weight: bold } /* Keyword.Constant */
+.kd { color: #fb660a; font-weight: bold } /* Keyword.Declaration */
+.kn { color: #fb660a; font-weight: bold } /* Keyword.Namespace */
+.kp { color: #fb660a } /* Keyword.Pseudo */
+.kr { color: #fb660a; font-weight: bold } /* Keyword.Reserved */
+.kt { color: #cdcaa9; font-weight: bold } /* Keyword.Type */
+.ld { color: #ffffff } /* Literal.Date */
+.m { color: #0086f7; font-weight: bold } /* Literal.Number */
+.s { color: #0086d2 } /* Literal.String */
+.na { color: #ff0086; font-weight: bold } /* Name.Attribute */
+.nb { color: #ffffff } /* Name.Builtin */
+.nc { color: #ffffff } /* Name.Class */
+.no { color: #0086d2 } /* Name.Constant */
+.nd { color: #ffffff } /* Name.Decorator */
+.ni { color: #ffffff } /* Name.Entity */
+.ne { color: #ffffff } /* Name.Exception */
+.nf { color: #ff0086; font-weight: bold } /* Name.Function */
+.nl { color: #ffffff } /* Name.Label */
+.nn { color: #ffffff } /* Name.Namespace */
+.nx { color: #ffffff } /* Name.Other */
+.py { color: #ffffff } /* Name.Property */
+.nt { color: #fb660a; font-weight: bold } /* Name.Tag */
+.nv { color: #fb660a } /* Name.Variable */
+.ow { color: #ffffff } /* Operator.Word */
+.w { color: #888888 } /* Text.Whitespace */
+.mb { color: #0086f7; font-weight: bold } /* Literal.Number.Bin */
+.mf { color: #0086f7; font-weight: bold } /* Literal.Number.Float */
+.mh { color: #0086f7; font-weight: bold } /* Literal.Number.Hex */
+.mi { color: #0086f7; font-weight: bold } /* Literal.Number.Integer */
+.mo { color: #0086f7; font-weight: bold } /* Literal.Number.Oct */
+.sa { color: #0086d2 } /* Literal.String.Affix */
+.sb { color: #0086d2 } /* Literal.String.Backtick */
+.sc { color: #0086d2 } /* Literal.String.Char */
+.dl { color: #0086d2 } /* Literal.String.Delimiter */
+.sd { color: #0086d2 } /* Literal.String.Doc */
+.s2 { color: #0086d2 } /* Literal.String.Double */
+.se { color: #0086d2 } /* Literal.String.Escape */
+.sh { color: #0086d2 } /* Literal.String.Heredoc */
+.si { color: #0086d2 } /* Literal.String.Interpol */
+.sx { color: #0086d2 } /* Literal.String.Other */
+.sr { color: #0086d2 } /* Literal.String.Regex */
+.s1 { color: #0086d2 } /* Literal.String.Single */
+.ss { color: #0086d2 } /* Literal.String.Symbol */
+.bp { color: #ffffff } /* Name.Builtin.Pseudo */
+.fm { color: #ff0086; font-weight: bold } /* Name.Function.Magic */
+.vc { color: #fb660a } /* Name.Variable.Class */
+.vg { color: #fb660a } /* Name.Variable.Global */
+.vi { color: #fb660a } /* Name.Variable.Instance */
+.vm { color: #fb660a } /* Name.Variable.Magic */
+.il { color: #0086f7; font-weight: bold } /* Literal.Number.Integer.Long */
+</style>
+</head>
+<body>
+<h1>Vigenère Cipher Helper (4 kyu)</h1>
+<p>The Vigenère cipher is a classic cipher originally developed by Italian cryptographer Giovan Battista Bellaso and published in 1553. It is named after a later French cryptographer Blaise de Vigenère, who had developed a stronger autokey cipher (a cipher that incorporates the message of the text into the key). </p>
+<p>The cipher is easy to understand and implement, but survived three centuries of attempts to break it, earning it the nickname "le chiffre indéchiffrable" or "the indecipherable cipher."</p>
+<p><a href="https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher" target="_blank">From Wikipedia</a>:</p>
+<blockquote>
+<p>The Vigenère cipher is a method of encrypting alphabetic text by using a series of different Caesar ciphers based on the letters of a keyword. It is a simple form of polyalphabetic substitution.</p>
+<p>. . .</p>
+<p>In a Caesar cipher, each letter of the alphabet is shifted along some number of places; for example, in a Caesar cipher of shift <code>3</code>, <code>A</code> would become <code>D</code>, <code>B</code> would become <code>E</code>, <code>Y</code> would become <code>B</code> and so on. The Vigenère cipher consists of several Caesar ciphers in sequence with different shift values.</p>
+</blockquote>
+<p>Assume the key is repeated for the length of the text, character by character. Note that some implementations repeat the key over characters only if they are part of the alphabet -- <strong>this is not the case here.</strong></p>
+<p>The shift is derived by applying a Caesar shift to a character with the corresponding index of the key in the alphabet.</p>
+<p>Visual representation:</p>
+<pre><code class="language-javascript"><span class="cm-string">"my secret code i want to secure"</span>  <span class="cm-comment">// message</span>
+<span class="cm-string">"passwordpasswordpasswordpasswor"</span>  <span class="cm-comment">// key</span>
+</code></pre>
+<p>Write a class that, when given a key and an alphabet, can be used to encode and decode from the cipher.</p>
+<h4 id="example">Example</h4>
+<pre><code class="language-javascript"><span class="cm-keyword">var</span> <span class="cm-def">alphabet</span> <span class="cm-operator">=</span> <span class="cm-string">'abcdefghijklmnopqrstuvwxyz'</span>;
+<span class="cm-keyword">var</span> <span class="cm-def">key</span> <span class="cm-operator">=</span> <span class="cm-string">'password'</span>;
+
+<span class="cm-comment">// creates a cipher helper with each letter substituted</span>
+<span class="cm-comment">// by the corresponding character in the key</span>
+<span class="cm-keyword">var</span> <span class="cm-def">c</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">VigenèreCipher</span>(<span class="cm-variable">key</span>, <span class="cm-variable">alphabet</span>);
+
+<span class="cm-variable">c</span>.<span class="cm-property">encode</span>(<span class="cm-string">'codewars'</span>); <span class="cm-comment">// returns 'rovwsoiv'</span>
+<span class="cm-variable">c</span>.<span class="cm-property">decode</span>(<span class="cm-string">'laxxhsj'</span>);  <span class="cm-comment">// returns 'waffles'</span>
+</code></pre>
+<p>Any character not in the alphabet must be left as is. For example (following from above):</p>
+<pre><code class="language-javascript"><span class="cm-variable">c</span>.<span class="cm-property">encode</span>(<span class="cm-string">'CODEWARS'</span>); <span class="cm-comment">// returns 'CODEWARS'</span>
+</code></pre>
+
+<h4>Starting Code</h4>
+<pre><code>class VigenereCipher(object):
+    def __init__(self, key, alphabet):
+        pass
+    
+    def encode(self, text):
+        pass
+    
+    def decode(self, text):
+        pass
+</code></pre>
+
+<h2>My Solution</h2>
+<div style="background-color: black;">
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">itertools</span>
+
+
+<span class="k">class</span> <span class="nc">VigenereCipher</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">alphabet</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_alphabet</span> <span class="o">=</span> <span class="n">alphabet</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_alphabet_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">alphabet</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_alphabet_letter_to_index</span> <span class="o">=</span> <span class="p">{</span><span class="n">alphabet_char</span><span class="p">:</span> <span class="n">index</span> <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">alphabet_char</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">alphabet</span><span class="p">)}</span>  <span class="c1"># For fast lookup, in preference to repeatetedly searching the alphabet string.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_encoding_shifts</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_alphabet_letter_to_index</span><span class="p">[</span><span class="n">key_char</span><span class="p">]</span> <span class="k">for</span> <span class="n">key_char</span> <span class="ow">in</span> <span class="n">key</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_decoding_shifts</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">encoding_shift</span> <span class="k">for</span> <span class="n">encoding_shift</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_encoding_shifts</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_encode_or_decode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">encode</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">shifts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_encoding_shifts</span> <span class="k">if</span> <span class="n">encode</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_decoding_shifts</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_alphabet</span><span class="p">[(</span><span class="n">char_index_in_alphabet</span> <span class="o">+</span> <span class="n">shift</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alphabet_size</span><span class="p">]</span>
+                       <span class="k">if</span> <span class="p">(</span><span class="n">char_index_in_alphabet</span> <span class="p">:</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alphabet_letter_to_index</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">char</span><span class="p">))</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">char</span>  <span class="c1"># (My first-ever use of Mr. Walrus!)</span>
+                       <span class="k">for</span> <span class="n">char</span><span class="p">,</span> <span class="n">shift</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">itertools</span><span class="o">.</span><span class="n">cycle</span><span class="p">(</span><span class="n">shifts</span><span class="p">)))</span>
+        
+    <span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_encode_or_decode</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">decode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_encode_or_decode</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</body>
+</html>

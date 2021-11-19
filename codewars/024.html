@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hamming Numbers (4 kyu)</title>
+<style>
+.hll { background-color: #333333 }
+.c { color: #008800; font-style: italic; background-color: #0f140f } /* Comment */
+.err { color: #ffffff } /* Error */
+.esc { color: #ffffff } /* Escape */
+.g { color: #ffffff } /* Generic */
+.k { color: #fb660a; font-weight: bold } /* Keyword */
+.l { color: #ffffff } /* Literal */
+.n { color: #ffffff } /* Name */
+.o { color: #ffffff } /* Operator */
+.x { color: #ffffff } /* Other */
+.p { color: #ffffff } /* Punctuation */
+.ch { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Hashbang */
+.cm { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Multiline */
+.cp { color: #ff0007; font-weight: bold; font-style: italic; background-color: #0f140f } /* Comment.Preproc */
+.cpf { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.PreprocFile */
+.c1 { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Single */
+.cs { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Special */
+.gd { color: #ffffff } /* Generic.Deleted */
+.ge { color: #ffffff } /* Generic.Emph */
+.gr { color: #ffffff } /* Generic.Error */
+.gh { color: #ffffff; font-weight: bold } /* Generic.Heading */
+.gi { color: #ffffff } /* Generic.Inserted */
+.go { color: #444444; background-color: #222222 } /* Generic.Output */
+.gp { color: #ffffff } /* Generic.Prompt */
+.gs { color: #ffffff } /* Generic.Strong */
+.gu { color: #ffffff; font-weight: bold } /* Generic.Subheading */
+.gt { color: #ffffff } /* Generic.Traceback */
+.kc { color: #fb660a; font-weight: bold } /* Keyword.Constant */
+.kd { color: #fb660a; font-weight: bold } /* Keyword.Declaration */
+.kn { color: #fb660a; font-weight: bold } /* Keyword.Namespace */
+.kp { color: #fb660a } /* Keyword.Pseudo */
+.kr { color: #fb660a; font-weight: bold } /* Keyword.Reserved */
+.kt { color: #cdcaa9; font-weight: bold } /* Keyword.Type */
+.ld { color: #ffffff } /* Literal.Date */
+.m { color: #0086f7; font-weight: bold } /* Literal.Number */
+.s { color: #0086d2 } /* Literal.String */
+.na { color: #ff0086; font-weight: bold } /* Name.Attribute */
+.nb { color: #ffffff } /* Name.Builtin */
+.nc { color: #ffffff } /* Name.Class */
+.no { color: #0086d2 } /* Name.Constant */
+.nd { color: #ffffff } /* Name.Decorator */
+.ni { color: #ffffff } /* Name.Entity */
+.ne { color: #ffffff } /* Name.Exception */
+.nf { color: #ff0086; font-weight: bold } /* Name.Function */
+.nl { color: #ffffff } /* Name.Label */
+.nn { color: #ffffff } /* Name.Namespace */
+.nx { color: #ffffff } /* Name.Other */
+.py { color: #ffffff } /* Name.Property */
+.nt { color: #fb660a; font-weight: bold } /* Name.Tag */
+.nv { color: #fb660a } /* Name.Variable */
+.ow { color: #ffffff } /* Operator.Word */
+.w { color: #888888 } /* Text.Whitespace */
+.mb { color: #0086f7; font-weight: bold } /* Literal.Number.Bin */
+.mf { color: #0086f7; font-weight: bold } /* Literal.Number.Float */
+.mh { color: #0086f7; font-weight: bold } /* Literal.Number.Hex */
+.mi { color: #0086f7; font-weight: bold } /* Literal.Number.Integer */
+.mo { color: #0086f7; font-weight: bold } /* Literal.Number.Oct */
+.sa { color: #0086d2 } /* Literal.String.Affix */
+.sb { color: #0086d2 } /* Literal.String.Backtick */
+.sc { color: #0086d2 } /* Literal.String.Char */
+.dl { color: #0086d2 } /* Literal.String.Delimiter */
+.sd { color: #0086d2 } /* Literal.String.Doc */
+.s2 { color: #0086d2 } /* Literal.String.Double */
+.se { color: #0086d2 } /* Literal.String.Escape */
+.sh { color: #0086d2 } /* Literal.String.Heredoc */
+.si { color: #0086d2 } /* Literal.String.Interpol */
+.sx { color: #0086d2 } /* Literal.String.Other */
+.sr { color: #0086d2 } /* Literal.String.Regex */
+.s1 { color: #0086d2 } /* Literal.String.Single */
+.ss { color: #0086d2 } /* Literal.String.Symbol */
+.bp { color: #ffffff } /* Name.Builtin.Pseudo */
+.fm { color: #ff0086; font-weight: bold } /* Name.Function.Magic */
+.vc { color: #fb660a } /* Name.Variable.Class */
+.vg { color: #fb660a } /* Name.Variable.Global */
+.vi { color: #fb660a } /* Name.Variable.Instance */
+.vm { color: #fb660a } /* Name.Variable.Magic */
+.il { color: #0086f7; font-weight: bold } /* Literal.Number.Integer.Long */
+</style>
+</head>
+<body>
+<h1>Hamming Numbers (4 kyu)</h1>
+<p>A <em><a href="https://en.wikipedia.org/wiki/Regular_number" target="_blank">Hamming number</a></em> is a positive integer of the form 2<sup><em>i</em></sup>3<sup><em>j</em></sup>5<sup><em>k</em></sup>, for some non-negative integers <em>i</em>, <em>j</em>, and <em>k</em>.</p>
+<p>Write a function that computes the <em>n</em>th smallest Hamming number. </p>
+<p>Specifically:</p>
+<ul>
+<li>The first smallest Hamming number is 1 = 2<sup>0</sup>3<sup>0</sup>5<sup>0</sup></li>
+<li>The second smallest Hamming number is 2 = 2<sup>1</sup>3<sup>0</sup>5<sup>0</sup></li>
+<li>The third smallest Hamming number is 3 = 2<sup>0</sup>3<sup>1</sup>5<sup>0</sup></li>
+<li>The fourth smallest Hamming number is 4 = 2<sup>2</sup>3<sup>0</sup>5<sup>0</sup></li>
+<li>The fifth smallest Hamming number is 5 = 2<sup>0</sup>3<sup>0</sup>5<sup>1</sup></li>
+</ul>
+<p>The 20 smallest Hamming numbers are given in example test fixture.</p>
+<p>Your code should be able to compute all of the smallest 5,000 (Clojure: 2000, NASM: 13282) Hamming numbers without timing out.</p>
+
+<h4>Starting Code</h4>
+<pre><code>def hamming(n):
+  """Returns the nth hamming number"""</code></pre>
+
+<h2>My Solution</h2>
+<div style="background-color: black;">
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">itertools</span>
+
+
+<span class="k">def</span> <span class="nf">hamming</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="c1"># We will be determining and storing all of the first n Hamming numbers in order.</span>
+    <span class="c1"># Pre-allocation seems reasonable.</span>
+    <span class="c1"># (At any time, for each multiplier, we will only actually need a limited subsequence to which we can add at one end </span>
+    <span class="c1"># and from which we can draw at the other, which is why deques/queues are a sensible option too.)</span>
+    <span class="n">hamming_sequence</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span>
+    
+    <span class="c1"># With zero-indexing throughout, the 0th Hamming number is 1.</span>
+    <span class="c1"># new_element will always represent the most recently determined element.</span>
+    <span class="n">hamming_sequence</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_element</span> <span class="o">=</span> <span class="mi">1</span>
+    
+    <span class="c1"># Each element in the sequence after the 0th is 2 times, 3 times, or 5 times some preceding element.</span>
+    
+    <span class="c1"># These iterators will allow us to advance along the sequence,</span>
+    <span class="c1"># separately identifying the next element to double, the next element to triple, and the next element to quintuple.</span>
+    <span class="n">doubler_iterator</span><span class="p">,</span> <span class="n">tripler_iterator</span><span class="p">,</span> <span class="n">quintupler_iterator</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">tee</span><span class="p">(</span><span class="n">hamming_sequence</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    
+    <span class="c1"># At the end of each iteration to be done, we determine the next element in the sequence as the smallest of </span>
+    <span class="c1"># the current doubled candidate, the current tripled candidate, and the current quintupled candidate.</span>
+    <span class="c1"># On the next iteration, the winning candidates&#39; iterators will be advanced and their values updated.</span>
+    
+    <span class="c1"># We are careful to not unnecessarily repeatedly access the same sequence element for multiplication by the same multiplier.</span>
+    <span class="c1"># (Though note that different elements multiplied by different mutlipliers can certainly produce equal candidates.  </span>
+    <span class="c1"># And when such tied candidates win an iteration, the winning value is added to the sequence just once, </span>
+    <span class="c1"># then the winning iterators advance identically and the corresponding candidates update differently.)    </span>
+    
+    <span class="c1"># We are also careful to compute only candidates that are immediately needed, </span>
+    <span class="c1"># rather than computing and accumulating a sequence of candidates that will never be used.</span>
+    
+    <span class="c1"># To get all three iterators started and the first true candidates generated in the first iteration, </span>
+    <span class="c1"># we initialize the values of all three candidates to 1, the first element in the sequence.</span>
+    <span class="n">doubled</span> <span class="o">=</span> <span class="n">tripled</span> <span class="o">=</span> <span class="n">quintupled</span> <span class="o">=</span> <span class="mi">1</span>
+    
+    <span class="k">for</span> <span class="n">new_element_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">new_element</span> <span class="o">==</span> <span class="n">doubled</span><span class="p">:</span>
+            <span class="n">doubled</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="nb">next</span><span class="p">(</span><span class="n">doubler_iterator</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">new_element</span> <span class="o">==</span> <span class="n">tripled</span><span class="p">:</span>
+            <span class="n">tripled</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="nb">next</span><span class="p">(</span><span class="n">tripler_iterator</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">new_element</span> <span class="o">==</span> <span class="n">quintupled</span><span class="p">:</span>
+            <span class="n">quintupled</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="nb">next</span><span class="p">(</span><span class="n">quintupler_iterator</span><span class="p">)</span>
+
+        <span class="c1"># (While we are generally warned against touching an iterable once itertools.tee has been applied to it,</span>
+        <span class="c1"># the ways in which we iterate over and modify hamming_sequence in this code should be just fine.)</span>
+        <span class="n">hamming_sequence</span><span class="p">[</span><span class="n">new_element_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_element</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">doubled</span><span class="p">,</span> <span class="n">tripled</span><span class="p">,</span> <span class="n">quintupled</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">new_element</span>  <span class="c1"># == hamming_sequence[-1] == hamming_sequence[n - 1]</span>
+</pre></div>
+
+</div>
+
+<h2>My Notes</h2>
+I figured that something very similar to the approaches I learned from solutions to the "Twice Linear" kata would work well here.  I use a list rather than three deques/queues, and I make a few (I hope) minor improvements.
+</body>
+</html>

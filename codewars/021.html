@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Where my anagrams at? (5 kyu)</title>
+<style>
+.hll { background-color: #333333 }
+.c { color: #008800; font-style: italic; background-color: #0f140f } /* Comment */
+.err { color: #ffffff } /* Error */
+.esc { color: #ffffff } /* Escape */
+.g { color: #ffffff } /* Generic */
+.k { color: #fb660a; font-weight: bold } /* Keyword */
+.l { color: #ffffff } /* Literal */
+.n { color: #ffffff } /* Name */
+.o { color: #ffffff } /* Operator */
+.x { color: #ffffff } /* Other */
+.p { color: #ffffff } /* Punctuation */
+.ch { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Hashbang */
+.cm { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Multiline */
+.cp { color: #ff0007; font-weight: bold; font-style: italic; background-color: #0f140f } /* Comment.Preproc */
+.cpf { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.PreprocFile */
+.c1 { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Single */
+.cs { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Special */
+.gd { color: #ffffff } /* Generic.Deleted */
+.ge { color: #ffffff } /* Generic.Emph */
+.gr { color: #ffffff } /* Generic.Error */
+.gh { color: #ffffff; font-weight: bold } /* Generic.Heading */
+.gi { color: #ffffff } /* Generic.Inserted */
+.go { color: #444444; background-color: #222222 } /* Generic.Output */
+.gp { color: #ffffff } /* Generic.Prompt */
+.gs { color: #ffffff } /* Generic.Strong */
+.gu { color: #ffffff; font-weight: bold } /* Generic.Subheading */
+.gt { color: #ffffff } /* Generic.Traceback */
+.kc { color: #fb660a; font-weight: bold } /* Keyword.Constant */
+.kd { color: #fb660a; font-weight: bold } /* Keyword.Declaration */
+.kn { color: #fb660a; font-weight: bold } /* Keyword.Namespace */
+.kp { color: #fb660a } /* Keyword.Pseudo */
+.kr { color: #fb660a; font-weight: bold } /* Keyword.Reserved */
+.kt { color: #cdcaa9; font-weight: bold } /* Keyword.Type */
+.ld { color: #ffffff } /* Literal.Date */
+.m { color: #0086f7; font-weight: bold } /* Literal.Number */
+.s { color: #0086d2 } /* Literal.String */
+.na { color: #ff0086; font-weight: bold } /* Name.Attribute */
+.nb { color: #ffffff } /* Name.Builtin */
+.nc { color: #ffffff } /* Name.Class */
+.no { color: #0086d2 } /* Name.Constant */
+.nd { color: #ffffff } /* Name.Decorator */
+.ni { color: #ffffff } /* Name.Entity */
+.ne { color: #ffffff } /* Name.Exception */
+.nf { color: #ff0086; font-weight: bold } /* Name.Function */
+.nl { color: #ffffff } /* Name.Label */
+.nn { color: #ffffff } /* Name.Namespace */
+.nx { color: #ffffff } /* Name.Other */
+.py { color: #ffffff } /* Name.Property */
+.nt { color: #fb660a; font-weight: bold } /* Name.Tag */
+.nv { color: #fb660a } /* Name.Variable */
+.ow { color: #ffffff } /* Operator.Word */
+.w { color: #888888 } /* Text.Whitespace */
+.mb { color: #0086f7; font-weight: bold } /* Literal.Number.Bin */
+.mf { color: #0086f7; font-weight: bold } /* Literal.Number.Float */
+.mh { color: #0086f7; font-weight: bold } /* Literal.Number.Hex */
+.mi { color: #0086f7; font-weight: bold } /* Literal.Number.Integer */
+.mo { color: #0086f7; font-weight: bold } /* Literal.Number.Oct */
+.sa { color: #0086d2 } /* Literal.String.Affix */
+.sb { color: #0086d2 } /* Literal.String.Backtick */
+.sc { color: #0086d2 } /* Literal.String.Char */
+.dl { color: #0086d2 } /* Literal.String.Delimiter */
+.sd { color: #0086d2 } /* Literal.String.Doc */
+.s2 { color: #0086d2 } /* Literal.String.Double */
+.se { color: #0086d2 } /* Literal.String.Escape */
+.sh { color: #0086d2 } /* Literal.String.Heredoc */
+.si { color: #0086d2 } /* Literal.String.Interpol */
+.sx { color: #0086d2 } /* Literal.String.Other */
+.sr { color: #0086d2 } /* Literal.String.Regex */
+.s1 { color: #0086d2 } /* Literal.String.Single */
+.ss { color: #0086d2 } /* Literal.String.Symbol */
+.bp { color: #ffffff } /* Name.Builtin.Pseudo */
+.fm { color: #ff0086; font-weight: bold } /* Name.Function.Magic */
+.vc { color: #fb660a } /* Name.Variable.Class */
+.vg { color: #fb660a } /* Name.Variable.Global */
+.vi { color: #fb660a } /* Name.Variable.Instance */
+.vm { color: #fb660a } /* Name.Variable.Magic */
+.il { color: #0086f7; font-weight: bold } /* Literal.Number.Integer.Long */
+</style>
+</head>
+<body>
+<h1>Where my anagrams at? (5 kyu)</h1>
+<p>What is an anagram? Well, two words are anagrams of each other if they both contain the same letters. For example:</p>
+<pre><code>'abba' &amp; 'baab' == true
+
+'abba' &amp; 'bbaa' == true
+
+'abba' &amp; 'abbba' == false
+
+'abba' &amp; 'abca' == false
+</code></pre>
+<p>Write a function that will find all the anagrams of a word from a list. You will be given two inputs a word and an array with words. You should return an array of all the anagrams or an empty array if there are none. For example:</p>
+<pre><code class="language-javascript"><span class="cm-variable">anagrams</span>(<span class="cm-string">'abba'</span>, [<span class="cm-string">'aabb'</span>, <span class="cm-string">'abcd'</span>, <span class="cm-string">'bbaa'</span>, <span class="cm-string">'dada'</span>]) <span class="cm-operator">=&gt;</span> [<span class="cm-string">'aabb'</span>, <span class="cm-string">'bbaa'</span>]
+
+<span class="cm-variable">anagrams</span>(<span class="cm-string">'racer'</span>, [<span class="cm-string">'crazer'</span>, <span class="cm-string">'carer'</span>, <span class="cm-string">'racar'</span>, <span class="cm-string">'caers'</span>, <span class="cm-string">'racer'</span>]) <span class="cm-operator">=&gt;</span> [<span class="cm-string">'carer'</span>, <span class="cm-string">'racer'</span>]
+
+<span class="cm-variable">anagrams</span>(<span class="cm-string">'laser'</span>, [<span class="cm-string">'lazing'</span>, <span class="cm-string">'lazy'</span>,  <span class="cm-string">'lacer'</span>]) <span class="cm-operator">=&gt;</span> []
+</code></pre>
+<p><strong>Note for Go</strong><br>For Go: Empty string slice is expected when there are no anagrams found.</p>
+
+<h4>Starting Code</h4>
+<pre><code>def anagrams(word, words):
+    #your code here</code></pre>
+
+<h2>My Solution</h2>
+<div style="background-color: black;">
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="k">def</span> <span class="nf">anagrams</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">words</span><span class="p">):</span>
+    <span class="n">counter_for_word</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">word</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">candidate_anagram</span> <span class="k">for</span> <span class="n">candidate_anagram</span> <span class="ow">in</span> <span class="n">words</span> <span class="k">if</span> <span class="n">Counter</span><span class="p">(</span><span class="n">candidate_anagram</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span> <span class="o">==</span> <span class="n">counter_for_word</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</body>
+</html>

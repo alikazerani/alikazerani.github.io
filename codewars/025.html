@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Human readable duration format (4 kyu)</title>
+<style>
+.hll { background-color: #333333 }
+.c { color: #008800; font-style: italic; background-color: #0f140f } /* Comment */
+.err { color: #ffffff } /* Error */
+.esc { color: #ffffff } /* Escape */
+.g { color: #ffffff } /* Generic */
+.k { color: #fb660a; font-weight: bold } /* Keyword */
+.l { color: #ffffff } /* Literal */
+.n { color: #ffffff } /* Name */
+.o { color: #ffffff } /* Operator */
+.x { color: #ffffff } /* Other */
+.p { color: #ffffff } /* Punctuation */
+.ch { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Hashbang */
+.cm { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Multiline */
+.cp { color: #ff0007; font-weight: bold; font-style: italic; background-color: #0f140f } /* Comment.Preproc */
+.cpf { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.PreprocFile */
+.c1 { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Single */
+.cs { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Special */
+.gd { color: #ffffff } /* Generic.Deleted */
+.ge { color: #ffffff } /* Generic.Emph */
+.gr { color: #ffffff } /* Generic.Error */
+.gh { color: #ffffff; font-weight: bold } /* Generic.Heading */
+.gi { color: #ffffff } /* Generic.Inserted */
+.go { color: #444444; background-color: #222222 } /* Generic.Output */
+.gp { color: #ffffff } /* Generic.Prompt */
+.gs { color: #ffffff } /* Generic.Strong */
+.gu { color: #ffffff; font-weight: bold } /* Generic.Subheading */
+.gt { color: #ffffff } /* Generic.Traceback */
+.kc { color: #fb660a; font-weight: bold } /* Keyword.Constant */
+.kd { color: #fb660a; font-weight: bold } /* Keyword.Declaration */
+.kn { color: #fb660a; font-weight: bold } /* Keyword.Namespace */
+.kp { color: #fb660a } /* Keyword.Pseudo */
+.kr { color: #fb660a; font-weight: bold } /* Keyword.Reserved */
+.kt { color: #cdcaa9; font-weight: bold } /* Keyword.Type */
+.ld { color: #ffffff } /* Literal.Date */
+.m { color: #0086f7; font-weight: bold } /* Literal.Number */
+.s { color: #0086d2 } /* Literal.String */
+.na { color: #ff0086; font-weight: bold } /* Name.Attribute */
+.nb { color: #ffffff } /* Name.Builtin */
+.nc { color: #ffffff } /* Name.Class */
+.no { color: #0086d2 } /* Name.Constant */
+.nd { color: #ffffff } /* Name.Decorator */
+.ni { color: #ffffff } /* Name.Entity */
+.ne { color: #ffffff } /* Name.Exception */
+.nf { color: #ff0086; font-weight: bold } /* Name.Function */
+.nl { color: #ffffff } /* Name.Label */
+.nn { color: #ffffff } /* Name.Namespace */
+.nx { color: #ffffff } /* Name.Other */
+.py { color: #ffffff } /* Name.Property */
+.nt { color: #fb660a; font-weight: bold } /* Name.Tag */
+.nv { color: #fb660a } /* Name.Variable */
+.ow { color: #ffffff } /* Operator.Word */
+.w { color: #888888 } /* Text.Whitespace */
+.mb { color: #0086f7; font-weight: bold } /* Literal.Number.Bin */
+.mf { color: #0086f7; font-weight: bold } /* Literal.Number.Float */
+.mh { color: #0086f7; font-weight: bold } /* Literal.Number.Hex */
+.mi { color: #0086f7; font-weight: bold } /* Literal.Number.Integer */
+.mo { color: #0086f7; font-weight: bold } /* Literal.Number.Oct */
+.sa { color: #0086d2 } /* Literal.String.Affix */
+.sb { color: #0086d2 } /* Literal.String.Backtick */
+.sc { color: #0086d2 } /* Literal.String.Char */
+.dl { color: #0086d2 } /* Literal.String.Delimiter */
+.sd { color: #0086d2 } /* Literal.String.Doc */
+.s2 { color: #0086d2 } /* Literal.String.Double */
+.se { color: #0086d2 } /* Literal.String.Escape */
+.sh { color: #0086d2 } /* Literal.String.Heredoc */
+.si { color: #0086d2 } /* Literal.String.Interpol */
+.sx { color: #0086d2 } /* Literal.String.Other */
+.sr { color: #0086d2 } /* Literal.String.Regex */
+.s1 { color: #0086d2 } /* Literal.String.Single */
+.ss { color: #0086d2 } /* Literal.String.Symbol */
+.bp { color: #ffffff } /* Name.Builtin.Pseudo */
+.fm { color: #ff0086; font-weight: bold } /* Name.Function.Magic */
+.vc { color: #fb660a } /* Name.Variable.Class */
+.vg { color: #fb660a } /* Name.Variable.Global */
+.vi { color: #fb660a } /* Name.Variable.Instance */
+.vm { color: #fb660a } /* Name.Variable.Magic */
+.il { color: #0086f7; font-weight: bold } /* Literal.Number.Integer.Long */
+</style>
+</head>
+<body>
+<h1>Human readable duration format (4 kyu)</h1>
+<p>Your task in order to complete this Kata is to write a function which formats a duration, given as a number of seconds, in a human-friendly way.</p>
+<p>The function must accept a non-negative integer. If it is zero, it just returns <code>"now"</code>. Otherwise,  the duration is expressed as a combination of <code>years</code>, <code>days</code>, <code>hours</code>, <code>minutes</code> and <code>seconds</code>.</p>
+<p>It is much easier to understand with an example:</p>
+<pre style="display: none;"><code class="language-Fortran">formatDuration (62)    // returns "1 minute and 2 seconds"
+formatDuration (3662)  // returns "1 hour, 1 minute and 2 seconds"
+</code></pre>
+<pre style="display: none;"><code class="language-c"><span class="cm-variable">formatDuration</span> (<span class="cm-number">62</span>)    <span class="cm-comment">// returns "1 minute and 2 seconds"</span>
+<span class="cm-variable">formatDuration</span> (<span class="cm-number">3662</span>)  <span class="cm-comment">// returns "1 hour, 1 minute and 2 seconds"</span>
+</code></pre>
+<pre style="display: none;"><code class="language-nasm"><span class="cm-keyword">mov</span> <span class="cm-builtin">edi</span>, <span class="cm-number">62</span>
+<span class="cm-keyword">call</span> fmtduration      <span class="cm-comment">; RAX &lt;- `1 minute and 2 seconds\0`</span>
+
+<span class="cm-keyword">mov</span> <span class="cm-builtin">edi</span>, <span class="cm-number">3662</span>
+<span class="cm-keyword">call</span> fmtduration      <span class="cm-comment">; RAX &lt;- `1 hour, 1 minute and 2 seconds\0`</span>
+</code></pre>
+<pre style="display: none;"><code class="language-cpp"><span class="cm-variable">format_duration</span>(<span class="cm-number">62</span>)    <span class="cm-comment">// returns "1 minute and 2 seconds"</span>
+<span class="cm-variable">format_duration</span>(<span class="cm-number">3662</span>)  <span class="cm-comment">// returns "1 hour, 1 minute and 2 seconds"</span>
+</code></pre>
+<pre style="display: none;"><code class="language-javascript"><span class="cm-variable">formatDuration</span>(<span class="cm-number">62</span>)    <span class="cm-comment">// returns "1 minute and 2 seconds"</span>
+<span class="cm-variable">formatDuration</span>(<span class="cm-number">3662</span>)  <span class="cm-comment">// returns "1 hour, 1 minute and 2 seconds"</span>
+</code></pre>
+<pre><code class="language-python"><span class="cm-variable">format_duration</span>(<span class="cm-number">62</span>)    <span class="cm-comment"># returns "1 minute and 2 seconds"</span>
+<span class="cm-variable">format_duration</span>(<span class="cm-number">3662</span>)  <span class="cm-comment"># returns "1 hour, 1 minute and 2 seconds"</span>
+</code></pre>
+<pre style="display: none;"><code class="language-ruby"><span class="cm-variable">format_duration</span>(<span class="cm-number">62</span>)    <span class="cm-comment"># returns "1 minute and 2 seconds"</span>
+<span class="cm-variable">format_duration</span>(<span class="cm-number">3662</span>)  <span class="cm-comment"># returns "1 hour, 1 minute and 2 seconds"</span>
+</code></pre>
+<pre style="display: none;"><code class="language-elixir"><span class="cm-variable">format_duration</span>(<span class="cm-number">62</span>)    <span class="cm-comment"># returns "1 minute and 2 seconds"</span>
+<span class="cm-variable">format_duration</span>(<span class="cm-number">3662</span>)  <span class="cm-comment"># returns "1 hour, 1 minute and 2 seconds"</span>
+</code></pre>
+<pre style="display: none;"><code class="language-php"><span class="cm-variable">format_duration</span>(<span class="cm-number">62</span>)    <span class="cm-comment"># returns "1 minute and 2 seconds"</span>
+<span class="cm-variable">format_duration</span>(<span class="cm-number">3662</span>)  <span class="cm-comment"># returns "1 hour, 1 minute and 2 seconds"</span>
+</code></pre>
+<pre style="display: none;"><code class="language-haskell"><span class="cm-variable">formatDuration</span> <span class="cm-number">62</span>     <span class="cm-comment">-- returns "1 minute and 2 seconds"</span>
+<span class="cm-variable">formatDuration</span> <span class="cm-number">3662</span>   <span class="cm-comment">-- returns "1 hour, 1 minute and 2 seconds"</span>
+</code></pre>
+<pre style="display: none;"><code class="language-java"><span class="cm-variable">TimeFormatter</span>.<span class="cm-variable">formatDuration</span>(<span class="cm-number">62</span>)   <span class="cm-comment">//returns "1 minute and 2 seconds"</span>
+<span class="cm-variable">TimeFormatter</span>.<span class="cm-variable">formatDuration</span>(<span class="cm-number">3662</span>) <span class="cm-comment">//returns "1 hour, 1 minute and 2 seconds"</span>
+</code></pre>
+<pre style="display: none;"><code class="language-groovy"><span class="cm-variable">Kata</span>.<span class="cm-property">formatDuration</span>(<span class="cm-number">62</span>)   <span class="cm-comment">//returns "1 minute and 2 seconds"</span>
+<span class="cm-variable">Kata</span>.<span class="cm-property">formatDuration</span>(<span class="cm-number">3662</span>) <span class="cm-comment">//returns "1 hour, 1 minute and 2 seconds"</span>
+</code></pre>
+<pre style="display: none;"><code class="language-shell">duration <span class="cm-number">62</span>            <span class="cm-comment"># echos "1 minute and 2 seconds"</span>
+duration <span class="cm-number">3662</span>          <span class="cm-comment"># echos "1 hour, 1 minute and 2 seconds"</span>
+</code></pre>
+<pre style="display: none;"><code class="language-julia"><span class="cm-variable">formatduration</span>(<span class="cm-number">62</span>)    <span class="cm-comment"># returns "1 minute and 2 seconds"</span>
+<span class="cm-variable">formatduration</span>(<span class="cm-number">3662</span>)  <span class="cm-comment"># returns "1 hour, 1 minute and 2 seconds"</span>
+</code></pre>
+<pre style="display: none;"><code class="language-racket"><span class="cm-bracket">(</span><span class="cm-variable">format-duration</span> <span class="cm-number">62</span><span class="cm-bracket">)</span>    <span class="cm-comment">; returns "1 minute and 2 seconds"</span>
+<span class="cm-bracket">(</span><span class="cm-variable">format-duration</span> <span class="cm-number">3662</span><span class="cm-bracket">)</span>  <span class="cm-comment">; returns "1 hour, 1 minute and 2 seconds"</span>
+</code></pre>
+<pre style="display: none;"><code class="language-rust"><span class="cm-variable">format_duration</span>(<span class="cm-number">62</span>)    <span class="cm-comment">// returns "1 minute and 2 seconds"</span>
+<span class="cm-variable">format_duration</span>(<span class="cm-number">3662</span>)  <span class="cm-comment">// returns "1 hour, 1 minute and 2 seconds"</span>
+</code></pre>
+<p><strong>For the purpose of this Kata, a year is 365 days and a day is 24 hours.</strong></p>
+<p>Note that spaces are important.</p>
+<h4 id="detailed-rules">Detailed rules</h4>
+<p>The resulting expression is made of components like <code>4 seconds</code>, <code>1 year</code>, etc.  In general, a positive integer and one of the valid units of time, separated by a space. The unit of time is used in plural if the integer is greater than 1.</p>
+<p>The components are separated by a comma and a space (<code>", "</code>). Except the last component, which is separated by <code>" and "</code>, just like it would be written in English. </p>
+<p>A more significant units of time will occur before than a least significant one. Therefore, <code>1 second and 1 year</code> is not correct, but <code>1 year and 1 second</code> is.</p>
+<p>Different components have different unit of times. So there is not repeated units like in <code>5 seconds and 1 second</code>.</p>
+<p>A component will not appear at all if its value happens to be zero.  Hence, <code>1 minute and 0 seconds</code> is not valid, but it should be just <code>1 minute</code>.</p>
+<p> A unit of time must be used "as much as possible". It means that the function should not return <code>61 seconds</code>, but <code>1 minute and 1 second</code> instead.  Formally, the duration specified by  of a component must not be greater than any valid more significant unit of time.</p>
+
+<h4>Starting Code</h4>
+<pre><code>def format_duration(seconds):
+    #your code here</code></pre>
+
+<h2>My Solution</h2>
+<div style="background-color: black;">
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">format_duration</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">seconds</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;now&#39;</span>
+    
+    <span class="k">def</span> <span class="nf">append_component_str</span><span class="p">(</span><span class="n">components_list</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">unit_name</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">units</span><span class="p">:</span>
+            <span class="n">components_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{units}</span><span class="s1"> </span><span class="si">{unit_name}</span><span class="s1">{&quot;s&quot; if units &gt; 1 else &quot;&quot;}&#39;</span><span class="p">)</span>
+    
+    <span class="n">units_names</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;second&#39;</span><span class="p">,</span> <span class="s1">&#39;minute&#39;</span><span class="p">,</span> <span class="s1">&#39;hour&#39;</span><span class="p">,</span> <span class="s1">&#39;day&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">)</span>
+    <span class="n">sizes_ratios</span> <span class="o">=</span> <span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">365</span><span class="p">)</span>
+    
+    <span class="n">components_list</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="n">units</span> <span class="o">=</span> <span class="n">seconds</span>
+    <span class="k">for</span> <span class="n">unit_name</span><span class="p">,</span> <span class="n">size_ratio</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">units_names</span><span class="p">,</span> <span class="n">sizes_ratios</span><span class="p">):</span>
+        <span class="n">superunits</span><span class="p">,</span> <span class="n">units</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">units</span><span class="p">,</span> <span class="n">size_ratio</span><span class="p">)</span>
+        <span class="n">append_component_str</span><span class="p">(</span><span class="n">components_list</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">unit_name</span><span class="p">)</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="n">superunits</span>
+    <span class="n">append_component_str</span><span class="p">(</span><span class="n">components_list</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">units_names</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    
+    <span class="n">components_list</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+    
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">components_list</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">components_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{components_list[-2]}</span><span class="s1"> and {components_list.pop()}&#39;</span>
+    
+    <span class="k">return</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">components_list</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</body>
+</html>

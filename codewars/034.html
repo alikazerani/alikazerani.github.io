@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Break the pieces (2 kyu)</title>
+<style>
+.hll { background-color: #333333 }
+.c { color: #008800; font-style: italic; background-color: #0f140f } /* Comment */
+.err { color: #ffffff } /* Error */
+.esc { color: #ffffff } /* Escape */
+.g { color: #ffffff } /* Generic */
+.k { color: #fb660a; font-weight: bold } /* Keyword */
+.l { color: #ffffff } /* Literal */
+.n { color: #ffffff } /* Name */
+.o { color: #ffffff } /* Operator */
+.x { color: #ffffff } /* Other */
+.p { color: #ffffff } /* Punctuation */
+.ch { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Hashbang */
+.cm { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Multiline */
+.cp { color: #ff0007; font-weight: bold; font-style: italic; background-color: #0f140f } /* Comment.Preproc */
+.cpf { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.PreprocFile */
+.c1 { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Single */
+.cs { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Special */
+.gd { color: #ffffff } /* Generic.Deleted */
+.ge { color: #ffffff } /* Generic.Emph */
+.gr { color: #ffffff } /* Generic.Error */
+.gh { color: #ffffff; font-weight: bold } /* Generic.Heading */
+.gi { color: #ffffff } /* Generic.Inserted */
+.go { color: #444444; background-color: #222222 } /* Generic.Output */
+.gp { color: #ffffff } /* Generic.Prompt */
+.gs { color: #ffffff } /* Generic.Strong */
+.gu { color: #ffffff; font-weight: bold } /* Generic.Subheading */
+.gt { color: #ffffff } /* Generic.Traceback */
+.kc { color: #fb660a; font-weight: bold } /* Keyword.Constant */
+.kd { color: #fb660a; font-weight: bold } /* Keyword.Declaration */
+.kn { color: #fb660a; font-weight: bold } /* Keyword.Namespace */
+.kp { color: #fb660a } /* Keyword.Pseudo */
+.kr { color: #fb660a; font-weight: bold } /* Keyword.Reserved */
+.kt { color: #cdcaa9; font-weight: bold } /* Keyword.Type */
+.ld { color: #ffffff } /* Literal.Date */
+.m { color: #0086f7; font-weight: bold } /* Literal.Number */
+.s { color: #0086d2 } /* Literal.String */
+.na { color: #ff0086; font-weight: bold } /* Name.Attribute */
+.nb { color: #ffffff } /* Name.Builtin */
+.nc { color: #ffffff } /* Name.Class */
+.no { color: #0086d2 } /* Name.Constant */
+.nd { color: #ffffff } /* Name.Decorator */
+.ni { color: #ffffff } /* Name.Entity */
+.ne { color: #ffffff } /* Name.Exception */
+.nf { color: #ff0086; font-weight: bold } /* Name.Function */
+.nl { color: #ffffff } /* Name.Label */
+.nn { color: #ffffff } /* Name.Namespace */
+.nx { color: #ffffff } /* Name.Other */
+.py { color: #ffffff } /* Name.Property */
+.nt { color: #fb660a; font-weight: bold } /* Name.Tag */
+.nv { color: #fb660a } /* Name.Variable */
+.ow { color: #ffffff } /* Operator.Word */
+.w { color: #888888 } /* Text.Whitespace */
+.mb { color: #0086f7; font-weight: bold } /* Literal.Number.Bin */
+.mf { color: #0086f7; font-weight: bold } /* Literal.Number.Float */
+.mh { color: #0086f7; font-weight: bold } /* Literal.Number.Hex */
+.mi { color: #0086f7; font-weight: bold } /* Literal.Number.Integer */
+.mo { color: #0086f7; font-weight: bold } /* Literal.Number.Oct */
+.sa { color: #0086d2 } /* Literal.String.Affix */
+.sb { color: #0086d2 } /* Literal.String.Backtick */
+.sc { color: #0086d2 } /* Literal.String.Char */
+.dl { color: #0086d2 } /* Literal.String.Delimiter */
+.sd { color: #0086d2 } /* Literal.String.Doc */
+.s2 { color: #0086d2 } /* Literal.String.Double */
+.se { color: #0086d2 } /* Literal.String.Escape */
+.sh { color: #0086d2 } /* Literal.String.Heredoc */
+.si { color: #0086d2 } /* Literal.String.Interpol */
+.sx { color: #0086d2 } /* Literal.String.Other */
+.sr { color: #0086d2 } /* Literal.String.Regex */
+.s1 { color: #0086d2 } /* Literal.String.Single */
+.ss { color: #0086d2 } /* Literal.String.Symbol */
+.bp { color: #ffffff } /* Name.Builtin.Pseudo */
+.fm { color: #ff0086; font-weight: bold } /* Name.Function.Magic */
+.vc { color: #fb660a } /* Name.Variable.Class */
+.vg { color: #fb660a } /* Name.Variable.Global */
+.vi { color: #fb660a } /* Name.Variable.Instance */
+.vm { color: #fb660a } /* Name.Variable.Magic */
+.il { color: #0086f7; font-weight: bold } /* Literal.Number.Integer.Long */
+</style>
+</head>
+<body>
+<h1>Break the pieces (2 kyu)</h1>
+<p>You are given a ASCII diagram , comprised of minus signs <code>-</code>, plus signs <code>+</code>, vertical bars <code>|</code> and whitespaces <code>  </code>.  Your task is to write a function which breaks the diagram in the minimal pieces it is made of.</p>
+<p>For example, if the input for your function is this diagram:</p>
+<pre><code>+------------+
+|            |
+|            |
+|            |
++------+-----+
+|      |     |
+|      |     |
++------+-----+
+</code></pre>
+<p>the returned value should be the list of:</p>
+<pre><code>+------------+
+|            |
+|            |
+|            |
++------------+
+</code></pre>
+<p>(note how it lost a <code>+</code> sign in the extraction)</p>
+<p>as well as</p>
+<pre><code>+------+
+|      |
+|      |
++------+
+</code></pre>
+<p>and</p>
+<pre><code>+-----+
+|     |
+|     |
++-----+
+</code></pre>
+<p>The diagram is given as an ordinary Javascript multiline string.  The pieces should not have trailing spaces at the end of the lines. However, it could have leading spaces if the figure is not a rectangle. For instance:</p>
+<pre><code>    +---+
+    |   |
++---+   |
+|       |
++-------+
+</code></pre>
+<p>However, it is not allowed to use more leading spaces than necessary. It is to say, the first character of some of the lines should be different than a space.</p>
+<p>Finally, note that only the explicitly closed pieces are considered.  Spaces "outside" of the shape are part of the background . Therefore the diagram above has a single piece.</p>
+<p>Have fun!</p>
+<p>Note : in C++ you are provided with two utility functions :</p>
+<pre><code>std::string join(const std::string &amp;sep, const std::vector&lt;std::string&gt; &amp;to_join); // Returns the concatenation of all the strings in the vector, separated with sep 
+
+std::vector&lt;std::string&gt; split_lines(const std::string &amp;to_split); // Splits a string, using separator '\n'
+</code></pre>
+<hr>
+
+<h4 id="harder-version-of-the-kata-available-here-break-the-pieces-evilized-edition"><em>Harder version of the kata available here:</em> <a href="https://www.codewars.com/kata/break-the-pieces-evilized-edition" target="_blank"><em>Break the Pieces (evilized edition)</em></a></h4>
+
+<h4>Starting Code</h4>
+<pre><code>def break_pieces(shape):
+    # complete me!</code></pre>
+
+<h2>My Solution</h2>
+<div style="background-color: black;">
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">break_pieces</span><span class="p">(</span><span class="n">shape</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a list of multiline strings, in arbitrary order, representing the fundamental polygonal pieces</span>
+<span class="sd">    of the shape represented by the given multiline string.&quot;&quot;&quot;</span>
+
+    <span class="c1"># Let&#39;s work with the shape as a list of row strings rather than as a single multiline string.</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+
+    <span class="c1"># This may be overkill, but to avoid working directly with shape throughout,</span>
+    <span class="c1"># let&#39;s extract the vertices (marked by &#39;+&#39;s in shape) and edges once and for all here.</span>
+
+    <span class="c1"># We&#39;ll build a mapping of the coordinates of each vertex to a list of the coordinates of the adjacent vertices --</span>
+    <span class="c1"># [below, to the right, above, to the left].</span>
+    <span class="c1"># For each vertex, a None will go in the slot for each direction in which there is no adjacent vertex.</span>
+    <span class="n">in_progress_vertices_adjacent_to</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># Vertices whose adjacency info is still being worked on will be keys in this dict.</span>
+    <span class="n">vertices_adjacent_to</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># Once a vertex&#39;s edges are all determined, its record will be added to this dict.</span>
+
+    <span class="c1"># To avoid anything magic number-like in the one place I explicitly use each of these direction indices...</span>
+    <span class="n">BELOW</span><span class="p">,</span> <span class="n">RIGHT</span><span class="p">,</span> <span class="n">ABOVE</span><span class="p">,</span> <span class="n">LEFT</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span>
+
+    <span class="c1"># We&#39;ll also build a set of pairs of the form (vertex coordinates, outward edge direction index).  (No Nones here.)</span>
+    <span class="c1"># This is equivalent to a set of all edges in both directions between all pairs of adjacent vertices.</span>
+    <span class="c1"># (It is not strictly necessary to build and use a set like this.  Where we&#39;ll be drawing from it later,</span>
+    <span class="c1"># we could instead work directly with the vertices_adjacent_to mapping.)</span>
+    <span class="n">directed_edges_source_vertices_and_directions</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="c1"># Going row-by-row, then column-by-column, locate the first vertex in shape (which apparently might not be in the first row).</span>
+    <span class="k">for</span> <span class="n">row</span><span class="p">,</span> <span class="n">row_str</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">shape</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">vertex_column</span> <span class="o">=</span> <span class="n">row_str</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="p">)</span>
+            <span class="n">vertex_row</span> <span class="o">=</span> <span class="n">row</span>
+            <span class="k">break</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># If there are no vertices, there is no actual shape and no pieces; return an empty list.</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="c1"># Our first vertex gets us started.</span>
+    <span class="n">in_progress_vertices_adjacent_to</span><span class="p">[(</span><span class="n">vertex_row</span><span class="p">,</span> <span class="n">vertex_column</span><span class="p">)]</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span>
+
+    <span class="c1"># Pop a (vertex, adjacent vertices) pair from our in-progress mapping,</span>
+    <span class="c1"># record all not-previously-found vertices to which it is adjacent,</span>
+    <span class="c1"># add this whole entry to the final mapping dict,</span>
+    <span class="c1"># and add the current vertex to the adjacency list for the newly found adjacent vertices,</span>
+    <span class="c1"># making new in-progress entries for them as necessary.</span>
+    <span class="c1"># Repeat until there are no vertices left to be worked on.</span>
+    <span class="k">while</span> <span class="n">in_progress_vertices_adjacent_to</span><span class="p">:</span>
+        <span class="n">vertex</span><span class="p">,</span> <span class="n">adjacent_vertices</span> <span class="o">=</span> <span class="n">in_progress_vertices_adjacent_to</span><span class="o">.</span><span class="n">popitem</span><span class="p">()</span>  <span class="c1"># Get an item to work on.</span>
+        <span class="n">vertex_row</span><span class="p">,</span> <span class="n">vertex_column</span> <span class="o">=</span> <span class="n">vertex</span>
+
+        <span class="c1"># Deal with each direction in which our current vertex does not yet have an adjacent vertex recorded.</span>
+        <span class="k">for</span> <span class="n">direction</span><span class="p">,</span> <span class="n">adjacent_vertex</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">adjacent_vertices</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">adjacent_vertex</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span class="n">BELOW</span><span class="p">:</span>
+                    <span class="c1"># If there is a vertical edge or a vertex immediately below us, find the first &#39;+&#39; below us, as that is our downward adjacent vertex.</span>
+                    <span class="k">if</span> <span class="n">vertex_row</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">vertex_column</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">[</span><span class="n">vertex_row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="ow">and</span> <span class="n">shape</span><span class="p">[</span><span class="n">vertex_row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">vertex_column</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">):</span>
+                        <span class="n">adjacent_vertex</span> <span class="o">=</span> <span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">row</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">vertex_row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">))</span> <span class="k">if</span> <span class="n">vertex_column</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">[</span><span class="n">row</span><span class="p">])</span> <span class="ow">and</span> <span class="n">shape</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">vertex_column</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;+&#39;</span><span class="p">),</span> <span class="n">vertex_column</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">direction</span> <span class="o">==</span> <span class="n">ABOVE</span><span class="p">:</span>
+                    <span class="c1"># If there is a vertical edge or a vertex immediately above us, find the first &#39;+&#39; above us, as that is our upward adjacent vertex.</span>
+                    <span class="k">if</span> <span class="n">vertex_row</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">vertex_column</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">[</span><span class="n">vertex_row</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="ow">and</span> <span class="n">shape</span><span class="p">[</span><span class="n">vertex_row</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">vertex_column</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">):</span>
+                        <span class="n">adjacent_vertex</span> <span class="o">=</span> <span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">row</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">vertex_row</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">vertex_column</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">[</span><span class="n">row</span><span class="p">])</span> <span class="ow">and</span> <span class="n">shape</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">vertex_column</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;+&#39;</span><span class="p">),</span> <span class="n">vertex_column</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">direction</span> <span class="o">==</span> <span class="n">RIGHT</span><span class="p">:</span>
+                    <span class="c1"># If there is a horizontal edge or a vertex immediately to our right, find the first &#39;+&#39; to our right, as that is our rightward adjacent vertex.</span>
+                    <span class="n">vertex_row_str</span> <span class="o">=</span> <span class="n">shape</span><span class="p">[</span><span class="n">vertex_row</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">vertex_column</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">vertex_row_str</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">vertex_row_str</span><span class="p">[</span><span class="n">vertex_column</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">):</span>
+                        <span class="n">adjacent_vertex</span> <span class="o">=</span> <span class="p">(</span><span class="n">vertex_row</span><span class="p">,</span> <span class="n">vertex_row_str</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="n">vertex_column</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="k">elif</span> <span class="n">direction</span> <span class="o">==</span> <span class="n">LEFT</span><span class="p">:</span>  <span class="c1"># (Or just else.)</span>
+                    <span class="c1"># If there is a horizontal edge or a vertex immediately to our left, find the first &#39;+&#39; to our left, as that is our leftward adjacent vertex.</span>
+                    <span class="n">vertex_row_str</span> <span class="o">=</span> <span class="n">shape</span><span class="p">[</span><span class="n">vertex_row</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">vertex_column</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">vertex_row_str</span><span class="p">[</span><span class="n">vertex_column</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">):</span>
+                        <span class="n">adjacent_vertex</span> <span class="o">=</span> <span class="p">(</span><span class="n">vertex_row</span><span class="p">,</span> <span class="n">vertex_row_str</span><span class="o">.</span><span class="n">rindex</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">vertex_column</span><span class="p">))</span>
+
+                <span class="k">if</span> <span class="n">adjacent_vertex</span><span class="p">:</span>
+                    <span class="c1"># If we just found an adjacent vertex in the direction we were considering, record it in the popped entry.</span>
+                    <span class="n">adjacent_vertices</span><span class="p">[</span><span class="n">direction</span><span class="p">]</span> <span class="o">=</span> <span class="n">adjacent_vertex</span>
+                    <span class="n">directed_edges_source_vertices_and_directions</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">vertex</span><span class="p">,</span> <span class="n">direction</span><span class="p">))</span>  <span class="c1"># Also add to our auxiliary set of directed edges.</span>
+                    <span class="c1"># If necessary, add an entry for the adjacent vertex in the in-progress mapping.</span>
+                    <span class="n">vertices_adjacent_to_adjacent_vertex</span> <span class="o">=</span> <span class="n">in_progress_vertices_adjacent_to</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">adjacent_vertex</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span>
+                    <span class="c1"># Record our current vertex as being adjacent to the adjacent vertex in the appropriate direction.</span>
+                    <span class="n">inverse_direction</span> <span class="o">=</span> <span class="p">(</span><span class="n">direction</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span>
+                    <span class="n">vertices_adjacent_to_adjacent_vertex</span><span class="p">[</span><span class="n">inverse_direction</span><span class="p">]</span> <span class="o">=</span> <span class="n">vertex</span>
+                    <span class="n">directed_edges_source_vertices_and_directions</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">adjacent_vertex</span><span class="p">,</span> <span class="n">inverse_direction</span><span class="p">))</span>
+
+        <span class="c1"># We&#39;re done with this vertex; move it to the final mapping.</span>
+        <span class="n">vertices_adjacent_to</span><span class="p">[</span><span class="n">vertex</span><span class="p">]</span> <span class="o">=</span> <span class="n">adjacent_vertices</span>
+
+    <span class="n">pieces</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># The list that will store the string representations of our pieces.</span>
+
+    <span class="c1"># Pop a directed edge from our auxiliary set;</span>
+    <span class="c1"># start with it and progress, at each vertex taking the rightmost directed edge going out,</span>
+    <span class="c1"># and stopping once we return to our starting point.</span>
+    <span class="c1"># Each such cycle is the boundary of a fundamental polygonal piece in our shape</span>
+    <span class="c1"># (except one, which forms the outer boundary of our whole shape).</span>
+    <span class="c1"># Represent each valid boundary as a string and append that to the list to be returned.</span>
+    <span class="c1"># Remove each directed edge we followed from our set of available directed edges.</span>
+    <span class="c1"># Stop when we run out of available directed edges.</span>
+    <span class="k">while</span> <span class="n">directed_edges_source_vertices_and_directions</span><span class="p">:</span>
+        <span class="n">vertices_of_piece</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># To store the ordered list of vertices forming the boundary of the current piece.</span>
+        <span class="c1"># Get our starting directed edge for this piece&#39;s boundary.</span>
+        <span class="n">initial_vertex</span><span class="p">,</span> <span class="n">initial_direction</span> <span class="o">=</span> <span class="n">directed_edges_source_vertices_and_directions</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="n">direction</span> <span class="o">=</span> <span class="n">initial_direction</span>
+
+        <span class="c1"># We&#39;ll later want to know the row and column bounds for our piece,</span>
+        <span class="c1"># as well as the index in vertices_of_piece of the leftmost vertex in our piece&#39;s topmost row.</span>
+        <span class="c1"># (Though we could use min() and max() later to help determine these values,</span>
+        <span class="c1"># let&#39;s instead just find them ourselves here, updating as we trace out our boundary.)</span>
+        <span class="n">max_row</span><span class="p">,</span> <span class="n">max_column</span> <span class="o">=</span> <span class="n">min_row</span><span class="p">,</span> <span class="n">min_column</span> <span class="o">=</span> <span class="n">initial_vertex</span>
+        <span class="n">min_column_in_min_row</span> <span class="o">=</span> <span class="n">min_column</span>
+        <span class="n">index_of_vertex_with_min_column_in_min_row</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="c1"># [Note that if we end up not including initial_vertex (as the last element) in the list of true vertices of our polygonal piece,</span>
+        <span class="c1"># it will be because the piece boundary runs horizontally or vertically straight through it.</span>
+        <span class="c1"># It is easily seen that the min and max row and column we end up with will be accurate even in this case,</span>
+        <span class="c1"># as will the index of the min-column-in-min-row vertex, since a point through which the boundary runs</span>
+        <span class="c1"># vertically or horizontally will be overthrown on that score by a legitimate vertex of the polygon.]</span>
+
+        <span class="n">vertex</span> <span class="o">=</span> <span class="n">vertices_adjacent_to</span><span class="p">[</span><span class="n">initial_vertex</span><span class="p">][</span><span class="n">initial_direction</span><span class="p">]</span>  <span class="c1"># Follow our first edge to our second vertex.</span>
+        <span class="k">while</span> <span class="n">vertex</span> <span class="o">!=</span> <span class="n">initial_vertex</span><span class="p">:</span>  <span class="c1"># We stop once we close the boundary.</span>
+            <span class="c1"># Facing for a moment in the direction of travel along our boundary,</span>
+            <span class="c1"># we pick the adjacent vertex to our right if there is one,</span>
+            <span class="c1"># failing that the one in front of us, failing that the one to our left.</span>
+            <span class="c1"># In this way, we trace out the fundamental piece boundaries in our shape -- each clockwise overall --</span>
+            <span class="c1"># as well as the outer boundary of the shape -- counterclockwise overall.</span>
+            <span class="n">adjacent_vertices</span> <span class="o">=</span> <span class="n">vertices_adjacent_to</span><span class="p">[</span><span class="n">vertex</span><span class="p">]</span>
+            <span class="n">previous_direction</span><span class="p">,</span> <span class="n">direction</span> <span class="o">=</span> <span class="n">direction</span><span class="p">,</span> <span class="nb">next</span><span class="p">(</span><span class="n">direction_to_adjacent_vertex</span> <span class="k">for</span> <span class="n">direction_to_adjacent_vertex</span> <span class="ow">in</span>
+                                                            <span class="p">((</span><span class="n">direction</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="p">(</span><span class="n">direction</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span><span class="p">)</span> <span class="k">if</span>
+                                                            <span class="n">adjacent_vertices</span><span class="p">[</span><span class="n">direction_to_adjacent_vertex</span><span class="p">])</span>
+            <span class="n">directed_edges_source_vertices_and_directions</span><span class="o">.</span><span class="n">remove</span><span class="p">((</span><span class="n">vertex</span><span class="p">,</span> <span class="n">direction</span><span class="p">))</span>  <span class="c1"># Remove each directed edge we use.</span>
+
+            <span class="c1"># If the still-current vertex is a legitimate vertex of our polygonal piece</span>
+            <span class="c1"># (and not just a branch point in the overall shape through which we&#39;ve here traveled in a straight line),</span>
+            <span class="c1"># append it to our boundary-in-progress</span>
+            <span class="c1"># and -- with upsetting verbosity -- update our minimum/maximum information.</span>
+            <span class="k">if</span> <span class="n">direction</span> <span class="o">!=</span> <span class="n">previous_direction</span><span class="p">:</span>
+                <span class="n">vertices_of_piece</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vertex</span><span class="p">)</span>
+                <span class="n">vertex_row</span><span class="p">,</span> <span class="n">vertex_column</span> <span class="o">=</span> <span class="n">vertex</span>
+                <span class="k">if</span> <span class="n">vertex_row</span> <span class="o">&gt;</span> <span class="n">max_row</span><span class="p">:</span>
+                    <span class="n">max_row</span> <span class="o">=</span> <span class="n">vertex_row</span>
+                <span class="k">elif</span> <span class="n">vertex_row</span> <span class="o">==</span> <span class="n">min_row</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">vertex_column</span> <span class="o">&lt;</span> <span class="n">min_column_in_min_row</span><span class="p">:</span>
+                        <span class="n">min_column_in_min_row</span> <span class="o">=</span> <span class="n">vertex_column</span>
+                        <span class="n">index_of_vertex_with_min_column_in_min_row</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vertices_of_piece</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="k">elif</span> <span class="n">vertex_row</span> <span class="o">&lt;</span> <span class="n">min_row</span><span class="p">:</span>
+                    <span class="n">min_row</span> <span class="o">=</span> <span class="n">vertex_row</span>
+                    <span class="n">min_column_in_min_row</span> <span class="o">=</span> <span class="n">vertex_column</span>
+                    <span class="n">index_of_vertex_with_min_column_in_min_row</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vertices_of_piece</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">vertex_column</span> <span class="o">&gt;</span> <span class="n">max_column</span><span class="p">:</span>
+                    <span class="n">max_column</span> <span class="o">=</span> <span class="n">vertex_column</span>
+                <span class="k">elif</span> <span class="n">vertex_column</span> <span class="o">&lt;</span> <span class="n">min_column</span><span class="p">:</span>
+                    <span class="n">min_column</span> <span class="o">=</span> <span class="n">vertex_column</span>
+
+            <span class="n">vertex</span> <span class="o">=</span> <span class="n">adjacent_vertices</span><span class="p">[</span><span class="n">direction</span><span class="p">]</span>  <span class="c1"># Finally actually advance to our next vertex.</span>
+
+        <span class="c1"># We intentionally left our starting point out of our boundary vertices list.</span>
+        <span class="c1"># We add it here as the final point if we now see it to be a legitimate (non-flat) vertex of our polygonal piece.</span>
+        <span class="k">if</span> <span class="n">direction</span> <span class="o">!=</span> <span class="n">initial_direction</span><span class="p">:</span>
+            <span class="n">vertices_of_piece</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vertex</span><span class="p">)</span>
+
+        <span class="c1"># We are to list only the boundaries of the pieces of our shape and exclude the outer boundary of the shape,</span>
+        <span class="c1"># which is the only boundary we traced counterclockwise.</span>
+        <span class="c1"># (If our shape has just one piece, we&#39;ll get two copies of the boundary,</span>
+        <span class="c1"># one traced clockwise and one traced counterclockwise.  We&#39;ll reject the latter.)</span>
+        <span class="c1"># In https://en.wikipedia.org/wiki/Curve_orientation#Practical_considerations we see that the</span>
+        <span class="c1"># coordinates of (for instance) V, the leftmost vertex in the topmost row,</span>
+        <span class="c1"># along with the coordinates of the adjacent vertices on either side,</span>
+        <span class="c1"># can be used to determine the orientation in which we have traced a polygonal boundary.</span>
+        <span class="c1"># Since our edges are all either vertical or horizontal, we can simplify even this.</span>
+        <span class="c1"># If V and its (cyclic) predecessor are in different rows, then we traced the boundary clockwise and have a legitimate piece.</span>
+        <span class="c1"># Otherwise, we are looking at the counterclockwise-traced boundary of the whole shape, which we do not include in our output.</span>
+        <span class="c1"># (There will only be one counterclockwise-traced boundary, so we could stop checking once we find it,</span>
+        <span class="c1"># but since the work involved in checking is hardly strenuous, it would seem silly to bother with a flag to disable it.)</span>
+        <span class="n">row_of_predecessor_of_vertex_with_min_column_in_min_row</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">vertices_of_piece</span><span class="p">[</span><span class="n">index_of_vertex_with_min_column_in_min_row</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">row_of_predecessor_of_vertex_with_min_column_in_min_row</span> <span class="o">!=</span> <span class="n">min_row</span><span class="p">:</span>
+            <span class="c1"># We&#39;ll draw our piece on a blank canvas of the appropriate size.</span>
+            <span class="n">piece_canvas</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39; &#39;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">max_column</span> <span class="o">-</span> <span class="n">min_column</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_row</span> <span class="o">-</span> <span class="n">min_row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+
+            <span class="c1"># Draw each edge of our polygonal piece using the appropriate characters,</span>
+            <span class="c1"># including a &#39;+&#39; for its first endpoint.</span>
+            <span class="n">source_vertex</span> <span class="o">=</span> <span class="n">vertices_of_piece</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">destination_vertex</span> <span class="ow">in</span> <span class="n">vertices_of_piece</span><span class="p">:</span>
+                <span class="n">source_row</span><span class="p">,</span> <span class="n">source_column</span> <span class="o">=</span> <span class="n">source_vertex</span>
+                <span class="n">destination_row</span><span class="p">,</span> <span class="n">destination_column</span> <span class="o">=</span> <span class="n">destination_vertex</span>
+                <span class="n">piece_canvas</span><span class="p">[</span><span class="n">source_row</span> <span class="o">-</span> <span class="n">min_row</span><span class="p">][</span><span class="n">source_column</span> <span class="o">-</span> <span class="n">min_column</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;+&#39;</span>
+                <span class="k">if</span> <span class="n">source_row</span> <span class="o">!=</span> <span class="n">destination_row</span><span class="p">:</span>
+                    <span class="n">increment</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">destination_row</span> <span class="o">&gt;</span> <span class="n">source_row</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
+                    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">source_row</span> <span class="o">+</span> <span class="n">increment</span><span class="p">,</span> <span class="n">destination_row</span><span class="p">,</span> <span class="n">increment</span><span class="p">):</span>
+                        <span class="n">piece_canvas</span><span class="p">[</span><span class="n">row</span> <span class="o">-</span> <span class="n">min_row</span><span class="p">][</span><span class="n">source_column</span> <span class="o">-</span> <span class="n">min_column</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;|&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">increment</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">destination_column</span> <span class="o">&gt;</span> <span class="n">source_column</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
+                    <span class="n">piece_canvas_row_content</span> <span class="o">=</span> <span class="n">piece_canvas</span><span class="p">[</span><span class="n">source_row</span> <span class="o">-</span> <span class="n">min_row</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">source_column</span> <span class="o">+</span> <span class="n">increment</span><span class="p">,</span> <span class="n">destination_column</span><span class="p">,</span> <span class="n">increment</span><span class="p">):</span>
+                        <span class="n">piece_canvas_row_content</span><span class="p">[</span><span class="n">column</span> <span class="o">-</span> <span class="n">min_column</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span>
+                <span class="n">source_vertex</span> <span class="o">=</span> <span class="n">destination_vertex</span>
+
+            <span class="c1"># To our list-to-be-returned, append the multiline string representation of the current piece,</span>
+            <span class="c1"># with trailing whitespace removed from each line, as required.</span>
+            <span class="n">pieces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">piece_canvas_row_content</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span> <span class="k">for</span> <span class="n">piece_canvas_row_content</span> <span class="ow">in</span> <span class="n">piece_canvas</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">pieces</span>  <span class="c1"># All done!</span>
+</pre></div>
+
+</div>
+
+<h2>My Notes</h2>
+<ul>
+    <li>Yes, my entire solution is in a single function body.</li>
+    <li>To learn to work with basic structures, I've intentionally deprived myself here of numpy and image processing modules.</li>
+    <li>I wonder how well region-filling would have done/helped here.</li>
+</ul>
+<h3>After Viewing Test Cases, Other Users&rsquo; Solutions and Comments, etc.:</h3>
+I looked through another user's solution, which, naturally, involved flood-filling.  Testing both my function and this alternative solution on inputs representing square grids of uniform square pieces, I found that my function's run time was much shorter and scaled significantly better with increasing grid size.  Still, some notes on that other approach:
+<ul>
+    <li>The given shape info was transferred to a grid (a list of lists), with a layer of padding all around so the background would be contiguous.</li>
+    <li>The background was flood-filled.</li>
+    <li>In each iteration of a loop, the first still-empty location was used to seed a flood-fill. The characters in the grid that lay in the flood-filled region plus a one-unit-dilation formed the boundary and empty interior of a new polygonal piece. To remove false vertices for the piece boundary, each '+' that did not have both '-' and '|' in its immediate neighbourhood was itself replaced with '-' or '|' as appropriate.</li>
+    <li>To flood-fill starting at an empty location, that location was marked. Each iteration of a loop then marked the empty immediate neighbours of each location that had just been marked. (The just-marked locations were put in a fresh set initially and again in each iteration.) The whole set of locations marked was accumulated and finally returned.</li>
+</ul>
+</body>
+</html>

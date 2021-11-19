@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Battleship field validator (3 kyu)</title>
+<style>
+.hll { background-color: #333333 }
+.c { color: #008800; font-style: italic; background-color: #0f140f } /* Comment */
+.err { color: #ffffff } /* Error */
+.esc { color: #ffffff } /* Escape */
+.g { color: #ffffff } /* Generic */
+.k { color: #fb660a; font-weight: bold } /* Keyword */
+.l { color: #ffffff } /* Literal */
+.n { color: #ffffff } /* Name */
+.o { color: #ffffff } /* Operator */
+.x { color: #ffffff } /* Other */
+.p { color: #ffffff } /* Punctuation */
+.ch { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Hashbang */
+.cm { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Multiline */
+.cp { color: #ff0007; font-weight: bold; font-style: italic; background-color: #0f140f } /* Comment.Preproc */
+.cpf { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.PreprocFile */
+.c1 { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Single */
+.cs { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Special */
+.gd { color: #ffffff } /* Generic.Deleted */
+.ge { color: #ffffff } /* Generic.Emph */
+.gr { color: #ffffff } /* Generic.Error */
+.gh { color: #ffffff; font-weight: bold } /* Generic.Heading */
+.gi { color: #ffffff } /* Generic.Inserted */
+.go { color: #444444; background-color: #222222 } /* Generic.Output */
+.gp { color: #ffffff } /* Generic.Prompt */
+.gs { color: #ffffff } /* Generic.Strong */
+.gu { color: #ffffff; font-weight: bold } /* Generic.Subheading */
+.gt { color: #ffffff } /* Generic.Traceback */
+.kc { color: #fb660a; font-weight: bold } /* Keyword.Constant */
+.kd { color: #fb660a; font-weight: bold } /* Keyword.Declaration */
+.kn { color: #fb660a; font-weight: bold } /* Keyword.Namespace */
+.kp { color: #fb660a } /* Keyword.Pseudo */
+.kr { color: #fb660a; font-weight: bold } /* Keyword.Reserved */
+.kt { color: #cdcaa9; font-weight: bold } /* Keyword.Type */
+.ld { color: #ffffff } /* Literal.Date */
+.m { color: #0086f7; font-weight: bold } /* Literal.Number */
+.s { color: #0086d2 } /* Literal.String */
+.na { color: #ff0086; font-weight: bold } /* Name.Attribute */
+.nb { color: #ffffff } /* Name.Builtin */
+.nc { color: #ffffff } /* Name.Class */
+.no { color: #0086d2 } /* Name.Constant */
+.nd { color: #ffffff } /* Name.Decorator */
+.ni { color: #ffffff } /* Name.Entity */
+.ne { color: #ffffff } /* Name.Exception */
+.nf { color: #ff0086; font-weight: bold } /* Name.Function */
+.nl { color: #ffffff } /* Name.Label */
+.nn { color: #ffffff } /* Name.Namespace */
+.nx { color: #ffffff } /* Name.Other */
+.py { color: #ffffff } /* Name.Property */
+.nt { color: #fb660a; font-weight: bold } /* Name.Tag */
+.nv { color: #fb660a } /* Name.Variable */
+.ow { color: #ffffff } /* Operator.Word */
+.w { color: #888888 } /* Text.Whitespace */
+.mb { color: #0086f7; font-weight: bold } /* Literal.Number.Bin */
+.mf { color: #0086f7; font-weight: bold } /* Literal.Number.Float */
+.mh { color: #0086f7; font-weight: bold } /* Literal.Number.Hex */
+.mi { color: #0086f7; font-weight: bold } /* Literal.Number.Integer */
+.mo { color: #0086f7; font-weight: bold } /* Literal.Number.Oct */
+.sa { color: #0086d2 } /* Literal.String.Affix */
+.sb { color: #0086d2 } /* Literal.String.Backtick */
+.sc { color: #0086d2 } /* Literal.String.Char */
+.dl { color: #0086d2 } /* Literal.String.Delimiter */
+.sd { color: #0086d2 } /* Literal.String.Doc */
+.s2 { color: #0086d2 } /* Literal.String.Double */
+.se { color: #0086d2 } /* Literal.String.Escape */
+.sh { color: #0086d2 } /* Literal.String.Heredoc */
+.si { color: #0086d2 } /* Literal.String.Interpol */
+.sx { color: #0086d2 } /* Literal.String.Other */
+.sr { color: #0086d2 } /* Literal.String.Regex */
+.s1 { color: #0086d2 } /* Literal.String.Single */
+.ss { color: #0086d2 } /* Literal.String.Symbol */
+.bp { color: #ffffff } /* Name.Builtin.Pseudo */
+.fm { color: #ff0086; font-weight: bold } /* Name.Function.Magic */
+.vc { color: #fb660a } /* Name.Variable.Class */
+.vg { color: #fb660a } /* Name.Variable.Global */
+.vi { color: #fb660a } /* Name.Variable.Instance */
+.vm { color: #fb660a } /* Name.Variable.Magic */
+.il { color: #0086f7; font-weight: bold } /* Literal.Number.Integer.Long */
+</style>
+</head>
+<body>
+<h1>Battleship field validator (3 kyu)</h1>
+<p>Write a method that takes a field for well-known board game "Battleship" as an argument and returns true if it has a valid disposition of ships, false otherwise. Argument is guaranteed to be 10*10 two-dimension array. Elements in the array are numbers, 0 if the cell is free and 1 if occupied by ship.</p>
+<p><b>Battleship</b> (also Battleships or Sea Battle) is a guessing game for two players.
+Each player has a 10x10 grid containing several "ships" and objective is to destroy enemy's forces by targetting individual cells on his field. The ship occupies one or more cells in the grid. Size and number of ships may differ from version to version. In this kata we will use Soviet/Russian version of the game.</p>
+<img src="http://i.imgur.com/IWxeRBV.png"><br>
+Before the game begins, players set up the board and place the ships accordingly to the following rules:<br>
+<ul>
+<li>There must be single battleship (size of 4 cells), 2 cruisers (size 3), 3 destroyers (size 2) and 4 submarines (size 1). Any additional ships are not allowed, as well as missing ships.</li>
+<li>Each ship must be a straight line, except for submarines, which are just single cell.<br>
+<img src="http://i.imgur.com/FleBpT9.png"></li>
+<li>The ship cannot overlap or be in contact with any other ship, neither by edge nor by corner.<br>
+<img src="http://i.imgur.com/MuLvnug.png"></li>
+</ul>
+This is all you need to solve this kata. If you're interested in more information about the game, visit <a href="http://en.wikipedia.org/wiki/Battleship_(game)" target="_blank">this link</a>.
+<h4>Starting Code</h4>
+<pre><code>def validate_battlefield(field):
+    # write your magic here
+    return True</code></pre>
+
+<h2>My Solution</h2>
+<div style="background-color: black;">
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">validate_battlefield</span><span class="p">(</span><span class="n">field</span><span class="p">):</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># Field side length.</span>
+
+    <span class="k">def</span> <span class="nf">is_occupied</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">):</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">row</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="ow">and</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">col</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">field</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span>
+        <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># Out-of-bounds squares are considered unoccupied.</span>
+
+    <span class="n">expected_remaining_ships_of_length</span> <span class="o">=</span> <span class="p">{</span><span class="mi">4</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
+
+    <span class="c1"># Traverse the field primarily row-major-like.</span>
+    <span class="n">row</span> <span class="o">=</span> <span class="n">col</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">row</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">:</span>  <span class="c1"># We&#39;re done once we fall off the end of the field.</span>
+        <span class="c1"># Once we encounter an occupied square (just to the right of an unoccupied one), we get to work.</span>
+        <span class="k">if</span> <span class="n">is_occupied</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">):</span>
+            <span class="n">ship_is_horizontal</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># None for not-yet-determined or a single-square ship, True for a horizontal ship, False for a vertical ship.</span>
+            <span class="n">ship_length</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="c1"># We&#39;ll follow the ship, departing from the usual traversal order if the ship is vertical.</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">field</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Wipe the current square.  We then do not re-encounter the non-first squares of vertical ships.</span>
+                <span class="n">ship_length</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># Update the ship&#39;s length-so-far.</span>
+                <span class="c1"># Look right and look down.</span>
+                <span class="n">right_is_occupied</span> <span class="o">=</span> <span class="n">is_occupied</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">down_is_occupied</span> <span class="o">=</span> <span class="n">is_occupied</span><span class="p">(</span><span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span>
+                <span class="c1"># If both right and down from the current occupied square are occupied, the field is invalid.</span>
+                <span class="k">if</span> <span class="n">right_is_occupied</span> <span class="ow">and</span> <span class="n">down_is_occupied</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+                <span class="c1"># If neither is occupied, the ship is finished.  For this last square...</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">right_is_occupied</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">down_is_occupied</span><span class="p">:</span>
+                    <span class="c1"># If down-right is occupied, the field is invalid.</span>
+                    <span class="k">if</span> <span class="n">is_occupied</span><span class="p">(</span><span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">col</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                        <span class="k">return</span> <span class="kc">False</span>
+                    <span class="c1"># If the ship is vertical or is just one square, and down-left is occupied, the field is invalid.</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">ship_is_horizontal</span> <span class="ow">and</span> <span class="n">is_occupied</span><span class="p">(</span><span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">col</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                        <span class="k">return</span> <span class="kc">False</span>
+                    <span class="k">break</span>  <span class="c1"># Since the ship is finished.</span>
+                <span class="c1"># If we&#39;re on the first square of a multi-square ship, determine its direction.</span>
+                <span class="k">if</span> <span class="n">ship_is_horizontal</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">ship_is_horizontal</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="n">right_is_occupied</span> <span class="k">else</span> <span class="kc">False</span>
+                    <span class="c1"># If we&#39;re on the first square of a horizontal ship and down-left is occupied, the field is invalid.</span>
+                    <span class="k">if</span> <span class="n">ship_is_horizontal</span> <span class="ow">and</span> <span class="n">is_occupied</span><span class="p">(</span><span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">col</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                        <span class="k">return</span> <span class="kc">False</span>
+                <span class="c1"># If we&#39;re on a non-first square of a ship and the square just down or right is occupied</span>
+                <span class="c1"># but shouldn&#39;t be (given our ship&#39;s direction), the field is invalid.</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">ship_is_horizontal</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">down_is_occupied</span><span class="p">:</span>
+                            <span class="k">return</span> <span class="kc">False</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">right_is_occupied</span><span class="p">:</span>
+                            <span class="k">return</span> <span class="kc">False</span>
+                        <span class="c1"># If we&#39;re on a non-first square of a vertical ship and the square to the left is occupied,</span>
+                        <span class="c1"># the field is invalid.</span>
+                        <span class="k">if</span> <span class="n">is_occupied</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                            <span class="k">return</span> <span class="kc">False</span>
+                <span class="c1"># We had detected that there is more to this ship.  Keep going.</span>
+                <span class="c1"># (Since we know that the next square in the detected direction is indeed occupied,</span>
+                <span class="c1"># there is no danger of stepping off the field here.)</span>
+                <span class="k">if</span> <span class="n">ship_is_horizontal</span><span class="p">:</span>
+                    <span class="n">col</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c1"># We&#39;re done with the ship.  If we had already exhausted the expected number of ships of this length</span>
+            <span class="c1"># (or just expected no ships of this length at all), the field is invalid.</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">expected_remaining_ships_of_length</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ship_length</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="c1"># Otherwise, we&#39;ve got a valid ship; cross it off the expected fleet.</span>
+            <span class="n">expected_remaining_ships_of_length</span><span class="p">[</span><span class="n">ship_length</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+
+            <span class="c1"># If the ship was vertical, return to its first square to resume our complete traversal of the field.</span>
+            <span class="k">if</span> <span class="n">ship_is_horizontal</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>  <span class="c1"># (This condition is not quite as ridiculous as it may look.)</span>
+                <span class="n">row</span> <span class="o">-=</span> <span class="n">ship_length</span> <span class="o">-</span> <span class="mi">1</span>
+
+        <span class="c1"># Continuing our traversal of the field, we advance to the next square (to the right).  </span>
+        <span class="c1"># When we fall off the right side, we go to the start of the next row.</span>
+        <span class="c1"># (The loop condition will stop us once we hit the nonexistent beginning of the nonexistent post-final row.)</span>
+        <span class="n">col</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">col</span> <span class="o">==</span> <span class="n">N</span><span class="p">:</span>
+            <span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">col</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># If we&#39;ve reached this point, the field is valid if and only if there are no ships that we expected but failed to encounter.</span>
+    <span class="k">return</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">expected_remaining_ships_of_length</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+</pre></div>
+
+</div>
+
+<h2>My Notes</h2>
+<ul>
+    <li>I do try in this code to be reasonably careful to avoid doing/checking too many obviously redundant things.</li>
+    <li>I consciously barbarically assume that I am free to mutate the argument. If I should not assume this, I could set <code>field = copy.deepcopy(field)</code> at the beginning of the function body.</li>
+</ul>
+<h3>After Viewing Test Cases, Other Users&rsquo; Solutions and Comments, etc.:</h3>
+<ul>
+    <li>Simpler code can be written by not keeping track of ship direction:
+        <ul>
+            <li>To ensure a ship's validity, it's essentially actually enough to go from square to square of the ship while checking that right and down are not both occupied and that neither left-down nor right-down is occupied.</li>
+            <li>Also, it of course is possible to go through a ship recursively, with length as the return value.</li>
+            <li>Finally, someone actually did use scipy image processing functions. I didn't realize this was allowed. Frankly though, that sort of approach avoids work on the more basic elements I'm trying to learn here.</li>
+        </ul>
+    </li>
+    <li>I (inconsequentially) broke a "rule" of good coding: <code>return field[row][col]</code> should be replaced by <code>return field[row][col] == 1</code> to keep the return type of <code>is_occupied</code> consistently explicitly boolean.</li>
+</ul>
+</body>
+</html>

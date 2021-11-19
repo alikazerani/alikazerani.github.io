@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Primes in numbers (5 kyu)</title>
+<style>
+.hll { background-color: #333333 }
+.c { color: #008800; font-style: italic; background-color: #0f140f } /* Comment */
+.err { color: #ffffff } /* Error */
+.esc { color: #ffffff } /* Escape */
+.g { color: #ffffff } /* Generic */
+.k { color: #fb660a; font-weight: bold } /* Keyword */
+.l { color: #ffffff } /* Literal */
+.n { color: #ffffff } /* Name */
+.o { color: #ffffff } /* Operator */
+.x { color: #ffffff } /* Other */
+.p { color: #ffffff } /* Punctuation */
+.ch { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Hashbang */
+.cm { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Multiline */
+.cp { color: #ff0007; font-weight: bold; font-style: italic; background-color: #0f140f } /* Comment.Preproc */
+.cpf { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.PreprocFile */
+.c1 { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Single */
+.cs { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Special */
+.gd { color: #ffffff } /* Generic.Deleted */
+.ge { color: #ffffff } /* Generic.Emph */
+.gr { color: #ffffff } /* Generic.Error */
+.gh { color: #ffffff; font-weight: bold } /* Generic.Heading */
+.gi { color: #ffffff } /* Generic.Inserted */
+.go { color: #444444; background-color: #222222 } /* Generic.Output */
+.gp { color: #ffffff } /* Generic.Prompt */
+.gs { color: #ffffff } /* Generic.Strong */
+.gu { color: #ffffff; font-weight: bold } /* Generic.Subheading */
+.gt { color: #ffffff } /* Generic.Traceback */
+.kc { color: #fb660a; font-weight: bold } /* Keyword.Constant */
+.kd { color: #fb660a; font-weight: bold } /* Keyword.Declaration */
+.kn { color: #fb660a; font-weight: bold } /* Keyword.Namespace */
+.kp { color: #fb660a } /* Keyword.Pseudo */
+.kr { color: #fb660a; font-weight: bold } /* Keyword.Reserved */
+.kt { color: #cdcaa9; font-weight: bold } /* Keyword.Type */
+.ld { color: #ffffff } /* Literal.Date */
+.m { color: #0086f7; font-weight: bold } /* Literal.Number */
+.s { color: #0086d2 } /* Literal.String */
+.na { color: #ff0086; font-weight: bold } /* Name.Attribute */
+.nb { color: #ffffff } /* Name.Builtin */
+.nc { color: #ffffff } /* Name.Class */
+.no { color: #0086d2 } /* Name.Constant */
+.nd { color: #ffffff } /* Name.Decorator */
+.ni { color: #ffffff } /* Name.Entity */
+.ne { color: #ffffff } /* Name.Exception */
+.nf { color: #ff0086; font-weight: bold } /* Name.Function */
+.nl { color: #ffffff } /* Name.Label */
+.nn { color: #ffffff } /* Name.Namespace */
+.nx { color: #ffffff } /* Name.Other */
+.py { color: #ffffff } /* Name.Property */
+.nt { color: #fb660a; font-weight: bold } /* Name.Tag */
+.nv { color: #fb660a } /* Name.Variable */
+.ow { color: #ffffff } /* Operator.Word */
+.w { color: #888888 } /* Text.Whitespace */
+.mb { color: #0086f7; font-weight: bold } /* Literal.Number.Bin */
+.mf { color: #0086f7; font-weight: bold } /* Literal.Number.Float */
+.mh { color: #0086f7; font-weight: bold } /* Literal.Number.Hex */
+.mi { color: #0086f7; font-weight: bold } /* Literal.Number.Integer */
+.mo { color: #0086f7; font-weight: bold } /* Literal.Number.Oct */
+.sa { color: #0086d2 } /* Literal.String.Affix */
+.sb { color: #0086d2 } /* Literal.String.Backtick */
+.sc { color: #0086d2 } /* Literal.String.Char */
+.dl { color: #0086d2 } /* Literal.String.Delimiter */
+.sd { color: #0086d2 } /* Literal.String.Doc */
+.s2 { color: #0086d2 } /* Literal.String.Double */
+.se { color: #0086d2 } /* Literal.String.Escape */
+.sh { color: #0086d2 } /* Literal.String.Heredoc */
+.si { color: #0086d2 } /* Literal.String.Interpol */
+.sx { color: #0086d2 } /* Literal.String.Other */
+.sr { color: #0086d2 } /* Literal.String.Regex */
+.s1 { color: #0086d2 } /* Literal.String.Single */
+.ss { color: #0086d2 } /* Literal.String.Symbol */
+.bp { color: #ffffff } /* Name.Builtin.Pseudo */
+.fm { color: #ff0086; font-weight: bold } /* Name.Function.Magic */
+.vc { color: #fb660a } /* Name.Variable.Class */
+.vg { color: #fb660a } /* Name.Variable.Global */
+.vi { color: #fb660a } /* Name.Variable.Instance */
+.vm { color: #fb660a } /* Name.Variable.Magic */
+.il { color: #0086f7; font-weight: bold } /* Literal.Number.Integer.Long */
+</style>
+</head>
+<body>
+<h1>Primes in numbers (5 kyu)</h1>
+<p>Given a positive number n &gt; 1 find the prime factor decomposition of n.
+The result will be a string with the following form :</p>
+<pre><code> "(p1**n1)(p2**n2)...(pk**nk)"
+</code></pre>
+<p>with the p(i) in increasing order and n(i) empty if
+n(i) is 1.</p>
+<pre><code>Example: n = 86240 should return "(2**5)(5)(7**2)(11)"
+</code></pre>
+
+<h4>Starting Code</h4>
+<pre><code>def prime_factors(n):
+    ...</code></pre>
+
+<h2>My Solution</h2>
+<div style="background-color: black;">
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+
+
+<span class="k">def</span> <span class="nf">prime_factors</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="c1"># In both the outer function and the inner function, not testing divisibility beyond the square root is an important optimization.</span>
+    <span class="c1"># Additional opportunities for optimization doubtless exist, but I&#39;m very happy with this implementation.</span>
+
+    <span class="k">def</span> <span class="nf">get_prime_sequence_generator</span><span class="p">():</span>
+        <span class="c1"># Via an incremental sieve of Eratosthenes.</span>
+
+        <span class="c1"># Referred to https://www.codevamping.com/2019/01/incremental-sieve-of-eratosthenes/,</span>
+        <span class="c1"># https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes,</span>
+        <span class="c1"># https://doi.org/10.1017/S0956796808007004,</span>
+        <span class="c1"># https://www.storyofmathematics.com/sieve-of-eratosthenes, and</span>
+        <span class="c1"># https://en.wikipedia.org/wiki/Primality_test.</span>
+
+        <span class="c1"># (I have chosen not to &quot;optimize&quot; my solution by hardcoding a list of the first many primes</span>
+        <span class="c1"># or by maintaining a cache of the generator&#39;s current &quot;personal best&quot; sequence of primes.</span>
+        <span class="c1"># These might have gone against the spirit of the problem.)</span>
+
+        <span class="c1"># Dictionary mapping each prime found so far (in order) to its most recently considered multiple:</span>
+        <span class="n">primes_to_their_multiples</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># The current candidate prime:</span>
+        <span class="n">candidate</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="c1"># A wee optimization (&quot;6k +/- 1&quot;):</span>
+        <span class="c1"># We hardcode yielding of the first two primes, 2 and 3,</span>
+        <span class="c1"># then consider only subsequent candidate primes, starting at 5, that are congruent to +1 or -1, modulo 6.</span>
+        <span class="c1"># In other words, we jump by 4 from 1 to 5 (our first non-hardcoded candidate),</span>
+        <span class="c1"># then by 2 to 7 (our second non-hardcoded candidate), then by 4 to 11, then by 2 to 13, and so on.</span>
+        <span class="c1"># We need not test these candidates&#39; divisibility by 2 or 3 (they will not be divisible),</span>
+        <span class="c1"># so we do not include 2 or 3 in the primes_to_their_multiples dictionary.</span>
+        <span class="k">yield</span> <span class="mi">2</span>
+        <span class="k">yield</span> <span class="mi">3</span>
+        <span class="n">step_to_next_candidate</span> <span class="o">=</span> <span class="mi">4</span>
+
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">candidate</span> <span class="o">+=</span> <span class="n">step_to_next_candidate</span>
+            <span class="n">step_to_next_candidate</span> <span class="o">=</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">step_to_next_candidate</span> <span class="o">==</span> <span class="mi">4</span> <span class="k">else</span> <span class="mi">4</span>
+            <span class="n">candidate_is_prime</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="c1"># Iterate over the primes up to the square root of the candidate.</span>
+            <span class="k">for</span> <span class="n">prime</span><span class="p">,</span> <span class="n">multiple_of_prime</span> <span class="ow">in</span> <span class="n">primes_to_their_multiples</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">prime</span> <span class="o">*</span> <span class="n">prime</span> <span class="o">&gt;</span> <span class="n">candidate</span><span class="p">:</span>
+                    <span class="k">break</span>
+
+                <span class="c1"># Advance along each prime&#39;s sequence of multiples until we reach or exceed the candidate.</span>
+                <span class="k">while</span> <span class="n">multiple_of_prime</span> <span class="o">&lt;</span> <span class="n">candidate</span><span class="p">:</span>
+                    <span class="n">multiple_of_prime</span> <span class="o">+=</span> <span class="n">prime</span>
+                <span class="n">primes_to_their_multiples</span><span class="p">[</span><span class="n">prime</span><span class="p">]</span> <span class="o">=</span> <span class="n">multiple_of_prime</span>
+                <span class="k">if</span> <span class="n">multiple_of_prime</span> <span class="o">==</span> <span class="n">candidate</span><span class="p">:</span>  <span class="c1"># The candidate is composite; go to the next candidate.</span>
+                    <span class="n">candidate_is_prime</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">break</span>
+
+            <span class="c1"># If the candidate was not equal to a multiple of any of the primes up to the candidate&#39;s square root,</span>
+            <span class="c1"># then the candidate is prime, so we add it to our collection and yield it.</span>
+            <span class="k">if</span> <span class="n">candidate_is_prime</span><span class="p">:</span>
+                <span class="n">primes_to_their_multiples</span><span class="p">[</span><span class="n">candidate</span><span class="p">]</span> <span class="o">=</span> <span class="n">candidate</span> <span class="o">*</span> <span class="n">candidate</span>  <span class="c1"># We need only consider each prime&#39;s multiples starting at the square of that prime.</span>
+                <span class="k">yield</span> <span class="n">candidate</span>
+
+    <span class="n">prime_sequence_generator</span> <span class="o">=</span> <span class="n">get_prime_sequence_generator</span><span class="p">()</span>
+
+    <span class="c1"># Our under-construction prime power factorization of the given number, mapping each distinct prime factor to its exponent/multiplicity.</span>
+    <span class="n">n_prime_power_factorization_counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+
+    <span class="c1"># We progressively reduce n via division by its prime factors, stopping when n reaches 1.</span>
+
+    <span class="c1"># This outer loop iterates over successive primes.</span>
+    <span class="k">while</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">prime</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">prime_sequence_generator</span><span class="p">)</span>
+        <span class="n">prime_squared</span> <span class="o">=</span> <span class="n">prime</span> <span class="o">*</span> <span class="n">prime</span>
+        <span class="c1"># This inner loop divides repeatedly by the current prime.</span>
+        <span class="k">while</span> <span class="n">prime_squared</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">:</span>
+            <span class="n">quotient</span><span class="p">,</span> <span class="n">remainder</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">prime</span><span class="p">)</span>
+            <span class="c1"># If the prime does not divide n, we move on to the next prime.</span>
+            <span class="k">if</span> <span class="n">remainder</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="c1"># If the prime divides n, we update the overall prime power factorization dictionary and reduce n by division.</span>
+            <span class="n">n_prime_power_factorization_counter</span><span class="p">[</span><span class="n">prime</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="n">quotient</span>
+        <span class="c1"># If we reached a prime that exceeds the square root of n, then n must be prime.</span>
+        <span class="c1"># We update the dictionary and n accordingly, and we&#39;re done.</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">n_prime_power_factorization_counter</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="sa">f</span><span class="s1">&#39;(</span><span class="si">{prime}</span><span class="s1">**</span><span class="si">{exponent}</span><span class="s1">)&#39;</span> <span class="k">if</span> <span class="n">exponent</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="sa">f</span><span class="s1">&#39;(</span><span class="si">{prime}</span><span class="s1">)&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">prime</span><span class="p">,</span> <span class="n">exponent</span> <span class="ow">in</span> <span class="n">n_prime_power_factorization_counter</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+</pre></div>
+
+</div>
+
+<h2>My Notes</h2>
+<h3>After Viewing Test Cases, Other Users&rsquo; Solutions and Comments, etc.:</h3>
+<ul>
+    <li>I was wondering how this was a 5-kyu problem!  While it was great working with the sieve and making improvements to my solution, it turns out that no explicit primality testing or listing was actually required. Instead of dividing <code>n</code> along the sequence of primes, one can just divide <code>n</code> along the sequence of integers starting at 2, since the smallest non-1 factor of any integer greater than 1 is necessarily prime!</li>
+    <li>A Counter object wasn't really needed here at all.  We visit the primes in order, so we can just build up the string or list of prime powers as we go.</li>
+    <li>In order of decreasing importance, my square root optimization, 6k +/- 1 optimization, and use of <code>divmod</code>, along with the outline of my outer function proper would serve well even if I were to iterate over successive integers rather than successive primes.</li>
+</ul>
+</body>
+</html>

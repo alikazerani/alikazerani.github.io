@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The boolean order (3 kyu)</title>
+<style>
+.hll { background-color: #333333 }
+.c { color: #008800; font-style: italic; background-color: #0f140f } /* Comment */
+.err { color: #ffffff } /* Error */
+.esc { color: #ffffff } /* Escape */
+.g { color: #ffffff } /* Generic */
+.k { color: #fb660a; font-weight: bold } /* Keyword */
+.l { color: #ffffff } /* Literal */
+.n { color: #ffffff } /* Name */
+.o { color: #ffffff } /* Operator */
+.x { color: #ffffff } /* Other */
+.p { color: #ffffff } /* Punctuation */
+.ch { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Hashbang */
+.cm { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Multiline */
+.cp { color: #ff0007; font-weight: bold; font-style: italic; background-color: #0f140f } /* Comment.Preproc */
+.cpf { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.PreprocFile */
+.c1 { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Single */
+.cs { color: #008800; font-style: italic; background-color: #0f140f } /* Comment.Special */
+.gd { color: #ffffff } /* Generic.Deleted */
+.ge { color: #ffffff } /* Generic.Emph */
+.gr { color: #ffffff } /* Generic.Error */
+.gh { color: #ffffff; font-weight: bold } /* Generic.Heading */
+.gi { color: #ffffff } /* Generic.Inserted */
+.go { color: #444444; background-color: #222222 } /* Generic.Output */
+.gp { color: #ffffff } /* Generic.Prompt */
+.gs { color: #ffffff } /* Generic.Strong */
+.gu { color: #ffffff; font-weight: bold } /* Generic.Subheading */
+.gt { color: #ffffff } /* Generic.Traceback */
+.kc { color: #fb660a; font-weight: bold } /* Keyword.Constant */
+.kd { color: #fb660a; font-weight: bold } /* Keyword.Declaration */
+.kn { color: #fb660a; font-weight: bold } /* Keyword.Namespace */
+.kp { color: #fb660a } /* Keyword.Pseudo */
+.kr { color: #fb660a; font-weight: bold } /* Keyword.Reserved */
+.kt { color: #cdcaa9; font-weight: bold } /* Keyword.Type */
+.ld { color: #ffffff } /* Literal.Date */
+.m { color: #0086f7; font-weight: bold } /* Literal.Number */
+.s { color: #0086d2 } /* Literal.String */
+.na { color: #ff0086; font-weight: bold } /* Name.Attribute */
+.nb { color: #ffffff } /* Name.Builtin */
+.nc { color: #ffffff } /* Name.Class */
+.no { color: #0086d2 } /* Name.Constant */
+.nd { color: #ffffff } /* Name.Decorator */
+.ni { color: #ffffff } /* Name.Entity */
+.ne { color: #ffffff } /* Name.Exception */
+.nf { color: #ff0086; font-weight: bold } /* Name.Function */
+.nl { color: #ffffff } /* Name.Label */
+.nn { color: #ffffff } /* Name.Namespace */
+.nx { color: #ffffff } /* Name.Other */
+.py { color: #ffffff } /* Name.Property */
+.nt { color: #fb660a; font-weight: bold } /* Name.Tag */
+.nv { color: #fb660a } /* Name.Variable */
+.ow { color: #ffffff } /* Operator.Word */
+.w { color: #888888 } /* Text.Whitespace */
+.mb { color: #0086f7; font-weight: bold } /* Literal.Number.Bin */
+.mf { color: #0086f7; font-weight: bold } /* Literal.Number.Float */
+.mh { color: #0086f7; font-weight: bold } /* Literal.Number.Hex */
+.mi { color: #0086f7; font-weight: bold } /* Literal.Number.Integer */
+.mo { color: #0086f7; font-weight: bold } /* Literal.Number.Oct */
+.sa { color: #0086d2 } /* Literal.String.Affix */
+.sb { color: #0086d2 } /* Literal.String.Backtick */
+.sc { color: #0086d2 } /* Literal.String.Char */
+.dl { color: #0086d2 } /* Literal.String.Delimiter */
+.sd { color: #0086d2 } /* Literal.String.Doc */
+.s2 { color: #0086d2 } /* Literal.String.Double */
+.se { color: #0086d2 } /* Literal.String.Escape */
+.sh { color: #0086d2 } /* Literal.String.Heredoc */
+.si { color: #0086d2 } /* Literal.String.Interpol */
+.sx { color: #0086d2 } /* Literal.String.Other */
+.sr { color: #0086d2 } /* Literal.String.Regex */
+.s1 { color: #0086d2 } /* Literal.String.Single */
+.ss { color: #0086d2 } /* Literal.String.Symbol */
+.bp { color: #ffffff } /* Name.Builtin.Pseudo */
+.fm { color: #ff0086; font-weight: bold } /* Name.Function.Magic */
+.vc { color: #fb660a } /* Name.Variable.Class */
+.vg { color: #fb660a } /* Name.Variable.Global */
+.vi { color: #fb660a } /* Name.Variable.Instance */
+.vm { color: #fb660a } /* Name.Variable.Magic */
+.il { color: #0086f7; font-weight: bold } /* Literal.Number.Integer.Long */
+</style>
+</head>
+<body>
+<h1>The boolean order (3 kyu)</h1>
+<p>In this Kata, you will be given boolean values and boolean operators. Your task will be to return the number of arrangements that evaluate to <code>True</code>. </p>
+<p><code>t,f</code> will stand for <code>true, false</code> and the operators will be <code>Boolean AND (&amp;), OR (|), and XOR (^)</code>. </p>
+<p>For example, <code>solve("tft","^&amp;") = 2</code>, as follows: </p>
+<ul>
+<li><code>"((t ^ f) &amp; t)" = True</code> </li>
+<li><code>"(t ^ (f &amp; t))" = True</code>     </li>
+</ul>
+<p>Notice that the order of the boolean values and operators does not change. What changes is the position of braces. </p>
+<p>More examples in the test cases.</p>
+<p>Good luck!
+ </p>
+
+<h4>Starting Code</h4>
+<pre><code>def solve(s,ops):
+    pass</code></pre>
+
+<h2>My Solution</h2>
+<div style="background-color: black;">
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">ops</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;For the sequence of boolean values s (each element being &#39;t&#39; for True or &#39;f&#39; for False)</span>
+<span class="sd">    interleaved with the sequence of operators ops (each element being &#39;&amp;&#39; for AND, &#39;|&#39; for OR, or &#39;^&#39; for XOR),</span>
+<span class="sd">    returns the number of genuinely different binary operation parenthesizations (&quot;arrangements&quot;) that produce a True overall result.&quot;&quot;&quot;</span>
+
+    <span class="c1"># For values of subsequence_length up to len(s), we will want to know the total number of possible arrangements</span>
+    <span class="c1"># for a fixed (sub)sequence of subsequence_length boolean values interleaved with a fixed (sub)sequence of subsequence_length - 1 boolean operators.</span>
+
+    <span class="c1"># We may split an unparenthesized expression at any one of its boolean operators,</span>
+    <span class="c1"># so we have a recurrence relation, with one term for each possible split point:</span>
+    <span class="c1"># total_number_of_arrangements_for_subsequence_of_length[subsequence_length]</span>
+    <span class="c1">#       = total_number_of_arrangements_for_subsequence_of_length[1] * total_number_of_arrangements_for_subsequence_of_length[subsequence_length - 1]</span>
+    <span class="c1">#       + total_number_of_arrangements_for_subsequence_of_length[2] * total_number_of_arrangements_for_subsequence_of_length[subsequence_length - 2] + ...</span>
+    <span class="c1">#       + total_number_of_arrangements_for_subsequence_of_length[subsequence_length - 1] * total_number_of_arrangements_for_subsequence_of_length[1].</span>
+    <span class="c1"># We start knowing that there is only one possible arrangement for a single boolean value (as for no boolean value).</span>
+
+    <span class="n">total_number_of_arrangements_for_subsequence_of_length</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">subsequence_length</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">total_number_of_arrangements_for_subsequence</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">total_number_of_arrangements_for_subsequence_of_length</span><span class="p">[</span><span class="n">subsubsequence_length</span><span class="p">]</span>
+                                                             <span class="o">*</span> <span class="n">total_number_of_arrangements_for_subsequence_of_length</span><span class="p">[</span><span class="n">subsequence_length</span> <span class="o">-</span> <span class="n">subsubsequence_length</span><span class="p">]</span>
+                                                           <span class="k">for</span> <span class="n">subsubsequence_length</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">subsequence_length</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">subsequence_length</span> <span class="o">%</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="n">total_number_of_arrangements_for_subsequence</span> <span class="o">+=</span> <span class="n">total_number_of_arrangements_for_subsequence_of_length</span><span class="p">[</span><span class="n">subsequence_length</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="n">total_number_of_arrangements_for_subsequence_of_length</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">total_number_of_arrangements_for_subsequence</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_number_of_true_arrangements_for_subsequence</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">),</span>
+                                                        <span class="n">memo</span><span class="o">=</span><span class="p">{(</span><span class="n">position</span><span class="p">,</span> <span class="n">position</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">boolean_character</span> <span class="o">==</span> <span class="s1">&#39;t&#39;</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">position</span><span class="p">,</span> <span class="n">boolean_character</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">s</span><span class="p">)}):</span>
+        <span class="sd">&quot;&quot;&quot;For the subsequence of boolean values s[start:stop] (each element being &#39;t&#39; for True or &#39;f&#39; for False)</span>
+<span class="sd">        interleaved with the subsequence of operators ops[start:stop - 1] (each element being &#39;&amp;&#39; for AND, &#39;|&#39; for OR, or &#39;^&#39; for XOR),</span>
+<span class="sd">        returns the number of genuinely different binary operation parenthesizations (&quot;arrangements&quot;) that produce a True overall result.&quot;&quot;&quot;</span>
+
+        <span class="c1"># This function is memoized, with each key to the memo lookup dictionary being of the form (start, stop).</span>
+        <span class="c1"># The base cases are burned into the initial state of memo:</span>
+        <span class="c1"># For a single character represening a boolean value, there is one way to get True if the character represents True</span>
+        <span class="c1"># and none if the character represents False.</span>
+        <span class="c1"># Note the proper use of a mutable default argument here.</span>
+
+        <span class="c1"># Return the result immediately if the memo table already knows it.</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">memo</span><span class="p">[(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">)]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="c1"># Otherwise, add up the numbers of possibilities associated with splitting the specified unparenthesized subexpression at each of its operators,</span>
+        <span class="c1"># using recursive calls to get the number of possibilities that evaluate to True for each subsubexpression.</span>
+        <span class="n">number_of_true_arrangements_for_subsequence</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">operator_position</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">operator</span> <span class="o">=</span> <span class="n">ops</span><span class="p">[</span><span class="n">operator_position</span><span class="p">]</span>
+
+            <span class="n">number_of_true_arrangements_for_left_subsubsequence</span> <span class="o">=</span> <span class="n">get_number_of_true_arrangements_for_subsequence</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">operator_position</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">number_of_true_arrangements_for_right_subsubsequence</span> <span class="o">=</span> <span class="n">get_number_of_true_arrangements_for_subsequence</span><span class="p">(</span><span class="n">operator_position</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">stop</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">operator</span> <span class="o">==</span> <span class="s1">&#39;&amp;&#39;</span><span class="p">:</span>  <span class="c1"># X AND Y is True iff both X and Y are True.</span>
+                <span class="n">number_of_true_arrangements_for_subsequence</span> <span class="o">+=</span> <span class="n">number_of_true_arrangements_for_left_subsubsequence</span> <span class="o">*</span> <span class="n">number_of_true_arrangements_for_right_subsubsequence</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">total_number_of_arrangements_for_left_subsubsequence</span> <span class="o">=</span> <span class="n">total_number_of_arrangements_for_subsequence_of_length</span><span class="p">[</span><span class="n">operator_position</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">start</span><span class="p">]</span>
+                <span class="n">total_number_of_arrangements_for_right_subsubsequence</span> <span class="o">=</span> <span class="n">total_number_of_arrangements_for_subsequence_of_length</span><span class="p">[</span><span class="n">stop</span> <span class="o">-</span> <span class="n">operator_position</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+                <span class="n">number_of_false_arrangements_for_left_subsubsequence</span> <span class="o">=</span> <span class="n">total_number_of_arrangements_for_left_subsubsequence</span> <span class="o">-</span> <span class="n">number_of_true_arrangements_for_left_subsubsequence</span>
+                <span class="n">number_of_false_arrangements_for_right_subsubsequence</span> <span class="o">=</span> <span class="n">total_number_of_arrangements_for_right_subsubsequence</span> <span class="o">-</span> <span class="n">number_of_true_arrangements_for_right_subsubsequence</span>
+
+                <span class="k">if</span> <span class="n">operator</span> <span class="o">==</span> <span class="s1">&#39;^&#39;</span><span class="p">:</span>  <span class="c1"># X XOR Y is True iff (X is True and Y is False) or (Y is True and X is False).</span>
+                    <span class="n">number_of_true_arrangements_for_subsequence</span> <span class="o">+=</span> <span class="n">number_of_true_arrangements_for_left_subsubsequence</span> <span class="o">*</span> <span class="n">number_of_false_arrangements_for_right_subsubsequence</span> <span class="o">+</span> <span class="n">number_of_true_arrangements_for_right_subsubsequence</span> <span class="o">*</span> <span class="n">number_of_false_arrangements_for_left_subsubsequence</span>
+
+                <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s1">&#39;|&#39;</span><span class="p">:</span>  <span class="c1"># X OR Y is True iff X and Y are not both False.</span>
+                    <span class="n">number_of_true_arrangements_for_subsequence</span> <span class="o">+=</span> <span class="n">total_number_of_arrangements_for_left_subsubsequence</span> <span class="o">*</span> <span class="n">total_number_of_arrangements_for_right_subsubsequence</span> <span class="o">-</span> <span class="n">number_of_false_arrangements_for_left_subsubsequence</span> <span class="o">*</span> <span class="n">number_of_false_arrangements_for_right_subsubsequence</span>
+
+        <span class="c1"># Put the new result into memo before returning.</span>
+        <span class="n">memo</span><span class="p">[(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">)]</span> <span class="o">=</span> <span class="n">number_of_true_arrangements_for_subsequence</span>
+
+        <span class="k">return</span> <span class="n">number_of_true_arrangements_for_subsequence</span>
+
+    <span class="c1"># Call our workhorse inner function to get the number of arrangements that evaluate to True</span>
+    <span class="c1"># for the entire unparenthesized expression specified by s and ops.</span>
+    <span class="k">return</span> <span class="n">get_number_of_true_arrangements_for_subsequence</span><span class="p">()</span>
+</pre></div>
+
+</div>
+
+<h2>My Notes</h2>
+<ul>
+    <li>Memoization saves the day here.  Without it, the solution would only be practical for fairly short inputs.</li>
+    <li>I experimented with additional minor optimizations, including logical short circuit-like behaviour, consideration of shorter expressions before longer ones, and using substrings rather than start and stop positions as memo keys (as well as trying a substring's reverse if the substring itself was not present as a key). Understandably in some respects, these modifications complicate the script without reliably improving performance. I therefore abandoned them.  I also briefly experimented with replacing the memo dictionary whose keys are of form <code>(start, stop)</code> with a memo list indexed at <code>start * len(s) + stop - 1</code>.  (This list would admittedly always be at least half-empty.) Thankfully, the latter performed worse, and the cleaner, clearer memo dictionary won.</li>
+</ul>
+<h3>After Viewing Test Cases, Other Users&rsquo; Solutions and Comments, etc.:</h3>
+<ul>
+    <li>Considering a couple of other users' submitted solutions...</li>
+    <ul>
+        <li>My implementation runs approximately 3 times faster than theirs for random <code>s</code> and <code>ops</code> with <code>len(s) == 25</code> and 5.3 times faster than one and 3.5 times faster than the other when <code>len(s) == 150</code>.</li>
+        <li>Instead of building argument-result memoization into the function, they imposed it via wrapper/decorator (written by them or just using <code>functools.lru_cache</code>/<code>functools.cache</code>.</li>
+        <li>Instead of working with the given strings, they constructed the corresponding sequences of operators (using <code>operator.and_, operator.or_, operator.xor</code>) and in one case also boolean constants.</li>
+        <li>I intentionally avoided this for efficiency's sake, but they had their recursive function return the number of possibilities yielding True and the number yielding False.</li>
+        <li>Instead of using knowledge of truth table patterns for the operators of interest, they just directly applied the operators in their code to each possible pair of partial boolean results in a given split and added each resulting count product under the appropriate column.</li>
+    </ul>
+    <li>Ah, the <code>total_number_of_arrangements_for_subsequence_of_length</code> I construct is essentially the sequence of the first <i>Catalan numbers</i>!  And someone did use an approach very much like mine, except with iteration and lookup instead of memoized recursion, and a memo-like square <code>numpy</code> array (similar to the memo list I experimented with) indexed via start index and length rather than start index and stop index.  That said, that particular implementation complains (<code>RuntimeWarning: overflow encountered in long_scalars</code>) and returns incorrect (sometimes nonsense) results for inputs even just 25 boolean characters long.</li>
+</ul>
+</body>
+</html>
