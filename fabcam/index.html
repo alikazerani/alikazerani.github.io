@@ -89,7 +89,19 @@
 
         <h3 style="text-align: center;">Ali Kazerani</h3>
 
+        <p>I often have considerable trouble getting my smartphone (Sony Xperia XA) camera to focus automatically or semi-automatically on my intended subjects &#8212 insects, for instance.  I therefore switched from automatic to manual focus, and more particularly to macro manual focus so that the camera would be set to focus on objects close to the lens.  Depth of field decreases as focus distance is decreased, so when the focus distance is set to its minimum/macro value, even small changes in the distance between the camera and the subject result in drastic changes in the sharpness of the subject's image.  I found it difficult to determine from the displayed camera preview whether a subject had really been brought into focus.</p>  
+        
+        <p>Instead of taking a single picture of each subject, I therefore decided to take a sequence of pictures, each at a different distance from the subject, while always keeping the camera's focus distance macro/minimal.  This would typically produce at least one focused image of the subject.  (An similar, alternative approach would be to keep the camera at a particular distance from the subject while manually sliding the focus distance from macro outward.  However, it is difficult to vary the focus distance quickly and finely by hand using the slider in the camera app.  Also, this alternative approach would typically result in the subject's image occupying a smaller region of the whole picture, resulting in a more coarse image.)</p>
+        
+        <p>But this approach had significant disadvantages.  The process is lengthy, and rare indeed are animal subjects that are willing to remain motionless indefinitely.  Additionally, the sight of a nearby smartphone being moved back and forth may be too much for an easily frightened insect.  The process is also tedious, and the photographer may take several shots at similar distances, miss sets of distances altogether (especially as my camera/app/phone sometimes fails to capture a requested shot), and waste time at useless distances.</p>
+        
+        <p>I came to consider an automated version of the fixed distance, varying focus distance approach.  I learned that it has a name: focus autobracketing.  The OpenCamera app actually includes this, but only for smartphones whose cameras may be controlled by the Camera2 API.  My relatively primitive smartphone only provides control through the older Camera API, which does not explicitly allow one to set a particular focus distance.  Since my phone's stock camera app does allow the user to manually set the focus distance on a slider, I wondered if an app could nonetheless access the associated setting.  <a href="https://stackoverflow.com/questions/63932162/setting-camera-focus-distance-in-android">Someone kindly suggested</a> that I could try capturing the parameter names and values for my particular phone and camera under manual focus.  This did indeed reveal the relevant Sony-specific parameter name and some possible values.</p>
+
+        <p>While I had never before created a smartphone app and I have essentially never programmed in Java (though I used to code in C#), the Android camera app tutorial gave me a fine introduction, and I ultimately programmed an app implementing focus autobracketing on my smartphone.  Here is a screenshot of my app in action:</p>
+
         <div style="width: 50vw; margin: auto;"><img src="screenshot/annotated.png" style="width: 50vw; object-fit: scale-down;"></div>
+
+        <p>Three shots thus taken of that damselfly at increasing focus distances show the region in focus moving from the front of the head, to the bulk of the animal including the thorax, the proximal parts of the wings, and the anterior part of the abdomen, and finally to the posterior part of the insect, including the tips of the wings.</p>
 
         <div class="auto_pendulum_sequence">
             <div class="auto_pendulum_sequence_slide">
@@ -102,6 +114,10 @@
                 <img src="sequences/damselfly/3.jpg" alt="Damselfly sequence, shot 3" class="auto_pendulum_sequence_image">
             </div>
         </div>
+
+        <p>(To best show this progression, I used MATLAB to apply projective transformations to align the first and third images with the second, with respect to several control points that I selected in each image, thereby roughly compensating for changes in the relative position and orientation of the subject and handheld smartphone camera.  I placed the control points on the plant, but none on the animal, to avoid morphing the damselfly's image to compensate for natural changes in its own posture.)</p>
+
+        <p>A similar sequence that I captured of a katydid that appears to be missing a hind leg is shown below.</p>
 
         <div class="auto_pendulum_sequence">
             <div class="auto_pendulum_sequence_slide">
@@ -178,6 +194,8 @@
         	showNextImageInEachAutoPendulumSequence();
         </script>
 
+        <p>With this year's onset of cool and cold temperatures approaching, I went out and used my app to capture these and a few other sequences of focus autobracketed pictures.  Below, I show a selection of individual shots from these sequences.</p>
+
         <div class="interactive_slideshow">
             <div class="interactive_slideshow_slide">
                 <img src="gallery/selfie_with_grasshopper.jpg" alt="My selfie with a grasshopper (with focus chosen to favour the grasshopper)." class="interactive_slideshow_image">
@@ -241,6 +259,6 @@
 
         </script>
 
-        <p style="text-align: center;">(Last updated on 27 November 2021)</p>
+        <p style="text-align: center;">(I last updated this page on 28 November 2021.)</p>
     </body>
 </html>
