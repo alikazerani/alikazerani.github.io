@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>FABCam</title>
+        <style type="text/css">
+            .auto_pendulum_sequence
+            {
+                width: 80vw;
+                height: 80vh;
+                margin: auto;
+            }
+            .auto_pendulum_sequence_slide
+            {
+                width: 80vw;
+                height: 80vh;
+                display: none;
+            }
+            .auto_pendulum_sequence_image
+            {
+                width: 80vw;
+                height: 80vh;
+                object-fit: scale-down;
+            }
+            .interactive_slideshow
+            {
+                width: 90vw;
+                height: 80vh;
+                background-color: black;
+                position: relative;
+                margin: auto;
+            }
+            .interactive_slideshow_slide
+            {
+                width: 90vw;
+                height: 80vh;
+                display: none;
+                -webkit-animation-name: fade;
+                -webkit-animation-duration: 1s;
+                animation-name: fade;
+                animation-duration: 1s;
+            }
+            .interactive_slideshow_image
+            {
+                width: 90vw;
+                height: 80vh;
+                object-fit: scale-down;
+            }
+            @-webkit-keyframes fade
+            {
+                from {opacity: 0.5;}
+                to {opacity: 1;}
+            }
+            @keyframes fade
+            {
+                from {opacity: 0.5;}
+                to {opacity: 1;}
+            }
+            .prev, .next
+            {
+                cursor: pointer;
+                color: white;
+                font-weight: bold;
+                font-size: 20px;
+                padding: 20px;
+                position: absolute;
+                top: calc(50% - 30px);
+                background-color: rgba(0, 0, 0, 0.15);
+                user-select: none;
+            }
+            .prev:hover, .next:hover
+            {
+                background-color: rgba(0, 0, 0, 0.5);
+            }
+            .prev
+            {
+                left: 0;
+                border-radius: 0px 10px 10px 0px;
+            }
+            .next
+            {
+                right: 0;
+                border-radius: 10px 0px 0px 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 style="text-align: center;">FABCam: My Focus Autobracketing Camera App</h1>
+
+        <h3 style="text-align: center;">Ali Kazerani</h3>
+
+        <div style="width: 50vw; margin: auto;"><img src="screenshot/annotated.png" style="width: 50vw; object-fit: scale-down;"></div>
+
+        <div class="auto_pendulum_sequence">
+            <div class="auto_pendulum_sequence_slide">
+                <img src="sequences/damselfly/1.jpg" alt="Damselfly sequence, shot 1" class="auto_pendulum_sequence_image">
+            </div>
+            <div class="auto_pendulum_sequence_slide">
+                <img src="sequences/damselfly/2.jpg" alt="Damselfly sequence, shot 2" class="auto_pendulum_sequence_image">
+            </div>
+            <div class="auto_pendulum_sequence_slide">
+                <img src="sequences/damselfly/3.jpg" alt="Damselfly sequence, shot 3" class="auto_pendulum_sequence_image">
+            </div>
+        </div>
+
+        <div class="auto_pendulum_sequence">
+            <div class="auto_pendulum_sequence_slide">
+                <img src="sequences/katydid/1.jpg" alt="Katydid sequence, shot 1" class="auto_pendulum_sequence_image">
+            </div>
+            <div class="auto_pendulum_sequence_slide">
+                <img src="sequences/katydid/2.jpg" alt="Katydid sequence, shot 2" class="auto_pendulum_sequence_image">
+            </div>
+            <div class="auto_pendulum_sequence_slide">
+                <img src="sequences/katydid/3.jpg" alt="Katydid sequence, shot 3" class="auto_pendulum_sequence_image">
+            </div>
+        </div>
+
+        <!--<div class="auto_pendulum_sequence">
+            <div class="auto_pendulum_sequence_slide">
+                <img src="sequences/woods/1.jpg" alt="Woods sequence, shot 1" class="auto_pendulum_sequence_image">
+            </div>
+            <div class="auto_pendulum_sequence_slide">
+                <img src="sequences/woods/2.jpg" alt="Woods sequence, shot 2" class="auto_pendulum_sequence_image">
+            </div>
+            <div class="auto_pendulum_sequence_slide">
+                <img src="sequences/woods/3.jpg" alt="Woods sequence, shot 3" class="auto_pendulum_sequence_image">
+            </div>
+            <div class="auto_pendulum_sequence_slide">
+                <img src="sequences/woods/4.jpg" alt="Woods sequence, shot 4" class="auto_pendulum_sequence_image">
+            </div>
+            <div class="auto_pendulum_sequence_slide">
+                <img src="sequences/woods/5.jpg" alt="Woods sequence, shot 5" class="auto_pendulum_sequence_image">
+            </div>
+            <div class="auto_pendulum_sequence_slide">
+                <img src="sequences/woods/6.jpg" alt="Woods sequence, shot 6" class="auto_pendulum_sequence_image">
+            </div>
+            <div class="auto_pendulum_sequence_slide">
+                <img src="sequences/woods/7.jpg" alt="Woods sequence, shot 7" class="auto_pendulum_sequence_image">
+            </div>
+            <div class="auto_pendulum_sequence_slide">
+                <img src="sequences/woods/8.jpg" alt="Woods sequence, shot 8" class="auto_pendulum_sequence_image">
+            </div>
+        </div>-->
+
+        <script type="text/javascript">
+        	var auto_pendulum_sequences = document.getElementsByClassName("auto_pendulum_sequence");
+        	var current_indexes_in_auto_pendulum_sequences = [];
+        	var current_directions_in_auto_pendulum_sequences = [];
+        	var images_in_auto_pendulum_sequences = [];
+        	for (var auto_pendulum_sequence of auto_pendulum_sequences)
+        	{
+        		current_indexes_in_auto_pendulum_sequences.push(null);
+        		current_directions_in_auto_pendulum_sequences.push(null);
+        		images_in_auto_pendulum_sequences.push(auto_pendulum_sequence.getElementsByClassName("auto_pendulum_sequence_slide"));
+        	}
+
+            function showNextImageInEachAutoPendulumSequence()
+            {   
+            	for (var auto_pendulum_sequence_index = 0; auto_pendulum_sequence_index < auto_pendulum_sequences.length; auto_pendulum_sequence_index++)
+            	{
+            		if (current_indexes_in_auto_pendulum_sequences[auto_pendulum_sequence_index] == null)
+            		{
+            			current_indexes_in_auto_pendulum_sequences[auto_pendulum_sequence_index] = 0;
+            			current_directions_in_auto_pendulum_sequences[auto_pendulum_sequence_index] = +1;
+            		}
+            		else
+            		{
+            			images_in_auto_pendulum_sequences[auto_pendulum_sequence_index][current_indexes_in_auto_pendulum_sequences[auto_pendulum_sequence_index]].style.display = "none";
+            			if (current_indexes_in_auto_pendulum_sequences[auto_pendulum_sequence_index] == images_in_auto_pendulum_sequences[auto_pendulum_sequence_index].length - 1) current_directions_in_auto_pendulum_sequences[auto_pendulum_sequence_index] = -1;
+            			else if (current_indexes_in_auto_pendulum_sequences[auto_pendulum_sequence_index] == 0) current_directions_in_auto_pendulum_sequences[auto_pendulum_sequence_index] = +1;
+            			current_indexes_in_auto_pendulum_sequences[auto_pendulum_sequence_index] += current_directions_in_auto_pendulum_sequences[auto_pendulum_sequence_index];
+            		}
+            		images_in_auto_pendulum_sequences[auto_pendulum_sequence_index][current_indexes_in_auto_pendulum_sequences[auto_pendulum_sequence_index]].style.display = "block";
+            	}
+            	setTimeout(showNextImageInEachAutoPendulumSequence, 750);
+            }
+
+        	showNextImageInEachAutoPendulumSequence();
+        </script>
+
+        <div class="interactive_slideshow">
+            <div class="interactive_slideshow_slide">
+                <img src="gallery/selfie_with_grasshopper.jpg" alt="My selfie with a grasshopper (with focus chosen to favour the grasshopper)." class="interactive_slideshow_image">
+            </div>
+            <div class="interactive_slideshow_slide">
+                <img src="gallery/insect_on_sidewalk.jpg" alt="A drone bee (I think), on the sidewalk.  (I had never noticed one before.)" class="interactive_slideshow_image">
+            </div>
+            <div class="interactive_slideshow_slide">
+                <img src="gallery/grasshopper_on_inflorescence.jpg" alt="A grasshopper, on an inflorescence." class="interactive_slideshow_image">
+            </div>
+            <div class="interactive_slideshow_slide">
+                <img src="gallery/mating_damselflies.jpg" alt="Mating damselflies, in the wheel/heart position.  (Just barely out of focus; <i>mea culpa</i>.)" class="interactive_slideshow_image">
+            </div>
+            <div class="interactive_slideshow_slide">
+                <img src="gallery/damselfly_on_stem.jpg" alt="A damselfly, on a stem." class="interactive_slideshow_image">
+            </div>
+            <div class="interactive_slideshow_slide">
+                <img src="gallery/grasshopper_on_thumb_from_above.jpg" alt="A grasshopper, on my thumb." class="interactive_slideshow_image">
+            </div>
+            <div class="interactive_slideshow_slide">
+                <img src="gallery/dragonfly.jpg" alt="A dragonfly, on the ground." class="interactive_slideshow_image">
+            </div>
+            <div class="interactive_slideshow_slide">
+                <img src="gallery/snail.jpg" alt="A snail, on my umbrella cover." class="interactive_slideshow_image">
+            </div>
+            <div class="interactive_slideshow_slide">
+                <img src="gallery/grasshopper_on_finger.jpg" alt="A grasshopper, on my finger." class="interactive_slideshow_image">
+            </div>
+            <div class="interactive_slideshow_slide">
+                <img src="gallery/katydid.jpg" alt="That five-legged katydid again." class="interactive_slideshow_image">
+            </div>
+            <div class="interactive_slideshow_slide">
+                <img src="gallery/ambush_bug.jpg" alt="A (diminutive) ambush bug.  (I had never seen one before!)" class="interactive_slideshow_image">
+            </div>
+            <a class="prev" onclick="showAdjacentSlideInInteractiveSlideshow(-1)">&#10094;</a>
+            <a class="next" onclick="showAdjacentSlideInInteractiveSlideshow(+1)">&#10095;</a>
+        </div>
+        <p id="interactive_slideshow_caption" style="text-align: center;"></p>
+    
+        <script type="text/javascript">
+            var interactive_slideshow_slides = document.getElementsByClassName('interactive_slideshow_slide');
+            var current_index_in_interactive_slideshow = 0;
+
+            showCurrentSlideInInteractiveSlideshow();
+
+            function showAdjacentSlideInInteractiveSlideshow(direction)
+            {
+                interactive_slideshow_slides[current_index_in_interactive_slideshow].style.display = "none";
+                current_index_in_interactive_slideshow += direction;
+                if (current_index_in_interactive_slideshow < 0) current_index_in_interactive_slideshow = interactive_slideshow_slides.length - 1;
+                else if (current_index_in_interactive_slideshow >= interactive_slideshow_slides.length) current_index_in_interactive_slideshow = 0;
+                showCurrentSlideInInteractiveSlideshow();
+            }
+
+            function showCurrentSlideInInteractiveSlideshow()
+            {
+                interactive_slideshow_slides[current_index_in_interactive_slideshow].style.display = "block";
+                var image_alt_text = interactive_slideshow_slides[current_index_in_interactive_slideshow].getElementsByTagName("img")[0].alt;
+                document.getElementById("interactive_slideshow_caption").innerHTML = `<b>${image_alt_text}</b><br />(${current_index_in_interactive_slideshow + 1}/${interactive_slideshow_slides.length})`;
+            }
+
+        </script>
+
+        <p style="text-align: center;">(Last updated on 27 November 2021)</p>
+    </body>
+</html>
