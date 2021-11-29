@@ -89,17 +89,27 @@
 
         <h3 style="text-align: center;">Ali Kazerani</h3>
 
+        <p>(I use JavaScript to operate the slideshow-like parts of this page.)</p>
+
+        <h4>Introduction</h4>
+
         <p>I often have considerable trouble getting my smartphone (Sony Xperia XA) camera to focus automatically or semi-automatically on my intended subjects &#8212 insects, for instance.  I therefore switched from automatic to manual focus, and more particularly to macro manual focus so that the camera would be set to focus on objects close to the lens.  Depth of field decreases as focus distance is decreased, so when the focus distance is set to its minimum/macro value, even small changes in the distance between the camera and the subject result in drastic changes in the sharpness of the subject's image.  I found it difficult to determine from the displayed camera preview whether a subject had really been brought into focus.</p>  
         
         <p>Instead of taking a single picture of each subject, I therefore decided to take a sequence of pictures, each at a different distance from the subject, while always keeping the camera's focus distance macro/minimal.  This would typically produce at least one focused image of the subject.  (An similar, alternative approach would be to keep the camera at a particular distance from the subject while manually sliding the focus distance from macro outward.  However, it is difficult to vary the focus distance quickly and finely by hand using the slider in the camera app.  Also, this alternative approach would typically result in the subject's image occupying a smaller region of the whole picture, resulting in a more coarse image.)</p>
         
         <p>But this approach had significant disadvantages.  The process is lengthy, and rare indeed are animal subjects that are willing to remain motionless indefinitely.  Additionally, the sight of a nearby smartphone being moved back and forth may be too much for an easily frightened insect.  The process is also tedious, and the photographer may take several shots at similar distances, miss sets of distances altogether (especially as my camera/app/phone sometimes fails to capture a requested shot), and waste time at useless distances.</p>
         
+        <h4>My App</h4>
+
         <p>I came to consider an automated version of the fixed distance, varying focus distance approach.  I learned that it has a name: focus autobracketing.  The OpenCamera app actually includes this, but only for smartphones whose cameras may be controlled by the Camera2 API.  My relatively primitive smartphone only provides control through the older Camera API, which does not explicitly allow one to set a particular focus distance.  Since my phone's stock camera app does allow the user to manually set the focus distance on a slider, I wondered if an app could nonetheless access the associated setting.  <a href="https://stackoverflow.com/questions/63932162/setting-camera-focus-distance-in-android">Someone kindly suggested</a> that I could try capturing the parameter names and values for my particular phone and camera under manual focus.  This did indeed reveal the relevant Sony-specific parameter name and some possible values.</p>
 
         <p>While I had never before created a smartphone app and I have essentially never programmed in Java (though I used to code in C#), the Android camera app tutorial gave me a fine introduction, and I ultimately programmed an app implementing focus autobracketing on my smartphone.  Here is a screenshot of my app in action:</p>
 
         <div style="width: 50vw; margin: auto;"><img src="screenshot/annotated.png" style="width: 50vw; object-fit: scale-down;"></div>
+
+        <p>The app begins a sequence of shots when the user releases the smartphone's physical camera button.  (The user may prematurely stop a sequence using the same button.)  Before starting a sequence, the user may use the on-screen interface shown above to select the number of successive shots to be taken, as well as the focus distances for the first and last shots.  While the user is setting each of these extremes on its slider, the display preview reflects that focus distance.  When the user releases these controls, the display preview reflects a focus distance intermediate between the selected starting and ending values.  The user may also set the camera's white balance and exposure compensation.  Finally, the user may switch between the main camera and the selfie camera.  (The app saves and restores the settings selected for the cameras during such transitions.)</p>
+
+        <h4>Some Sequences I Captured With Focus Autobracketing</h4>
 
         <p>Three shots thus taken of that damselfly at increasing focus distances show the region in focus moving from the front of the head, to the bulk of the animal including the thorax, the proximal parts of the wings, and the anterior part of the abdomen, and finally to the posterior part of the insect, including the tips of the wings.</p>
 
@@ -115,9 +125,11 @@
             </div>
         </div>
 
-        <p>(To best show this progression, I used MATLAB to apply projective transformations to align the first and third images with the second, with respect to several control points that I selected in each image, thereby roughly compensating for changes in the relative position and orientation of the subject and handheld smartphone camera.  I placed the control points on the plant, but none on the animal, to avoid morphing the damselfly's image to compensate for natural changes in its own posture.)</p>
+        <p>(To best show this progression, I used MATLAB to apply projective transformations to align the first and third images with the second, with respect to several control points that I selected in each image, thereby roughly compensating for changes in the relative position and orientation of the subject and handheld smartphone camera.  I placed the control points on the plant, but none on the animal, to avoid morphing the damselfly's image to compensate for natural changes in its own posture.  I also cropped the three registered images.  You can see the original &#8212 untransformed and uncropped &#8212 sequence of images <a href="https://photos.app.goo.gl/UbX7RWWE93XHAriu6">here</a>.)</p>
 
-        <p>A similar sequence that I captured of a katydid that appears to be missing a hind leg is shown below.</p>
+        <p>From such a focus autobracketed sequence, one can then choose whichever image (or set of images) best shows the feature(s) of interest.  It should also be possible in some cases to effectively increase the depth of field, showing a deeper region in focus, by focus stacking (z-stacking) a sequence of focus-autobracketed images.</p>
+
+        <p>A similar sequence that I captured of a katydid (that appears to be missing a hind leg) is shown below.</p>
 
         <div class="auto_pendulum_sequence">
             <div class="auto_pendulum_sequence_slide">
@@ -130,6 +142,8 @@
                 <img src="sequences/katydid/3.jpg" alt="Katydid sequence, shot 3" class="auto_pendulum_sequence_image">
             </div>
         </div>
+
+        <p>(You can see the untransformed and uncropped sequence of images <a href="https://photos.app.goo.gl/UHk5kMhXuSHCDEBx8">here</a>.)</p>
 
         <!--<div class="auto_pendulum_sequence">
             <div class="auto_pendulum_sequence_slide">
@@ -194,20 +208,16 @@
         	showNextImageInEachAutoPendulumSequence();
         </script>
 
-        <p>With this year's onset of cool and cold temperatures approaching, I went out and used my app to capture these and a few other sequences of focus autobracketed pictures.  Below, I show a selection of individual shots from these sequences.</p>
+        <h4>Some Shots I Captured Using Focus Autobracketing</h4>
+
+        <p>With this year's onset of cool and cold temperatures approaching, I went out and used my app to capture these and a few other sequences of focus autobracketed pictures.  Below, I show a selection of individual shots from these sequences.  (Cropping aside, these images are identical to the captured originals.)</p>
 
         <div class="interactive_slideshow">
             <div class="interactive_slideshow_slide">
                 <img src="gallery/selfie_with_grasshopper.jpg" alt="My selfie with a grasshopper (with focus chosen to favour the grasshopper)." class="interactive_slideshow_image">
             </div>
             <div class="interactive_slideshow_slide">
-                <img src="gallery/insect_on_sidewalk.jpg" alt="A drone bee (I think), on the sidewalk.  (I had never noticed one before.)" class="interactive_slideshow_image">
-            </div>
-            <div class="interactive_slideshow_slide">
-                <img src="gallery/grasshopper_on_inflorescence.jpg" alt="A grasshopper, on an inflorescence." class="interactive_slideshow_image">
-            </div>
-            <div class="interactive_slideshow_slide">
-                <img src="gallery/mating_damselflies.jpg" alt="Mating damselflies, in the wheel/heart position.  (Just barely out of focus; <i>mea culpa</i>.)" class="interactive_slideshow_image">
+                <img src="gallery/snail.jpg" alt="A snail, on my umbrella cover." class="interactive_slideshow_image">
             </div>
             <div class="interactive_slideshow_slide">
                 <img src="gallery/damselfly_on_stem.jpg" alt="A damselfly, on a stem." class="interactive_slideshow_image">
@@ -216,19 +226,25 @@
                 <img src="gallery/grasshopper_on_thumb_from_above.jpg" alt="A grasshopper, on my thumb." class="interactive_slideshow_image">
             </div>
             <div class="interactive_slideshow_slide">
-                <img src="gallery/dragonfly.jpg" alt="A dragonfly, on the ground." class="interactive_slideshow_image">
-            </div>
-            <div class="interactive_slideshow_slide">
-                <img src="gallery/snail.jpg" alt="A snail, on my umbrella cover." class="interactive_slideshow_image">
-            </div>
-            <div class="interactive_slideshow_slide">
-                <img src="gallery/grasshopper_on_finger.jpg" alt="A grasshopper, on my finger." class="interactive_slideshow_image">
+                <img src="gallery/ambush_bug.jpg" alt="A (diminutive) ambush bug.  (I had never seen one before!)" class="interactive_slideshow_image">
             </div>
             <div class="interactive_slideshow_slide">
                 <img src="gallery/katydid.jpg" alt="That five-legged katydid again." class="interactive_slideshow_image">
             </div>
             <div class="interactive_slideshow_slide">
-                <img src="gallery/ambush_bug.jpg" alt="A (diminutive) ambush bug.  (I had never seen one before!)" class="interactive_slideshow_image">
+                <img src="gallery/grasshopper_on_inflorescence.jpg" alt="A grasshopper, on an inflorescence." class="interactive_slideshow_image">
+            </div>
+            <div class="interactive_slideshow_slide">
+                <img src="gallery/mating_damselflies.jpg" alt="Mating damselflies, in the wheel/heart position.  (Just barely out of focus; <i>mea culpa</i>.)" class="interactive_slideshow_image">
+            </div>
+            <div class="interactive_slideshow_slide">
+                <img src="gallery/insect_on_sidewalk.jpg" alt="A drone bee (I think), on the sidewalk.  (I had never noticed one before.)" class="interactive_slideshow_image">
+            </div>
+            <div class="interactive_slideshow_slide">
+                <img src="gallery/grasshopper_on_finger.jpg" alt="A grasshopper, on my finger." class="interactive_slideshow_image">
+            </div>
+            <div class="interactive_slideshow_slide">
+                <img src="gallery/dragonfly.jpg" alt="A dragonfly, on the ground." class="interactive_slideshow_image">
             </div>
             <a class="prev" onclick="showAdjacentSlideInInteractiveSlideshow(-1)">&#10094;</a>
             <a class="next" onclick="showAdjacentSlideInInteractiveSlideshow(+1)">&#10095;</a>
@@ -259,6 +275,23 @@
 
         </script>
 
-        <p style="text-align: center;">(I last updated this page on 28 November 2021.)</p>
+        <h4>Notes and Observations</h4>
+
+        <ul>
+            <li>When setting up for a sequence of focus autobracketed shots of a subject, the photographer should obviously choose initial and final focus distances that fairly tightly suround the interval of desired focus distances, and choose the number of shots in the sequence so that the difference between focus distances in two consecutive shots is a little less than the minimum depth of field at those distances.  In this way, the whole region of interest will be brought into reasonable focus across the sequence of shots.<ul>
+                <li>If one takes too few shots in a sequence, some features of interest may not be in focus in any of the captured images.</li>
+                <li>If one orders too many shots in a sequence, successive images may be essentially redundant.  Also, the sequence may take so long to shoot that the subject will move during the sequence, possibly leaving altogether.  (If the subject moves toward or away from the camera throughout the sequence, it is possible that no shot in the sequence will bring features of interest into focus.)</li>
+                <li>If the photographer positions the camera too close to (too far from) the subject or overestimates (underestimates) the nearest (farthest) desired focus distance, the features of interest may be entirely out of focus in every shot in the sequence.  The first (last) shot would then be the best, but even it may not be acceptable.  In the slideshow presented earlier, the drone bee image was the first shot in a sequence, all subsequent shots having placed him entirely out of focus, and the image of the mating damselflies was the final shot in a sequence, all prior shots having placed them entirely out of focus.</li>
+            </ul></li>
+            <li>If a subject (e.g., a bee foraging at a cluster of flowers) is expected to move (perhaps unpredictably) toward or away from the camera, the initial and final focus distances could be set equal at an appropriate value in the app, and a sequence of shots with the same focus distance thus taken.  The subject would then hopefully be in focus in at least one of the captured shots.</li>
+            <li>While developing and testing my app, I often found that the first image in a sequence would appear normal, while all subsequent images in the sequence would be overexposed, showing saturation.  It appears that the camera establishes an appropriate exposure level anew after a picture has been taken.  This process is not immediate, so that if a picture is taken too soon after another, the exposure setting may be at an in-transient level, resulting in an unacceptable image.  I tried appropriately setting the auto-exposure and auto-white-balance lock states in the camera parameters via the Camera API, but these settings do not appear to provide a path to solving the problem.  Following some experimentation, I decided that an added delay of 1.5 seconds between shots was appropriate to resolve this issue, and this is in place in the current implementation.  It is unfortunate that the intervals between successive shots, and therefore the time needed to complete each sequence, must be so significantly lengthened.</li>
+            <li>The camera parameter associated with the focus distance takes values in unspecified units.<ul>
+                <li>After some rough experimentation, I concluded that I might approximate the relationship between the focus distance and the parameter value via a hyperbola: current focus distance = (parameter value for focus distance of one metre - parameter value for infinite focus distance)/(current parameter value - parameter value for infinite focus distance).  Through the API, the camera does provide parameter values corresponding to a focus distance of one metre and an infinite focus distance.  It is through this relationship that I show approximate values of the selected focus distances in the app's on-screen interface.</li>
+                <li>For a sequence of focus-autobracketed shots, I have the app hit an arithmetic progression of focus distance parameter values with the desired start, end, and length.  The actual focus distances in the sequence are thus unevenly spaced, with the difference between successive focus distances increasing with focus distance.</li>
+                <li>Through the API, the camera specifies an extreme focus distance parameter value beyond the value it specifies for macro focus (which is the nearest focus setting in the stock camera app), and it specifies an opposite extreme value beyond the value it specifies for infinite focus distance.  It is not clear whether these extreme values are reasonable or meaningful, so I limit my app to the interval between the macro and infinity values.</li>
+            </ul></li>
+        </ul>
+
+        <p style="text-align: center;">(I last updated this page on 29 November 2021.)</p>
     </body>
 </html>
