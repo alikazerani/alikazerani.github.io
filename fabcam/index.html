@@ -89,13 +89,13 @@
 
         <h3 style="text-align: center;">Ali Kazerani</h3>
 
-        <p>(I use JavaScript to operate the slideshow-like parts of this page.)</p>
+        <p>(Note: There are no videos or animated GIFs on this page; I use JavaScript to operate the slideshow-like components here.)</p>
 
-        <h4>Summary</h4>
+        <h3>Summary</h3>
 
         I programmed an Android camera app that uses focus autobracketing to help me take pictures of insects with my smartphone.  This page includes some of the pictures I have thus taken.
 
-        <h4>Introduction</h4>
+        <h3>Introduction</h3>
 
         <p>I often have considerable trouble getting my smartphone (Sony Xperia XA) camera to focus automatically or semi-automatically on my intended subjects &#8212 insects, for instance.  I therefore switched from automatic to manual focus, and more particularly to macro manual focus so that the camera would be set to focus on objects close to the lens.  Depth of field decreases as focus distance is decreased, so when the focus distance is set to its minimum/macro value, even small changes in the distance between the camera and the subject result in drastic changes in the sharpness of the subject's image.  I found it difficult to determine from the displayed camera preview whether a subject had really been brought into focus.</p>  
         
@@ -103,7 +103,7 @@
         
         <p>But this approach had significant disadvantages.  The process is lengthy, and rare indeed are animal subjects that are willing to remain motionless indefinitely.  Additionally, the sight of a nearby smartphone being moved back and forth may be too much for an easily frightened insect.  The process is also tedious, and the photographer may take several shots at similar distances, miss sets of distances altogether (especially as my camera/app/phone sometimes fails to capture a requested shot), and waste time at useless distances.</p>
         
-        <h4>My App</h4>
+        <h3>My App</h3>
 
         <p>I came to consider an automated version of the fixed distance, varying focus distance approach.  I learned that it has a name: focus autobracketing.  The OpenCamera app actually includes this, but only for smartphones whose cameras may be controlled by the Camera2 API.  My relatively primitive smartphone only provides control through the older Camera API, which does not explicitly allow one to set a particular focus distance.  Since my phone's stock camera app does allow the user to manually set the focus distance on a slider, I wondered if an app could nonetheless access the associated setting.  <a href="https://stackoverflow.com/questions/63932162/setting-camera-focus-distance-in-android">Someone kindly suggested</a> that I could try capturing the parameter names and values for my particular phone and camera under manual focus.  This did indeed reveal the relevant Sony-specific parameter name and some possible values.</p>
 
@@ -113,7 +113,7 @@
 
         <p>The app begins a sequence of shots when the user releases the smartphone's physical camera button.  (The user may prematurely stop a sequence using the same button.)  Before starting a sequence, the user may use the on-screen interface shown above to select the number of successive shots to be taken, as well as the focus distances for the first and last shots.  While the user is setting each of these extremes on its slider, the display preview reflects that focus distance.  When the user releases these controls, the display preview reflects a focus distance intermediate between the selected starting and ending values.  The user may also set the camera's white balance and exposure compensation.  Finally, the user may switch between the main camera and the selfie camera.  (The app saves and restores the settings selected for the cameras during such transitions.)</p>
 
-        <h4>Some Sequences I Captured With Focus Autobracketing</h4>
+        <h3>Some Sequences I Captured With Focus Autobracketing</h3>
 
         <p>Three shots thus taken of that damselfly at increasing focus distances show the region in focus moving from the front of the head, to the bulk of the animal including the thorax, the proximal parts of the wings, and the anterior part of the abdomen, and finally to the posterior part of the insect, including the tips of the wings.</p>
 
@@ -212,7 +212,7 @@
         	showNextImageInEachAutoPendulumSequence();
         </script>
 
-        <h4>Some Shots I Captured Using Focus Autobracketing</h4>
+        <h3>Some Shots I Captured Using Focus Autobracketing</h3>
 
         <p>With this year's onset of cool and cold temperatures approaching, I went out and used my app to capture these and a few other sequences of focus autobracketed pictures.  Below, I show a selection of individual shots from these sequences.  (Cropping aside, these images are identical to the captured originals.)</p>
 
@@ -279,23 +279,31 @@
 
         </script>
 
-        <h4>Notes and Observations</h4>
+        <h3>Notes and Observations</h3>
 
         <ul>
             <li>When setting up for a sequence of focus autobracketed shots of a subject, the photographer should obviously choose initial and final focus distances that fairly tightly suround the interval of desired focus distances, and choose the number of shots in the sequence so that the difference between focus distances in two consecutive shots is a little less than the minimum depth of field at those distances.  In this way, the whole region of interest will be brought into reasonable focus across the sequence of shots.<ul>
                 <li>If one takes too few shots in a sequence, some features of interest may not be in focus in any of the captured images.</li>
-                <li>If one orders too many shots in a sequence, successive images may be essentially redundant.  Also, the sequence may take so long to shoot that the subject will move during the sequence, possibly leaving altogether.  (If the subject moves toward or away from the camera throughout the sequence, it is possible that no shot in the sequence will bring features of interest into focus.)</li>
+                <li>If one orders too many shots in a sequence, successive images may be essentially redundant.  Also, the sequence may take so long to shoot that the subject will move during the sequence, possibly leaving altogether.  (If the subject moves toward or away from the camera throughout the sequence, it is possible that no shot in the sequence will bring features of interest into focus.)</li><br />
+                <div style="width: 30vw; margin: auto;"><img src="other_images/butterfly_leaving_too_soon.jpg" style="width: 30vw; object-fit: scale-down;"></div>
+                <p style="text-align: center;">A butterfly lost patience with me during the two-second interval between shots 8 (top) and 9 (bottom) of a focus-autobracketed sequence.</p>
+                <div style="width: 30vw; margin: auto;"><img src="other_images/snail_going_places.jpg" style="width: 30vw; object-fit: scale-down;"></div>
+                <p style="text-align: center;">While this did not cause any problems, this snail saw no good reason to sit still during the 23 seconds between the first and tenth shots of a focus-autobracketed sequence.</p>
                 <li>If the photographer positions the camera too close to (too far from) the subject or overestimates (underestimates) the nearest (farthest) desired focus distance, the features of interest may be entirely out of focus in every shot in the sequence.  The first (last) shot would then be the best, but even it may not be acceptable.  In the slideshow presented earlier, the drone bee image was the first shot in a sequence, all subsequent shots having placed him entirely out of focus, and the image of the mating damselflies was the final shot in a sequence, all prior shots having placed them entirely out of focus.</li>
             </ul></li>
             <li>If a subject (e.g., a bee foraging at a cluster of flowers) is expected to move (perhaps unpredictably) toward or away from the camera, the initial and final focus distances could be set equal at an appropriate value in the app, and a sequence of shots with the same focus distance thus taken.  The subject would then hopefully be in focus in at least one of the captured shots.</li>
-            <li>While developing and testing my app, I often found that the first image in a sequence would appear normal, while all subsequent images in the sequence would be overexposed, showing saturation.  It appears that the camera establishes an appropriate exposure level anew after a picture has been taken.  This process is not immediate, so that if a picture is taken too soon after another, the exposure setting may be at an in-transient level, resulting in an unacceptable image.  I tried appropriately setting the auto-exposure and auto-white-balance lock states in the camera parameters via the Camera API, but these settings do not appear to provide a path to solving the problem.  Following some experimentation, I decided that an added delay of 1.5 seconds between shots was appropriate to resolve this issue, and this is in place in the current implementation.  It is unfortunate that the intervals between successive shots, and therefore the time needed to complete each sequence, must be so significantly lengthened.</li>
+            <li>While developing and testing my app, I often found that the first image in a sequence would appear normal, while all subsequent images in the sequence would be overexposed, showing saturation.  It appears that the camera establishes an appropriate exposure level anew after a picture has been taken.  This process is not immediate, so that if a picture is taken too soon after another, the exposure setting may be at an in-transient level, resulting in an unacceptable image.  I tried appropriately setting the auto-exposure and auto-white-balance lock states in the camera parameters via the Camera API, but these settings do not appear to provide a path to solving the problem.  Following some experimentation (examples from which I share below), I decided that an added delay of 1.5 seconds between shots was appropriate to resolve this issue, and this is in place in the current implementation.  It is unfortunate that the intervals between successive shots, and therefore the time needed to complete each sequence, must be so significantly lengthened.</li><br />
+            <div style="width: 50vw; margin: auto;"><img src="autoexp_delay_expt/pictures.png" style="width: 50vw; object-fit: scale-down;"></div>
+            <p style="text-align: center;">With the autoexposure routine having already converged, a sequence's first shot (a) was captured at an appropriate exposure level.  If a subsequent shot (b) was taken almost immediately after its predecessor, the re-started autoexposure routine may not yet ave converged to a reasonable setting, resulting in an unacceptable (possibly saturated) image.  Adding a delay between successive shots would give the autoexposure routine time to converge to a reasonable setting, producing a more reasonable image (c).  A very long delay would produce the best possible result (d).</p>
+            <div style="width: 30vw; margin: auto;"><img src="autoexp_delay_expt/intensity_vs_delay.png" style="width: 30vw; object-fit: scale-down;"></div>
+            <p style="text-align: center;">The results of this particular experiment may be summarized in a plot.  Delays ranging from 0.16 s to 3.00 s were added between successive shots taken of the same scene and at the same focus distance.  Each post-delay image was converted to grayscale, the mean of the resulting pixel intensities computed, and this mean divided by the mean for the very first image in the sequence.  These relative mean image intensities are here plotted (as points) against the corresponding added delay times.  The dotted line corresponds to the first (ostensibly normal) image.  The points and dotted line corresponding to sample images (a) through (d) are indicated on the plot.  The results shown here are from a single rough experimental run.  I held the smartphone in my hands to capture the shots, so the position and orientation of the camera relative to the subject was not quite fixed over the course of the run.  The resulting changes in the photographed region, along with changing cloud cover, the effects of any breezes, and variability in the behaviour of the device would of course have generated some of the variation in intensity seen in the plot.</p>
             <li>The camera parameter associated with the focus distance takes values in unspecified units.<ul>
                 <li>After some rough experimentation, I concluded that I might approximate the relationship between the focus distance and the parameter value via a hyperbola: current focus distance = (parameter value for focus distance of one metre - parameter value for infinite focus distance)/(current parameter value - parameter value for infinite focus distance).  Through the API, the camera does provide parameter values corresponding to a focus distance of one metre and an infinite focus distance.  It is through this relationship that I show approximate values of the selected focus distances in the app's on-screen interface.</li>
-                <li>For a sequence of focus-autobracketed shots, I have the app hit an arithmetic progression of focus distance parameter values with the desired start, end, and length.  The actual focus distances in the sequence are thus unevenly spaced, with the difference between successive focus distances increasing with focus distance.</li>
+                <li>For a sequence of focus-autobracketed shots, I have the app hit an arithmetic progression of focus distance parameter values with the desired start, end, and length.  The actual focus distances in the sequence are thus non-uniformly spaced, with the difference between successive focus distances increasing with focus distance.  This is not unreasonable, since depth of field increases with focus distance.</li>
                 <li>Through the API, the camera specifies an extreme focus distance parameter value beyond the value it specifies for macro focus (which is the nearest focus setting in the stock camera app), and it specifies an opposite extreme value beyond the value it specifies for infinite focus distance.  It is not clear whether these extreme values are reasonable or meaningful, so I limit my app to the interval between the macro and infinity values.</li>
             </ul></li>
         </ul>
 
-        <p style="text-align: center;">(I last updated this page on 29 November 2021.)</p>
+        <p style="text-align: center;">(I last updated this page on 30 November 2021.)</p>
     </body>
 </html>
