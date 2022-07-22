@@ -2,24 +2,212 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
+        <style type="text/css">
+            body {text-align: center;}
+            .show_hide_label {cursor: pointer; user-select: none; color: midnightblue; font-weight: bold; font-size: smaller;}
+            .show_hide_content {display: none; text-align: left;}
+        </style>
         <title>Script Demos</title>
     </head>
     <body>
-        <h1 style="text-align: center;">Demonstrations of Some of My Python Scripts</h1>
+        <h1 style="text-align: center;">Demonstrations of Some of My Mini-Projects</h1>
 
         <h3 style="text-align: center;">Ali Kazerani</h3>
 
-        <p><b>On this page, I will share videos showing some of my Python scripts (computer programs) in operation.</b>  (I will be adding more examples over the coming days.)</p>
-        <p><b>The actions shown in the videos are fully automated through the scripts, with no further human interference whatsoever.</b></p>
+        <p><b>On this page, I will share videos showing some of my Python scripts (computer programs) in operation.</b><br />Except where otherwise stated, <b>the actions shown in the videos are fully automated through the scripts, with no human interference whatsoever.</b><br />I realize (and hope you will forgive) the preposterousness of my programs' areas of application.<br />Also, to allay any concerns that I am running a vast criminal enterprise through these programs,<br />please note that I distribute neither them nor the output they generate.</p>
 
-        <h2><u>Capturing Masterclasses</u></h2>
+        <h1>1 Capturing Media</h1>
 
-        <p><a href="https://www.masterclass.com/">Masterclass.com</a> offers courses on diverse subjects, taught by well-known experts.  Each course presents a sequence of lessons via streaming video.</p>
-        <p>In brief, <b>my program visits every lesson in my course list and acquires each video in full</b>, creating an organized collection of videos on my computer <b>(for my own private, personal offline viewing).</b></p>
-        <p>I use <a href="https://www.selenium.dev/documentation/webdriver/">Selenium WebDriver</a> for browser automation, <a href="http://www.ffmpeg.org/">FFmpeg</a> for media acquisition and processing, and <a href="https://github.com/mhammond/pywin32">pywin32</a> for Windows GUI automation.</p>
+        <h2>1.1 From Masterclass</h2>
+
+        <p><a href="https://www.masterclass.com/">Masterclass</a> offers courses on diverse subjects, taught by well-known experts.<br />Each course presents a sequence of lessons via streaming video.<br /><b>My program visits every lesson in my course list and acquires each video in full</b>,<br />creating an organized collection of videos on my computer.</p>
         
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/n7t-L0hbgMY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: block; margin: auto;"></iframe>
+        <br />
+        <iframe src="https://www.youtube.com/embed/n7t-L0hbgMY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: block; margin: auto; width: 50vw; height: 28vw;"></iframe>
+        <br />
 
-        <p style="text-align: center;">(I last updated this page on 15 December 2021.)</p>
+        <div>
+            <p class="show_hide_label" onclick="toggle_show_hide(this)">[SHOW ADDITIONAL COMMENTS]</p>
+            <div class="show_hide_content">
+                <ul>
+                    <li>I use <a href="https://www.selenium.dev/documentation/webdriver/">Selenium WebDriver</a> for browser automation, <a href="http://www.ffmpeg.org/">FFmpeg</a> for media acquisition and processing, and <a href="https://github.com/mhammond/pywin32">pywin32</a> for Windows GUI automation.</li>
+                    <li>The demonstration video was recorded on 22 March 2021.</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>1.2 From Instagram</h2>
+
+        <p>Given a user-specified list of <a href="https://www.instagram.com/">Instagram</a> users of interest,<br /><b>my program acquires their posted photos and videos.</b><br />The program logs in, then visits each target Instagram user's gallery.<br />Scrolling down, it collects the locations of the user's posts,<br />then visits each post and identifies the location(s) of the associated media,<br />and finally downloads the media.</p>
+
+        <br />
+        <iframe src="https://www.youtube.com/embed/W89r3lzp_EE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: block; margin: auto; width: 50vw; height: 28vw;"></iframe>
+        <br />
+
+        <div>
+            <p class="show_hide_label" onclick="toggle_show_hide(this)">[SHOW ADDITIONAL COMMENTS]</p>
+            <div class="show_hide_content">
+                <ul>
+                    <li>I use <a href="https://www.selenium.dev/documentation/webdriver/">Selenium WebDriver</a> for browser automation, <a href="https://requests.readthedocs.io/en/latest/">Requests</a> to acquire media (and some page source code), <a href="http://www.ffmpeg.org/">FFmpeg</a> to combine video and audio, <a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/">BeautifulSoup</a> to navigate HTML content, and <a href="https://github.com/mhammond/pywin32">pywin32</a> for Windows GUI automation.</li>
+                    <li>At the time of this implementation, different approaches are required to locate the media sources (and timestamps) associated with Instagram posts of different types.  Depending upon the circumstances...
+                        <ul>
+                            <li>The source code of the embed version of the post could be acquired via Requests, the pertinent structure located using BeautifulSoup and <a href="https://docs.python.org/3/library/re.html">re</a> and then read using <a href="https://docs.python.org/3/library/json.html">json</a>, and the required information extracted from the resulting dictionary object.  (In the console output seen in the demonstration video, applications of this approach are labeled as <code>via embed page script dict</code>.)</li>
+                            <li>The source code of the embed version of the post could be acquired via Requests, then the source URL in the pertinent image tag obtained using BeautifulSoup.  (Witness occurrences of <code>via embed page img src</code> in the console output.)</li>
+                            <li>The source URL in the page's lone video tag could be obtained using WebDriver.  (Witness occurrences of <code>via live page video src</code> in the console output.)
+                            <ul><li>A media item's timestamp may similarly be obtained from the appropriate time tag.</li></ul>
+                            </li>
+                            <li>Browser network reponses could be monitored using WebDriver, all suitable URLs collected, and the largest video and audio source files then acquired and combined using FFmpeg.  (Witness occurrences of <code>via network responses</code> and mentions of <code>FFMPEG</code> in the console output.)</li>
+                        </ul>
+                    </li>
+                    <li>Notice that in the final minute of the demonstration video, the program's initial run wraps up, then a second run (performed two weeks later) is undertaken to update the collection with any media posted since the initial run.</li>
+                    <li>To avoid raising Instagram's ire, my program incorporates various pauses, and it visits the non-embed versions of posts only when necessary.  Still, as seen for instance from 31:59 to 32:04 in the video, Instagram sometimes becomes temporarily fed up with the frequency of requests, and in these situations my program diligently repeatedly waits and tries until the desired page is successfully served.</li>
+                    <li>The demonstration video was recorded on 26 June 2022 and 10 July 2022.</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>1.3 From Scribd</h2>
+
+        <p><a href="https://www.scribd.com/">Scribd</a> offers a collection of books and other materials that members can read in their browsers.<br />After signing the user in, <b>my program visits a given set of books in their Scribd library,<br />extracting each book's content and saving it locally as a PDF file.</b><br />The program selects any text alignment and font options the user requests<br />before leafing through the book, extracting HTML, fonts, and images.<br />Each page is converted to a PDF file,<br />and these are combined into a single document whose page margins are finally tightened up,<br />producing a very respectable PDF version of each book.</p>
+        
+        <br />
+        <iframe src="https://www.youtube.com/embed/2r6LbEdyy6g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: block; margin: auto; width: 50vw; height: 28vw;"></iframe>
+        <br />
+
+        <div>
+            <p class="show_hide_label" onclick="toggle_show_hide(this)">[SHOW ADDITIONAL COMMENTS]</p>
+            <div class="show_hide_content">
+                <ul>
+                    <li>I use <a href="https://www.selenium.dev/documentation/webdriver/">Selenium WebDriver</a> for browser automation, <a href="https://requests.readthedocs.io/en/latest/">Requests</a> to download fonts and images, <a href="https://wkhtmltopdf.org/">wkhtmltopdf</a> to generate PDF files from HTML, <a href="https://www.pdflabs.com/tools/pdftk-server/">PDFtk Server</a> to join PDF files, and <a href="https://github.com/abarker/pdfCropMargins">pdfCropMargins</a> to tighten up the final PDF's page margins.</li>
+                    <li>Earlier, I had been using <a href="https://weasyprint.org/">WeasyPrint</a> to generate PDF files from HTML.  However, I discovered that the PDF generation process involved a call to a DLL that would unpredictably crash, resulting in my program abruptly and silently terminating.  I therefore placed my call to WeasyPrint's PDF generation mechanism in a separate script.  For each page, I then ran this auxiliary script in a separate process, retrying as necessary until it completed successfully.  After all this, and after learning how to ask WeasyPrint to properly size table columns, I found that the generated PDFs contained abnormally long lines of text.  At that point, I finally abandoned WeasyPrint and switched successfully to wkhtmltopdf.</li>
+                    <li>The demonstration video was recorded on 8 August 2021.</li>
+                </ul>
+            </div>
+        </div>
+
+        <h1>2 Earning Contest Entries</h1>
+
+        <h2>2.1 By Playing Media</h2>
+
+        <p><a href="https://www.tunespeak.com/">Tunespeak</a> offers campaigns that potentially reward users for playing embedded YouTube videos and Spotify tracks, playlists, and albums.<br /><b>Each day, my program signs in, visits each given campaign of interest,<br />and identifies and plays the embedded media items multiple times.</b></p>
+        
+        <br />
+        <iframe src="https://www.youtube.com/embed/7x07VTXRKlg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: block; margin: auto; width: 50vw; height: 28vw;"></iframe>
+        <br />
+
+        <div>
+            <p class="show_hide_label" onclick="toggle_show_hide(this)">[SHOW ADDITIONAL COMMENTS]</p>
+            <div class="show_hide_content">
+                <ul>
+                    <li>I use <a href="https://www.selenium.dev/documentation/webdriver/">Selenium WebDriver</a> for browser automation and <a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/">BeautifulSoup</a> (only barely) to examine HTML content.</li>
+                    <ul>
+                        <li>In more recent versions of the program, I also use the <a href="https://apscheduler.readthedocs.io/en/3.x/">Advanced Python Scheduler</a>, to schedule the daily runs.</li>
+                    </ul>
+                    <li>For each campaign, my program respects the user's limits on the lengths of Spotify album or playlist songs to play, as well as on the overall time spent each day in the campaign.  The imposition of both limits is reflected in the console output at 1:27 in the demonstration video.</li>
+                    <li>From 1:30 to 1:39 in the demonstration video, the script can be seen finishing for the day, waiting until it is time for the next day's run, and then starting again.</li>
+                    <li>The demonstration video was recorded on 3 and 4 September 2021.</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>2.2 By Beating a Quiz</h2>
+
+        <p>Not long ago, CDIC sponsored a number of contests in which players could earn entries<br />by correctly answering a series of questions.<br />If a player answers a question incorrectly, they start over.<br /><b>My program plays this quiz game, eventually perfectly.</b><br />Whenever it faces an unfamiliar question, it makes a guess,<br />identifies the system's response and thus the correct answer, then remembers this answer.<br />Eventually, the system runs out of fresh questions,<br />so my program can accumulate the entire mapping from questions to correct answers,<br />allowing it to then play flawlessly.</p>
+        
+        <br />
+        <iframe src="https://www.youtube.com/embed/YWoQ8kGIGK0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: block; margin: auto; width: 50vw; height: 28vw;"></iframe>
+        <br />
+
+        <div>
+            <p class="show_hide_label" onclick="toggle_show_hide(this)">[SHOW ADDITIONAL COMMENTS]</p>
+            <div class="show_hide_content">
+                <ul>
+                    <li>I use <a href="https://www.selenium.dev/documentation/webdriver/">Selenium WebDriver</a> for browser automation.</li>
+                    <li>When it has to guess, the program actually essentially always chooses the answer option on the left.</li>
+                    <li>The program does not need to be completely ignorant at the start of each run.  It can read an existing question-to-correct-answer mapping from a JSON file, and it writes the updated learned mapping to a JSON file at the end of the run.</li>
+                    <li>In the demonstration run, I directed the program to stop when it had correctly answered 500 questions in a row.  It certainly succeeded, having "learned" 115 correct question-answer pairs in the process.</li>
+                    <li>I chose to have three particular rectangular regions blurred in the demonstration video.</li>
+                    <li>The demonstration video was recorded on 25 January 2021.</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>2.3 By Playing a Memory Game</h2>
+
+        <p>Tommy Hilfiger occasionally sponsors memory game-based contests.<br />In these games, one of four blocks lights up, and the player must then click that block.<br />The first block then lights up again, followed by a second block,<br />and the player must subsequently click the two blocks in order.<br />The game continues until the player either misremembers (or misclicks) the sequence of blocks<br />or successfully remembers and clicks a sequence of 25 blocks.<br />After being shown the positions of the four blocks<br />and being told which block has been appended to the sequence at each level,<br /><b>my program plays the memory game,<br />remembering and clicking through the growing sequence until the final level is won.</b></p>
+        
+        <br />
+        <iframe src="https://www.youtube.com/embed/J5SW2zHV8jM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: block; margin: auto; width: 50vw; height: 28vw;"></iframe>
+        <br />
+
+        <div>
+            <p class="show_hide_label" onclick="toggle_show_hide(this)">[SHOW ADDITIONAL COMMENTS]</p>
+            <div class="show_hide_content">
+                <ul>
+                    <li>I use <a href="https://pynput.readthedocs.io/en/latest/">pynput</a> to monitor and control mouse and keyboard inputs.</li>
+                    <li>The user does interact with this program throughout its execution.  At the outset, the user clicks on the four blocks to communicate their positions to the program (which is monitoring mouse clicks and cursor positions).  The program also registers which key the user strikes at each level to indicate which block has just been added to the sequence.</li>
+                    <li>In my computer's settings, a display scaling factor of 125% is set.  In the program, this correction factor is (and must be) applied to convert monitored cursor coordinates to controlled cursor coordinates.</li>
+                    <li>It would frankly be an awfully impressive feat for an unaided player to consistently successfully reach the upper levels of this game.</li>
+                    <li>The demonstration video was recorded on 21 June 2022.</li>
+                </ul>
+            </div>
+        </div>
+
+        <h1>3 Miscellaneous</h1>
+
+        <h2>3.1 Tracking with Fitbit</h2>
+
+        <p><b>My program acquires and plots my heart rate data during various workouts,<br />as tracked by my Fitbit Charge 3.</b></p>
+
+        <video autoplay muted loop style="width: 30vw; display: inline-block;">
+            <source src="my_exercise_bike_workout_heart_rate.mp4" type="video/mp4">
+            Your browser does not support mp4 video playback through a video tag.
+        </video>
+        <video autoplay muted loop style="width: 30vw; display: inline-block;">
+            <source src="my_dumbbell_workout_heart_rate.mp4" type="video/mp4">
+            Your browser does not support mp4 video playback through a video tag.
+        </video>
+        <video autoplay muted loop style="width: 30vw; display: inline-block;">
+            <source src="my_mobility_workout_heart_rate.mp4" type="video/mp4">
+            Your browser does not support mp4 video playback through a video tag.
+        </video>
+        <br />
+
+        <div>
+            <p class="show_hide_label" onclick="toggle_show_hide(this)">[SHOW ADDITIONAL COMMENTS]</p>
+            <div class="show_hide_content">
+                <ul>
+                    <li>I access my data through the somewhat awkward Fitbit API (see <a href="https://python-fitbit.readthedocs.io/en/latest/">here</a> and <a href="https://dev.fitbit.com/build/reference/web-api/">here</a>), and I use <a href="https://matplotlib.org/">Matplotlib</a> for plotting (and video generation).</li>
+                    <li>I confess that I have no idea what else I can meaningfully with my Fitbit device and data.</li>
+                    <li>In each video, each curve becomes opaque in its turn.  All other curves are also shown (by design), as phantoms.</li>
+                    <li>The videos shown here were generated on 20 July 2022.</li>
+                </ul>
+            </div>
+        </div>
+
+        <br />
+        <p style="text-align: center;">(I last updated this page on 22 July 2022.)</p>
+    
+        <script type="text/javascript">
+            function toggle_show_hide(show_hide_label_elem)
+            {
+                const SHOW_STRING = "[SHOW ADDITIONAL COMMENTS]";
+                const HIDE_STRING = "[HIDE ADDITIONAL COMMENTS]";
+                var show_hide_content_elem = show_hide_label_elem.parentElement.getElementsByTagName("div")[0]
+                if(show_hide_label_elem.innerText == SHOW_STRING)
+                {
+                    show_hide_label_elem.innerText = HIDE_STRING;
+                    show_hide_label_elem.style.color = "firebrick";
+                    show_hide_content_elem.style.display = "block";
+                } 
+                else
+                {
+                    show_hide_label_elem.innerText = SHOW_STRING;
+                    show_hide_label_elem.style.color = "midnightblue";
+                    show_hide_content_elem.style.display = "none";
+                }
+            }    
+        </script>
+
     </body>
 </html>
