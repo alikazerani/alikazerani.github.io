@@ -2,35 +2,36 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>My Current Project</title>
+        <title>My Recent Mathematical/Numerical Programming Project</title>
     </head>
     <body>
-        <h1 style="text-align: center;">My Current Project</h1>
+        <h1 style="text-align: center;">My Recent Mathematical/Numerical Programming Project</h1>
 
         <h3 style="text-align: center;">Ali Kazerani</h3>
 
-        <p>[1 September 2022]</p>
-        <p>I am currently working on a problem concerning magic squares.  I may provide details once this little project concludes, but for now, please allow me to be a little vague:</p>
+        <p>I recently worked on the problem of searching for 3-by-3 magic squares containing at least seven perfect-square entries.</p>
         <ul>
-            <li>I am searching for magic squares of a particular form.</li>
-            <li>The objects I am searching for are not even guaranteed to exist.</li>
-            <li>The search is computationally intensive.</li>
-            <li>I used <a href="https://www.sympy.org/en/index.html">SymPy</a> with Python to help perform an initial algebraic reduction, to find useful patterns in sets of algebraic expressions as well as in numerical sequences, and to symbolically and numerically verify elements of the C++ code discussed below.</li>
-            <li>I have written (and continue to write, improve, test, and run) C++ programs to carry out the steps of the core numerical search.
+            <li>An example of such a square is already known, but no other examples have been found beyond scalar multiples and permutations of this instance.</li>
+            <li>I carried out my search by programmatically listing certain potentially useful arithmetic sequences, then grouping and combining these to try to construct magic squares of interest.</li>
+            <li>Some development notes:
                 <ul>
-                    <li>I am currently executing one stage of the search over a freshly expanded space.  This run should take twenty days, after which I will be able to run the downstream stages.</li>
-                    <li>For some tasks, I have implemented a couple of alternatives (e.g., memory-centered vs disk-centered, and using alternative approaches for concurrency).</li>
-                    <li>From the standard library, I have been using containers, algorithms, smart pointers, futures (via async calls), threads, mutexes, condition variables, clocks, file streams, filesystem utilities, mathematical functions, etc.</li>
+                    <li>I used <a href="https://www.sympy.org/en/index.html">SymPy</a> with Python to help perform an initial linear algebraic reduction, to find useful patterns in collections of algebraic expressions and numerical sequences, and to symbolically and numerically verify elements of my C++ code, which I discuss next.</li>
+                    <li>I wrote, repeatedly improved and varied, tested, and ran programs in C++ to carry out the (computationally intensive) numerical search.
+                        <ul>
+                            <li>I experimented with (for example) various approaches to managing and manipulating large collections of data of various widths, both in memory and on disk, different approaches for concurrency, and different methods for generating source sequences.</li>
+                            <li>I got to explore a good portion of the standard library, including a few modern C++ features.</li>
+                        </ul>
+                    </li>
+                    <li>I used Git for version control.</li>
                 </ul>
             </li>
-            <li>I am using Git for version control.</li>
+            <li>I ended up exploring a search space roughly as large as 64-bit unsigned integer data and operations would allow, with square entries up to the order of 1,000,000,000,000,000,000.  Wider data types are available, but I also faced constraints associated with hard drive capacity, memory, processor speed, and time reasonably available for execution and development.</li>
+            <li>My final run took roughly 6.5 hours to complete.  It hit 2,352,941 instances in the already-known family of solutions, but sadly no completely alien results.</li>
+            <li>At the risk of sounding like an off-podium finisher: The true value of this project was as a personal endeavour and as a programming exercise and demonstration.  This value is independent both of whether a fresh solution could be found (or even exists) and of any other searchers' progress and methods.</li>
         </ul>
-
-        <p>[9 September 2022]</p>
-        <p>I found a far more efficient method for conducting the first stage of the search!  I therefore stopped the long search run mentioned above, implemented the new approach, made considerable changes to the implementation of the second stage, and performed some experiments, tests, and runs.  While I have additional tweaks and extensions in mind, I do intend to have both stages run (at least) overnight tonight, covering a very large search space.</p>
-
-        <p>[20 September 2022]</p>
-        <p>I ran the search as intended (during the morning of 10 September).  No solutions dissimilar to the already-known solution were found.  (I will re-check the mathematical expressions in my implementation.)  Expanding the search space by a further order of magnitude would necessitate not only a longer execution time, but also wider data types, more storage, and additional changes to my implementation.  Available disk space will very soon present an insurmountable obstacle, but I have partially coded a new implementation that would permit at least some expansion of the search space.  I hope to return to that work soon, and possibly also try alternative approaches if necessary.</p>
-
+        <p style="text-align: center;">(I last updated this page on 14 October 2022.)</p>
     </body>
 </html>
+
+<ul>
+                </ul>
